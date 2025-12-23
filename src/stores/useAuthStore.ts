@@ -43,11 +43,11 @@ export const useAuthStore = create<AuthState>()(
             username: credentials.username,
             password: credentials.password,
           });
+          set({ token: data });
           if (data && data.access_token) {
             const colaborador = await AuthServer.fetchUser(data.id);
             set({
               colaborador,
-              token: data,
               isAuthenticated: true,
               isHydrated: true,
               isLoading: false,

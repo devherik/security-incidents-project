@@ -44,6 +44,7 @@ const apiClient = axios.create({
   timeout: API_CONFIG.timeout,
   headers: {
     "Content-Type": "application/json",
+    "Accept": "application/json",
   },
 });
 
@@ -51,7 +52,7 @@ const apiClient = axios.create({
 apiClient.interceptors.request.use(
   (config) => {
     // Add authentication token if available
-    const token = useAuthStore.getState().token;
+    const token = useAuthStore.getState().token?.access_token;
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
