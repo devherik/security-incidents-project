@@ -19,7 +19,7 @@ import p1Logo from "../../assets/logos/p1-logo.png";
 
 export default function LoginPage() {
   const navigate = useNavigate();
-  const { login, checkSuperUser, isAuthenticated } = useAuthStore();
+  const { login, checkSuperUser } = useAuthStore();
   const { showToast } = useAppStore();
 
   const [validating, setValidating] = useState<boolean>(false);
@@ -43,33 +43,6 @@ export default function LoginPage() {
       setSuperUser(false);
     }
   }, [credentials.username, checkSuperUser]);
-
-  // Redirect if already authenticated
-  useEffect(() => {
-    // If already authenticated, redirect to dashboard
-    const getUser = async () => {
-      try {
-        const user = await useAuthStore.getState().getCurrentUser();
-        if (user) {
-          showToast(`Bem vindo de volta!`, "success");
-          navigate("/dashboard", { replace: true });
-        }
-      } catch (error) {
-        console.error("Error fetching current user:", error);
-      }
-    };
-    getUser();
-  }, [isAuthenticated, navigate, showToast]);
-
-  // Check super user status when username changes
-  useEffect(() => {
-    const check = async () => {
-      if (credentials.username.length >= 6) {
-        await handleCheckSuperUser();
-      }
-    };
-    check();
-  }, [credentials.username, handleCheckSuperUser]);
 
   const handleLogin = async () => {
     setValidating(true);
@@ -108,6 +81,33 @@ export default function LoginPage() {
       setValidating(false);
     }
   };
+
+  // Redirect if already authenticated
+  useEffect(() => {
+    const checkAuthAndRedirect = async () => {
+      try {
+        const user = await useAuthStore.getState().getCurrentUser();
+        if (user) {
+          showToast(`Bem vindo de volta!`, "success");
+          navigate("/dashboard", { replace: true });
+        }
+      } catch (error) {
+        console.error("Error fetching current user:", error);
+      }
+    };
+
+    checkAuthAndRedirect();
+  }, [navigate, showToast]);
+
+  // Check super user status when username changes
+  useEffect(() => {
+    const check = async () => {
+      if (credentials.username.length >= 6) {
+        await handleCheckSuperUser();
+      }
+    };
+    check();
+  }, [credentials.username, handleCheckSuperUser]);
 
   return (
     <SlideInEffect duration={0.5}>

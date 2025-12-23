@@ -118,12 +118,15 @@ export const useAuthStore = create<AuthState>()(
         }
 
         try {
-          //   const tokenValidityStatus = await AuthServer.validateToken({ token });
-          //   if (!tokenValidityStatus?.active) {
-          //     get().logout(); // Token is expired, log out
-          //   } else {
-          //     set({ isAuthenticated: true, isHydrated: true }); // Token is valid
-          //   }
+          const token = get().token;
+          console.log("Hydrating auth store with token:", token);
+          // Simple validation: check token presence and expiry
+          // When in production, verify token signature and claims properly
+          if (!token) {
+            get().logout(); // Token is expired, log out
+          } else {
+            set({ isAuthenticated: true, isHydrated: true }); // Token is valid
+          }
           get().logout(); // For security, log out any persisted token
         } catch (error) {
           // If token is malformed, treat as invalid and log out

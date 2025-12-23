@@ -1,14 +1,14 @@
-"use client";
-
 import { useEffect, useState } from "react";
 
 import { useAuthStore } from "../../stores/useAuthStore";
 
 import style from "./style.module.css";
+
 import SlideInEffect from "../../animations/slide-in/SlideInEffect";
 import PageTitle from "../../components/page-title/PageTitle";
 import NewItemButton from "../../components/new-item-button/NewItemButton";
 import Loader from "../../components/loader/Loader";
+
 import usePermissions from "../../hooks/usePermissions";
 
 export default function DashboardPage() {
