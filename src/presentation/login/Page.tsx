@@ -16,12 +16,10 @@ import type { LoginCredentials } from "../../schemas/authSchemas";
 import { LoginCredentialsSchema } from "../../schemas/authSchemas";
 
 import p1Logo from "../../assets/logos/p1-logo.png";
-import BaseButton from "../../components/buttons/BaseButton";
 
 export default function LoginPage() {
   const navigate = useNavigate();
-  const { login, logout, checkSuperUser, isAuthenticated, colaborador } =
-    useAuthStore();
+  const { login, checkSuperUser, isAuthenticated } = useAuthStore();
   const { showToast } = useAppStore();
 
   const [validating, setValidating] = useState<boolean>(false);
@@ -54,7 +52,7 @@ export default function LoginPage() {
         const user = await useAuthStore.getState().getCurrentUser();
         if (user) {
           showToast(`Bem vindo de volta!`, "success");
-          //   navigate("/dashboard", { replace: true });
+          navigate("/dashboard", { replace: true });
         }
       } catch (error) {
         console.error("Error fetching current user:", error);
@@ -86,7 +84,7 @@ export default function LoginPage() {
       })
         .then(() => {
           showToast(`Bem vindo de volta!`, "success");
-          //   navigate("/dashboard", { replace: true });
+          navigate("/dashboard", { replace: true });
         })
         .catch((error) => {
           showToast(
@@ -118,50 +116,38 @@ export default function LoginPage() {
           <img src={p1Logo} alt="P1 Logo" />
         </div>
         <main className={style.main}>
-          {isAuthenticated ? (
-            <>
-              <span className={style.title}>RCI</span>
-              <span className={style.subtitle}>
-                Você está logado como {colaborador?.first_name}
-              </span>
-              <BaseButton label="Sair" onClick={logout} />
-            </>
-          ) : (
-            <>
-              <span className={style.title}>RCI</span>
-              <span className={style.subtitle}>Informe suas credenciais</span>
-              <CredentialForm
-                id="username"
-                type="text"
-                label="Usuário"
-                value={credentials.username}
-                onChange={(value) =>
-                  setCredentials({ ...credentials, username: value })
-                }
-              />
-              {superUser && (
-                <CredentialForm
-                  id="password"
-                  type="password"
-                  label="Senha"
-                  value={credentials.password}
-                  onChange={(value) =>
-                    setCredentials({ ...credentials, password: value })
-                  }
-                />
-              )}
-              <button
-                onClick={handleLogin}
-                className={style.btn}
-                disabled={validating}
-              >
-                Entrar
-              </button>
-              <span className={style.support}>
-                Em caso de dúvidas, contate o suporte.
-              </span>
-            </>
+          <span className={style.title}>RCI</span>
+          <span className={style.subtitle}>Informe suas credenciais</span>
+          <CredentialForm
+            id="username"
+            type="text"
+            label="Usuário"
+            value={credentials.username}
+            onChange={(value) =>
+              setCredentials({ ...credentials, username: value })
+            }
+          />
+          {superUser && (
+            <CredentialForm
+              id="password"
+              type="password"
+              label="Senha"
+              value={credentials.password}
+              onChange={(value) =>
+                setCredentials({ ...credentials, password: value })
+              }
+            />
           )}
+          <button
+            onClick={handleLogin}
+            className={style.btn}
+            disabled={validating}
+          >
+            Entrar
+          </button>
+          <span className={style.support}>
+            Em caso de dúvidas, contate o suporte.
+          </span>
         </main>
       </div>
     </SlideInEffect>

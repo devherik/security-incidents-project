@@ -62,7 +62,7 @@ export const useAuthStore = create<AuthState>()(
             return Promise.resolve(null);
           }
           return AuthServer.fetchUser(token.id).then((user) => {
-            set({ colaborador: user });
+            set({ colaborador: user, isLoading: false, isHydrated: true });
             return user;
           });
         } catch (error) {
