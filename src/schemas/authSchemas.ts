@@ -15,8 +15,8 @@ export const UserGroupsSchema = z.object({
 });
 
 export const LoginCredentialsSchema = z.object({
-  username: z.string().min(5, "Insira seu usuário - mínimo 5 caracteres"),
-  password: z.string().min(5, "Insira a senha - mínimo 5 caracteres"),
+  username: z.string().min(6, "Insira seu usuário - mínimo 6 caracteres"),
+  password: z.string().min(6, "Insira a senha - mínimo 6 caracteres"),
 });
 
 export type Token = z.infer<typeof TokenSchema>;

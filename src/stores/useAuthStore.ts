@@ -14,10 +14,7 @@ interface AuthState {
   isAuthenticated: boolean;
   error: string | null;
 
-  login: (
-    credentials: LoginCredentials,
-    superUser: boolean
-  ) => Promise<Colaborador>;
+  login: (credentials: LoginCredentials) => Promise<Colaborador>;
   checkSuperUser: (username: string) => Promise<boolean>;
   logout: () => Promise<void>;
   hydrate: () => Promise<void>;
@@ -39,10 +36,13 @@ export const useAuthStore = create<AuthState>()(
     (set, get) => ({
       ...initialState,
 
-      login: async (credentials, superUser): Promise<Colaborador> => {
+      login: async (credentials): Promise<Colaborador> => {
         set({ isLoading: true, error: null });
         try {
-          const data = await AuthServer.login({ ...credentials, superUser });
+          const data = await AuthServer.login({
+            username: credentials.username,
+            password: credentials.password,
+          });
           if (data && data.access_token) {
             const colaborador = await AuthServer.fetchUser(data.id);
             set({

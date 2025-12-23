@@ -21,20 +21,15 @@ class AuthServer {
   public async login({
     username,
     password,
-    superUser,
   }: {
     username: string;
     password: string;
-    superUser: boolean;
   }): Promise<Token> {
     try {
       // Prepare form data for OAuth2 password grant
       const formData = new URLSearchParams();
       formData.append("username", username);
-      formData.append(
-        "password",
-        superUser ? password : `${username.substring(0, 6)}@@`
-      );
+      formData.append("password", password);
       formData.append("grant_type", "password");
       formData.append("client_id", import.meta.env.VITE_APP_AUTH0_CLIENT_ID);
       formData.append("client_secret", import.meta.env.VITE_APP_CLIENT_SECRET);
