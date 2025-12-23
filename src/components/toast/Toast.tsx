@@ -4,7 +4,7 @@ import styles from "./style.module.css";
 import imgSuccess from "../../assets/icons/success.svg";
 import imgError from "../../assets/icons/error.svg";
 import imgInfo from "../../assets/icons/info.svg";
-import { useAppStore } from "../../stores/useAppStateStore";
+import { useAppStore } from "../../stores/useAppStore";
 
 interface ToastIcon {
   type: "success" | "error" | "info" | "warning";
