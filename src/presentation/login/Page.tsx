@@ -31,7 +31,7 @@ export default function LoginPage() {
 
   // Check if user is super user
   const handleCheckSuperUser = useCallback(async () => {
-    if (credentials.username.length >= 6) {
+    if (credentials.username.length >= 11) {
       try {
         const isSuperUser = await checkSuperUser(credentials.username);
         setSuperUser(isSuperUser);
@@ -106,7 +106,7 @@ export default function LoginPage() {
           <img src={p1Logo} alt="P1 Logo" />
         </div>
         <main className={style.main}>
-          <span className={style.title}>Tarefas</span>
+          <span className={style.title}>RCI</span>
           <span className={style.subtitle}>Informe suas credenciais</span>
           <CredentialForm
             id="username"

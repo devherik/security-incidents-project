@@ -1,6 +1,6 @@
 import axios, { type AxiosResponse, AxiosError } from "axios";
 import { useAuthStore } from "../stores/useAuthStore";
-import { useAppStore } from "../stores/useAppStateStore";
+import { useAppStore } from "../stores/useAppStore";
 
 // Types for better type safety (following Interface Segregation Principle)
 export interface ApiError {

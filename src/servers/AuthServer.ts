@@ -55,7 +55,7 @@ class AuthServer {
   public async fetchUser(userId: number): Promise<Colaborador> {
     try {
       const response = await apiClient.get<Colaborador>(
-        `/api/v1/usuario/${userId}/`
+        `/v1/usuario/${userId}/`
       );
       return response.data;
     } catch (error) {
@@ -71,7 +71,7 @@ class AuthServer {
   ): Promise<Colaborador> {
     try {
       const response = await apiClient.patch<Colaborador>(
-        `/api/v1/usuario/${userId}/`,
+        `/v1/usuario/${userId}/`,
         data
       );
       return response.data;
@@ -84,7 +84,7 @@ class AuthServer {
 
   public async getGroups(name: string): Promise<boolean> {
     try {
-      const response = await apiClient.get(`/api/v2/user_groups/${name}`);
+      const response = await apiClient.get(`/v2/user_groups/${name}`);
       const type = response.data.groups[0];
       const isSuperUserResponse = type === 3 || type === 2 || type === 4;
       return isSuperUserResponse;
