@@ -40,3 +40,7 @@ export const rciUpdateSchema = rciSchema.pick({
   link_plano_acao: true,
   data_limite: true,
 });
+
+export type Rci = z.infer<typeof rciSchema>;
+export type RciCreate = z.infer<typeof rciCreateSchema>;
+export type RciUpdate = z.infer<typeof rciUpdateSchema>;
