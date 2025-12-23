@@ -10,7 +10,7 @@ export const ColaboradorSchema = z.object({
   is_active: z.boolean().default(true),
   date_joined: z.date().default(() => new Date()),
   groups: z.array(z.number().int().positive()).optional(),
-  user_permissions: z.array(z.number().int().positive()).optional(),
+  user_permissions: z.array(z.string().min(1)).optional(),
 });
 
 export const ColaboradorUpdateSchema = ColaboradorSchema.partial().omit({
