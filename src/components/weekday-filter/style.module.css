@@ -1,0 +1,76 @@
+.filterContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.dayButton {
+  padding: 6px 16px;
+  border-radius: 12px;
+  background-color: transparent;
+  color: var(--accent-color);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: var(--main-font);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.dayButton:hover {
+  background-color: rgba(
+    98,
+    114,
+    100,
+    0.1
+  ); /* Subtle hover effect using accent color */
+}
+
+.dayButtonActive {
+  background-color: var(--accent-color);
+  color: var(--primary-color);
+  border-color: var(--accent-color);
+}
+
+.dayButtonActive:hover {
+  background-color: var(--accent-color); /* Keep active color on hover */
+  opacity: 0.9;
+}
+
+.weekToggleContainer {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.weekButton {
+  padding: 4px 12px;
+  border-radius: 8px;
+  background-color: transparent;
+  color: var(--accent-color);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: var(--main-font);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.weekButton:hover {
+  background-color: rgba(
+    98,
+    114,
+    100,
+    0.1
+  ); /* Subtle hover effect using accent color */
+}
+
+.weekButtonActive {
+  background-color: var(--accent-color);
+  color: var(--primary-color);
+  border-color: var(--accent-color);
+}
+
+.weekButtonActive:hover {
+  background-color: var(--accent-color); /* Keep active color on hover */
+  opacity: 0.9;
+}

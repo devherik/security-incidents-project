@@ -1,0 +1,56 @@
+.blur {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  background-color: var(--glass-color);
+  position: fixed;
+  padding: 1rem;
+  transition: all 0.3s ease-in-out;
+}
+
+.modal {
+  border-radius: 16px;
+  border: 1px solid var(--secondary-color);
+  word-wrap: break-word;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  animation: show 0.3s ease-in-out;
+}
+
+.modal.hidden {
+  animation: hide 0.3s ease-in-out forwards;
+  pointer-events: none;
+}
+
+.closeButton {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--text-color);
+}
+
+@keyframes show {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes hide {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+}

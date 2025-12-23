@@ -1,0 +1,150 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  width: 100%;
+  min-width: 200px;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+  border-radius: 12px;
+  min-height: 2.5rem;
+  transition: all 0.3s ease;
+}
+
+.optionsContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 0.25rem 0;
+  gap: 0.5rem;
+  width: 100%;
+  border: 1px solid var(--secondary-color);
+}
+
+.hintText {
+  font-family: var(--main-font);
+  color: var(--accent-color);
+  font-size: 1rem;
+  font-weight: 400;
+  padding-bottom: 4px;
+}
+
+.label {
+  font-family: var(--main-font);
+  color: var(--accent-color);
+  font-size: 0.875rem;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+.frequencyButton {
+  padding: 0.25rem 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: var(--primary-color);
+  font-family: var(--secondary-font);
+  font-size: 0.9rem;
+  color: var(--text-color);
+  transition: all 0.3s ease;
+  margin-right: 0.2rem;
+}
+
+.frequencyButton:hover {
+  background-color: var(--green-color);
+  scale: 1.05;
+}
+
+.activeFrequencyButton {
+  scale: 1.05;
+  background-color: var(--green-color);
+}
+
+.dayButton {
+  padding: 6px 16px;
+  border-radius: 12px;
+  background-color: transparent;
+  color: var(--accent-color);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: var(--main-font);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.dayButton:hover {
+  background-color: rgba(
+    98,
+    114,
+    100,
+    0.1
+  ); /* Subtle hover effect using accent color */
+}
+
+.dayButtonActive {
+  background-color: var(--accent-color);
+  color: var(--primary-color);
+  border-color: var(--accent-color);
+}
+
+.dayButtonActive:hover {
+  background-color: var(--accent-color); /* Keep active color on hover */
+  opacity: 0.9;
+}
+
+.weekToggleContainer {
+  display: flex;
+  gap: 8px;
+  margin-top: 0.5rem;
+}
+
+.weekButton {
+  padding: 4px 12px;
+  border-radius: 8px;
+  background-color: transparent;
+  color: var(--accent-color);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: var(--main-font);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.weekButton:hover {
+  background-color: rgba(
+    98,
+    114,
+    100,
+    0.1
+  ); /* Subtle hover effect using accent color */
+}
+
+.weekButtonActive {
+  background-color: var(--accent-color);
+  color: var(--primary-color);
+  border-color: var(--accent-color);
+}
+
+.weekButtonActive:hover {
+  background-color: var(--accent-color); /* Keep active color on hover */
+  opacity: 0.9;
+}
+
+.weekSelect {
+  font-family: var(--main-font);
+  color: var(--accent-color);
+  font-size: 1rem;
+  font-weight: 400;
+  padding-bottom: 4px;
+  border-radius: 8px;
+  background-color: transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.weekOption {
+  font-family: var(--main-font);
+  color: var(--accent-color);
+}

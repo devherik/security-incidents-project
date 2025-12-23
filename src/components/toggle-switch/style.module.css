@@ -1,0 +1,77 @@
+.toggleContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.label {
+  font-family: var(--main-font);
+  font-size: 0.875rem;
+  color: var(--accent-color);
+  font-weight: 500;
+  user-select: none;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.switch .input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--accent-color);
+  transition: all 0.3s ease;
+  border-radius: 24px;
+  border: 1px solid var(--border-color);
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 2px;
+  background-color: var(--primary-color);
+  transition: all 0.3s ease;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.input:checked + .slider {
+  background-color: var(--green-color);
+  border-color: var(--green-color);
+}
+
+.input:checked + .slider:before {
+  transform: translateX(24px);
+}
+
+.slider:hover:not(.disabled) {
+  scale: 1.05;
+}
+
+.slider.disabled {
+  background-color: var(--surface-color);
+  border-color: var(--surface-color);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.slider.disabled:before {
+  background-color: var(--accent-color);
+}

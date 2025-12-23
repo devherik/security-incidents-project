@@ -1,0 +1,38 @@
+.badgeBase {
+  padding: 0.5rem 1rem;
+  border-radius: 16px;
+  font-family: var(--secondary-font);
+  font-size: 0.9rem;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.badgeDiaria {
+  background-color: var(--blue-color);
+  color: var(--text-color);
+}
+
+.badgeSemanal {
+  background-color: var(--green-color);
+  color: var(--text-color);
+}
+
+.badgeMensal {
+  background-color: var(--yellow-color);
+  color: var(--text-color);
+}
+
+.badgeTrimestral {
+  background-color: var(--accent-color);
+  color: var(--primary-color);
+}
+
+.badgeSemestral {
+  background-color: var(--gray-color);
+  color: var(--text-color);
+}
+
+.badgeAnual {
+  background-color: var(--red-color);
+  color: var(--primary-color);
+}
