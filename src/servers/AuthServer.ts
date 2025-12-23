@@ -1,7 +1,10 @@
 import apiClient, { type ApiError } from "../api/apiClient";
 
 import type { Token } from "../schemas/authSchemas";
-import type { Colaborador } from "../schemas/colaboradorSchema";
+import type {
+  Colaborador,
+  ColaboradorUpdate,
+} from "../schemas/colaboradorSchema";
 
 class AuthServer {
   static instance: AuthServer;
@@ -64,6 +67,36 @@ class AuthServer {
       const apiError = error as ApiError;
       console.error("Error fetching user:", apiError);
       throw error;
+    }
+  }
+
+  public async updateUser(
+    userId: number,
+    data: Partial<ColaboradorUpdate>
+  ): Promise<Colaborador> {
+    try {
+      const response = await apiClient.patch<Colaborador>(
+        `/api/v1/usuario/${userId}/`,
+        data
+      );
+      return response.data;
+    } catch (error) {
+      const apiError = error as ApiError;
+      console.error("Error updating user:", apiError);
+      throw error;
+    }
+  }
+
+  public async getGroups(name: string): Promise<boolean> {
+    try {
+      const response = await apiClient.get(`/api/v2/user_groups/${name}`);
+      const type = response.data.groups[0];
+      const isSuperUserResponse = type === 3 || type === 2 || type === 4;
+      return isSuperUserResponse;
+    } catch (error) {
+      const apiError = error as ApiError;
+      console.error("Error checking super user status:", apiError);
+      return false;
     }
   }
 

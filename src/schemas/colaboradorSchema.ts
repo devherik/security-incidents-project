@@ -13,4 +13,13 @@ export const ColaboradorSchema = z.object({
   user_permissions: z.array(z.number().int().positive()).optional(),
 });
 
+export const ColaboradorUpdateSchema = ColaboradorSchema.partial().omit({
+  id: true,
+  groups: true,
+  user_permissions: true,
+  date_joined: true,
+});
+
+export type ColaboradorUpdate = z.infer<typeof ColaboradorUpdateSchema>;
+
 export type Colaborador = z.infer<typeof ColaboradorSchema>;
