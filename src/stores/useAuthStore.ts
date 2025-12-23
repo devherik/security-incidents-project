@@ -44,7 +44,9 @@ export const useAuthStore = create<AuthState>()(
             username: credentials.username,
             password: credentials.password,
           });
-          set({ token: data, isAuthenticated: true, isLoading: false });
+          set({ token: data, isAuthenticated: true });
+          await get().getCurrentUser();
+          set({ isLoading: false });
         } catch (error) {
           set({
             ...initialState, // Reset state on failure
@@ -111,23 +113,25 @@ export const useAuthStore = create<AuthState>()(
 
       hydrate: async () => {
         set({ isLoading: true, error: null });
-        const { token } = get();
+        const { token, colaborador } = get();
         if (!token) {
           set({ isAuthenticated: false, isHydrated: true });
           return;
         }
 
         try {
-          const token = get().token;
           console.log("Hydrating auth store with token:", token);
           // Simple validation: check token presence and expiry
           // When in production, verify token signature and claims properly
           if (!token) {
             get().logout(); // Token is expired, log out
           } else {
-            set({ isAuthenticated: true, isHydrated: true }); // Token is valid
+            set({ isAuthenticated: true }); // Token is valid
+            if (!colaborador) {
+              await get().getCurrentUser();
+            }
           }
-          get().logout(); // For security, log out any persisted token
+          // get().logout(); // For security, log out any persisted token
         } catch (error) {
           // If token is malformed, treat as invalid and log out
           console.error("Failed to decode token during hydration:", error);
