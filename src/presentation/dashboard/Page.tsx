@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { useAuthStore } from "../../stores/useAuthStore";
+import { useAppStore } from "../../stores/useAppStore";
 
 import style from "./style.module.css";
 
@@ -25,17 +26,9 @@ export default function DashboardPage() {
       try {
         console.log("Initializing application data...");
         // Fetch all critical data in parallel
-        // const promises = [
-        //   useCargosStore.getState().fetchCargos(),
-        //   useDepartamentosStore.getState().fetchDepartamentos(),
-        //   useJustificativasStore.getState().fetchJustificativas(),
-        // ];
+        const promises = [useAppStore.getState().fecthInitData()];
 
-        // if (hasGroup(3) || hasGroup(4)) {
-        //   promises.push(useTarefasManagementStore.getState().fetchTarefas());
-        // }
-
-        // await Promise.all(promises);
+        await Promise.all(promises);
       } catch (error) {
         const errorMessage =
           error instanceof Error
@@ -48,7 +41,6 @@ export default function DashboardPage() {
     };
 
     initializeApp();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Runs once on mount
 
   // Show loading screen during initialization
