@@ -52,8 +52,40 @@ export const NivelRiscoSchema = z.object({
   dtmodificacao: z.date().default(() => new Date()),
 });
 
+export const PaginationMetaSchema = z.object({
+  page: z.number().int().positive(),
+  per_page: z.number().int().positive(),
+  total: z.number().int().nonnegative(),
+  total_pages: z.number().int().nonnegative(),
+});
+
+export const PaginatedResponseSchema = <T extends z.ZodTypeAny>(
+  dataSchema: T
+) =>
+  z.object({
+    data: z.array(dataSchema),
+    meta: PaginationMetaSchema,
+  });
+
+export const ApiErrorSchema = z.object({
+  message: z.string(),
+  errors: z.record(z.string(), z.array(z.string())).optional(),
+  status_code: z.number().int(),
+});
+
+export const ImageMetadataSchema = z.object({
+  filename: z.string().min(1),
+  url: z.url(),
+  altText: z.string().optional(),
+});
+
+export const ImageMetadataArraySchema = z.array(ImageMetadataSchema);
+
 export type Unidade = z.infer<typeof UnidadeSchema>;
 export type Setor = z.infer<typeof SetorSchema>;
 export type UnidadeSetor = z.infer<typeof UnidadeSetorSchema>;
 export type CondicaoInseguranca = z.infer<typeof CondicaoInsegurancaSchema>;
 export type NivelRisco = z.infer<typeof NivelRiscoSchema>;
+export type PaginationMeta = z.infer<typeof PaginationMetaSchema>;
+export type ApiError = z.infer<typeof ApiErrorSchema>;
+export type ImageMetadata = z.infer<typeof ImageMetadataSchema>;
