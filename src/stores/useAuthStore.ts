@@ -14,7 +14,8 @@ interface AuthState {
   isAuthenticated: boolean;
   error: string | null;
 
-  login: (credentials: LoginCredentials) => Promise<Colaborador>;
+  login: (credentials: LoginCredentials) => Promise<void>;
+  getCurrentUser: () => Promise<Colaborador | null>;
   checkSuperUser: (username: string) => Promise<boolean>;
   logout: () => Promise<void>;
   hydrate: () => Promise<void>;
@@ -36,30 +37,38 @@ export const useAuthStore = create<AuthState>()(
     (set, get) => ({
       ...initialState,
 
-      login: async (credentials): Promise<Colaborador> => {
+      login: async (credentials): Promise<void> => {
         set({ isLoading: true, error: null });
         try {
           const data = await AuthServer.login({
             username: credentials.username,
             password: credentials.password,
           });
-          set({ token: data });
-          if (data && data.access_token) {
-            const colaborador = await AuthServer.fetchUser(data.id);
-            set({
-              colaborador,
-              isAuthenticated: true,
-              isHydrated: true,
-              isLoading: false,
-            });
-            return colaborador;
-          } else {
-            throw new Error("Login response did not include an access token.");
-          }
+          set({ token: data, isAuthenticated: true, isLoading: false });
         } catch (error) {
           set({
             ...initialState, // Reset state on failure
             error: error instanceof Error ? error.message : "Login failed",
+          });
+          throw error;
+        }
+      },
+
+      getCurrentUser: async () => {
+        set({ isLoading: true, error: null });
+        try {
+          const { token } = get();
+          if (!token) {
+            return Promise.resolve(null);
+          }
+          return AuthServer.fetchUser(token.id).then((user) => {
+            set({ colaborador: user });
+            return user;
+          });
+        } catch (error) {
+          set({
+            ...initialState, // Reset state on failure
+            error: error instanceof Error ? error.message : "Fetch user failed",
           });
           throw error;
         }

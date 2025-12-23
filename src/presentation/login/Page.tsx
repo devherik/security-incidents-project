@@ -16,10 +16,12 @@ import type { LoginCredentials } from "../../schemas/authSchemas";
 import { LoginCredentialsSchema } from "../../schemas/authSchemas";
 
 import p1Logo from "../../assets/logos/p1-logo.png";
+import BaseButton from "../../components/buttons/BaseButton";
 
 export default function LoginPage() {
   const navigate = useNavigate();
-  const { login, checkSuperUser, isAuthenticated } = useAuthStore();
+  const { login, logout, checkSuperUser, isAuthenticated, colaborador } =
+    useAuthStore();
   const { showToast } = useAppStore();
 
   const [validating, setValidating] = useState<boolean>(false);
@@ -47,10 +49,19 @@ export default function LoginPage() {
   // Redirect if already authenticated
   useEffect(() => {
     // If already authenticated, redirect to dashboard
-    if (isAuthenticated) {
-      navigate("/dashboard", { replace: true });
-    }
-  }, [isAuthenticated, navigate]);
+    const getUser = async () => {
+      try {
+        const user = await useAuthStore.getState().getCurrentUser();
+        if (user) {
+          showToast(`Bem vindo de volta!`, "success");
+          //   navigate("/dashboard", { replace: true });
+        }
+      } catch (error) {
+        console.error("Error fetching current user:", error);
+      }
+    };
+    getUser();
+  }, [isAuthenticated, navigate, showToast]);
 
   // Check super user status when username changes
   useEffect(() => {
@@ -75,7 +86,7 @@ export default function LoginPage() {
       })
         .then(() => {
           showToast(`Bem vindo de volta!`, "success");
-        //   navigate("/dashboard", { replace: true });
+          //   navigate("/dashboard", { replace: true });
         })
         .catch((error) => {
           showToast(
@@ -108,7 +119,13 @@ export default function LoginPage() {
         </div>
         <main className={style.main}>
           {isAuthenticated ? (
-            <></>
+            <>
+              <span className={style.title}>RCI</span>
+              <span className={style.subtitle}>
+                Você está logado como {colaborador?.first_name}
+              </span>
+              <BaseButton label="Sair" onClick={logout} />
+            </>
           ) : (
             <>
               <span className={style.title}>RCI</span>
