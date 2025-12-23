@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const colaboradorSchema = z.object({
+export const ColaboradorSchema = z.object({
   id: z.number().int().positive(),
   first_name: z.string().min(1).max(50),
   last_name: z.string().min(1).max(50),
@@ -13,4 +13,4 @@ export const colaboradorSchema = z.object({
   user_permissions: z.array(z.number().int().positive()).optional(),
 });
 
-export type Colaborador = z.infer<typeof colaboradorSchema>;
+export type Colaborador = z.infer<typeof ColaboradorSchema>;

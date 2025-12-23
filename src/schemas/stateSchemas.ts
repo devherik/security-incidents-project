@@ -1,11 +1,11 @@
 import { z } from "zod";
 
-import { colaboradorSchema } from "./colaboradorSchema";
+import { ColaboradorSchema } from "./colaboradorSchema";
 import { severidadeEnum } from "./enums";
 
-export const unidadeSchema = z.object({
+export const UnidadeSchema = z.object({
   id: z.number().int().positive(),
-  gstor: colaboradorSchema,
+  gstor: ColaboradorSchema,
   sigla: z.string().min(1).max(10),
   nome: z.string().min(1).max(100),
   ativo: z.boolean().default(true),
@@ -13,7 +13,7 @@ export const unidadeSchema = z.object({
   dtmodificacao: z.date().default(() => new Date()),
 });
 
-export const setorSchema = z.object({
+export const SetorSchema = z.object({
   id: z.number().int().positive(),
   nome: z.string().min(1).max(100),
   ativo: z.boolean().default(true),
@@ -21,17 +21,17 @@ export const setorSchema = z.object({
   dtmodificacao: z.date().default(() => new Date()),
 });
 
-export const unidadeSetorSchema = z.object({
+export const UnidadeSetorSchema = z.object({
   id: z.number().int().positive(),
-  unidade: unidadeSchema,
-  setor: setorSchema,
-  responsavel: colaboradorSchema, // quem responde pelo setor na unidade
+  unidade: UnidadeSchema,
+  setor: SetorSchema,
+  responsavel: ColaboradorSchema, // quem responde pelo setor na unidade
   ativo: z.boolean().default(true),
   dtcriacao: z.date().default(() => new Date()),
   dtmodificacao: z.date().default(() => new Date()),
 });
 
-export const condicaoInsegurancaSchema = z.object({
+export const CondicaoInsegurancaSchema = z.object({
   id: z.number().int().positive(),
   nome: z.string().min(1).max(250),
   categoria: z.string().min(1).max(100),
@@ -41,7 +41,7 @@ export const condicaoInsegurancaSchema = z.object({
   dtmodificacao: z.date().default(() => new Date()),
 });
 
-export const nivelRiscoSchema = z.object({
+export const NivelRiscoSchema = z.object({
   id: z.number().int().positive(),
   sigla_risco: z.string().min(1).max(10),
   severidade: severidadeEnum,
@@ -52,8 +52,8 @@ export const nivelRiscoSchema = z.object({
   dtmodificacao: z.date().default(() => new Date()),
 });
 
-export type Unidade = z.infer<typeof unidadeSchema>;
-export type Setor = z.infer<typeof setorSchema>;
-export type UnidadeSetor = z.infer<typeof unidadeSetorSchema>;
-export type CondicaoInseguranca = z.infer<typeof condicaoInsegurancaSchema>;
-export type NivelRisco = z.infer<typeof nivelRiscoSchema>;
+export type Unidade = z.infer<typeof UnidadeSchema>;
+export type Setor = z.infer<typeof SetorSchema>;
+export type UnidadeSetor = z.infer<typeof UnidadeSetorSchema>;
+export type CondicaoInseguranca = z.infer<typeof CondicaoInsegurancaSchema>;
+export type NivelRisco = z.infer<typeof NivelRiscoSchema>;

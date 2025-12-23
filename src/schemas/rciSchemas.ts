@@ -1,21 +1,21 @@
 import { z } from "zod";
 
-import { colaboradorSchema } from "./colaboradorSchema";
+import { ColaboradorSchema } from "./colaboradorSchema";
 import {
-  unidadeSetorSchema,
-  unidadeSchema,
-  condicaoInsegurancaSchema,
-  nivelRiscoSchema,
+  UnidadeSetorSchema,
+  UnidadeSchema,
+  CondicaoInsegurancaSchema,
+  NivelRiscoSchema,
 } from "./stateSchemas";
 import { rciStatusEnum } from "./enums";
 
-export const rciSchema = z.object({
+export const RciSchema = z.object({
   id: z.number().int().positive(),
-  autor: colaboradorSchema,
-  unidade: unidadeSchema,
-  setor: unidadeSetorSchema,
-  condicao_inseguranca: condicaoInsegurancaSchema,
-  nivel_risco: nivelRiscoSchema,
+  autor: ColaboradorSchema,
+  unidade: UnidadeSchema,
+  setor: UnidadeSetorSchema,
+  condicao_inseguranca: CondicaoInsegurancaSchema,
+  nivel_risco: NivelRiscoSchema,
   data_limite: z.date(),
   status: rciStatusEnum,
   tipo: z.string().min(1).max(100),
@@ -26,7 +26,7 @@ export const rciSchema = z.object({
   dtmodificacao: z.date().default(() => new Date()),
 });
 
-export const rciCreateSchema = rciSchema.omit({
+export const RciCreateSchema = RciSchema.omit({
   id: true,
   autor: true,
   dtcriacao: true,
@@ -34,13 +34,13 @@ export const rciCreateSchema = rciSchema.omit({
   solucao: true,
 });
 
-export const rciUpdateSchema = rciSchema.pick({
+export const RciUpdateSchema = RciSchema.pick({
   status: true,
   solucao: true,
   link_plano_acao: true,
   data_limite: true,
 });
 
-export type Rci = z.infer<typeof rciSchema>;
-export type RciCreate = z.infer<typeof rciCreateSchema>;
-export type RciUpdate = z.infer<typeof rciUpdateSchema>;
+export type Rci = z.infer<typeof RciSchema>;
+export type RciCreate = z.infer<typeof RciCreateSchema>;
+export type RciUpdate = z.infer<typeof RciUpdateSchema>;
