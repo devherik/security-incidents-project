@@ -37,6 +37,7 @@ interface AppState {
   niveisDeRisco: NivelRisco[];
   unidades: Unidade[];
   setores: Setor[];
+  setoresUnidade: Setor[];
   status: RciStatus[];
   periodo: Periodo[];
 
@@ -62,6 +63,7 @@ const initialState = {
   niveisDeRisco: [],
   unidades: [],
   setores: [],
+  setoresUnidade: [],
   status: [],
   periodo: [
     "Últimas 24 horas",
@@ -198,7 +200,7 @@ export const useAppStore = create<AppState>()(
             field: "nome",
             descending: false,
           });
-          set({ setores: orderedData });
+          set({ setoresUnidade: orderedData });
         } catch (error) {
           console.error("Error fetching sectors by unit:", error);
         }
