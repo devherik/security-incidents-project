@@ -4,7 +4,7 @@ import { persist } from "zustand/middleware";
 import AppServer from "../servers/AppServer";
 
 import type {
-  CondicaoInseguranca,
+  CondicaoInsegura,
   ImageMetadata,
   NivelRisco,
   Setor,
@@ -30,7 +30,7 @@ interface AppState {
   visibleNavbar: boolean;
 
   // Cached data
-  condicoesInseguras: CondicaoInseguranca[];
+  condicoesInseguras: CondicaoInsegura[];
   niveisDeRisco: NivelRisco[];
   unidades: Unidade[];
   setores: Setor[];
