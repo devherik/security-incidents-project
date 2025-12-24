@@ -3,6 +3,8 @@ import { persist } from "zustand/middleware";
 
 import AppServer from "../servers/AppServer";
 
+import { orderByField } from "../utils/listsUtil";
+
 import type {
   CondicaoInsegura,
   ImageMetadata,
@@ -157,7 +159,12 @@ export const useAppStore = create<AppState>()(
       getCondicoesInseguras: async () => {
         try {
           const data = await AppServer.fetchCondicoesInseguras();
-          set({ condicoesInseguras: data });
+          const orderedData = orderByField<CondicaoInsegura>({
+            list: data,
+            field: "nome",
+            descending: false,
+          });
+          set({ condicoesInseguras: orderedData });
         } catch (error) {
           console.error("Error fetching unsafe conditions:", error);
         }
@@ -166,7 +173,12 @@ export const useAppStore = create<AppState>()(
       getNiveisDeRisco: async () => {
         try {
           const data = await AppServer.fetchNiveisDeRisco();
-          set({ niveisDeRisco: data });
+          const orderedData = orderByField<NivelRisco>({
+            list: data,
+            field: "severidade",
+            descending: false,
+          });
+          set({ niveisDeRisco: orderedData });
         } catch (error) {
           console.error("Error fetching risk levels:", error);
         }
@@ -175,7 +187,12 @@ export const useAppStore = create<AppState>()(
       getUnidades: async () => {
         try {
           const data = await AppServer.fetchUnidades();
-          set({ unidades: data });
+          const orderedData = orderByField<Unidade>({
+            list: data,
+            field: "nome",
+            descending: false,
+          });
+          set({ unidades: orderedData });
         } catch (error) {
           console.error("Error fetching units:", error);
         }
@@ -184,7 +201,12 @@ export const useAppStore = create<AppState>()(
       getSetores: async () => {
         try {
           const data = await AppServer.fetchSetores("");
-          set({ setores: data });
+          const orderedData = orderByField<Setor>({
+            list: data,
+            field: "nome",
+            descending: false,
+          });
+          set({ setores: orderedData });
         } catch (error) {
           console.error("Error fetching sectors:", error);
         }
@@ -193,7 +215,12 @@ export const useAppStore = create<AppState>()(
       getSetoresByUnidade: async (unidadeId: string) => {
         try {
           const data = await AppServer.fetchSetores(unidadeId);
-          set({ setores: data });
+          const orderedData = orderByField<Setor>({
+            list: data,
+            field: "nome",
+            descending: false,
+          });
+          set({ setores: orderedData });
         } catch (error) {
           console.error("Error fetching sectors by unit:", error);
         }
