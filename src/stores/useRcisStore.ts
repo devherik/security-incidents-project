@@ -1,5 +1,9 @@
 import { create } from "zustand";
+
 import RcisServer from "../servers/RcisServer";
+
+import { orderByDate } from "../utils/listsUtil";
+
 import type { Rci, RciCreate, RciUpdate } from "../schemas/rciSchemas";
 import type {
   CondicaoInsegura,
@@ -60,7 +64,13 @@ export const useRcisStore = create<RciState>((set, get) => ({
         data_limite: new Date(rci.data_limite),
       }));
 
-      set({ rcis: rcisWithDates });
+      const rcisOrdered = orderByDate({
+        list: rcisWithDates,
+        dateField: "dtcriacao",
+        descending: true,
+      });
+
+      set({ rcis: rcisOrdered, filteredRcis: rcisOrdered });
       get().applyFilters();
     } catch (error) {
       const message =

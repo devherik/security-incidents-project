@@ -16,7 +16,7 @@ export const orderByField = <T extends Record<string, unknown>>({
   });
 };
 
-export const orderByDateHelper = <T extends Record<string, unknown>>({
+export const orderByDate = <T extends Record<string, unknown>>({
   list,
   dateField,
   descending = false,
