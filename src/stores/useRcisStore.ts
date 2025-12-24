@@ -43,7 +43,7 @@ export const useRcisStore = create<RciState>((set, get) => ({
   filteredRcis: [],
   filters: {
     periodo: "Todos",
-    ativo: false,
+    ativo: true,
     condicaoInsegura: null,
     unidade: null,
     nivelRisco: null,
@@ -163,7 +163,7 @@ export const useRcisStore = create<RciState>((set, get) => ({
     set({
       filters: {
         periodo: "Todos",
-        ativo: false,
+        ativo: true,
         condicaoInsegura: null,
         unidade: null,
         nivelRisco: null,

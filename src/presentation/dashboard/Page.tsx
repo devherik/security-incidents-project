@@ -64,7 +64,7 @@ export default function DashboardPage() {
             <div></div>
           </NewItemButton>
         </header>
-        <main>
+        <main className={style.main}>
           <Table />
         </main>
       </div>
