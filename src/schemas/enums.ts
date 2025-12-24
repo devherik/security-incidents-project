@@ -24,6 +24,14 @@ export const severidadeEnum = z.enum([
   "Insignificante",
 ]);
 
+export const periodoEnum = z.enum([
+  "Últimas 24 horas",
+  "Últimos 7 dias",
+  "Últimos 30 dias",
+  "Últimos 90 dias",
+  "Todos",
+]);
+
 export const diaSemanaEnum = z.enum([
   "seg",
   "ter",
@@ -37,4 +45,5 @@ export const diaSemanaEnum = z.enum([
 export type UserRole = z.infer<typeof userRoleEnum>;
 export type RciStatus = z.infer<typeof rciStatusEnum>;
 export type Severidade = z.infer<typeof severidadeEnum>;
+export type Periodo = z.infer<typeof periodoEnum>;
 export type DiaSemana = z.infer<typeof diaSemanaEnum>;

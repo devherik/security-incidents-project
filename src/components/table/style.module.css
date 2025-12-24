@@ -29,3 +29,9 @@
 .table th {
   color: var(--text-color);
 }
+
+.filtersContainer {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+}

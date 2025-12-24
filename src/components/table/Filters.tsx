@@ -3,28 +3,32 @@ import { useRcisStore } from "../../stores/useRcisStore";
 
 import SelectItemForm from "../select-item-form/SelectItemForm";
 
+import style from "./style.module.css";
+
 export default function Filters() {
   const filters = useRcisStore((state) => state.filters);
   const setFilter = useRcisStore((state) => state.setFilter);
   const clearFilters = useRcisStore((state) => state.clearFilters);
 
   const unidades = useAppStore((state) => state.unidades);
+  const periodos = useAppStore((state) => state.periodo);
   const condicoesInseguras = useAppStore((state) => state.condicoesInseguras);
   const niveisDeRisco = useAppStore((state) => state.niveisDeRisco);
 
   return (
-    <div>
-      <select
-        value={filters.periodo}
-        onChange={(e) => setFilter("periodo", e.target.value)}
-        style={{ padding: "5px" }}
-      >
-        <option value="Todos">Todos os períodos</option>
-        <option value="Últimas 24 horas">Últimas 24 horas</option>
-        <option value="Últimos 7 dias">Últimos 7 dias</option>
-        <option value="Últimos 30 dias">Últimos 30 dias</option>
-        <option value="Últimos 90 dias">Últimos 90 dias</option>
-      </select>
+    <div className={style.filtersContainer}>
+      <SelectItemForm
+        placeholder="Selecione o período"
+        items={periodos.map((p) => ({ id: p, descricao: p }))}
+        value={
+          filters.periodo
+            ? { id: filters.periodo, descricao: filters.periodo }
+            : null
+        }
+        onChange={(e) =>
+          setFilter("periodo", periodos.find((p) => p === e?.id) || "")
+        }
+      />
 
       <SelectItemForm
         items={unidades.map((u) => ({ id: u.id, descricao: u.sigla }))}
