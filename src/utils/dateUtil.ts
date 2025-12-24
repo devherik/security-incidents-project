@@ -6,10 +6,10 @@ import {
   setYear,
   format,
   getISOWeek,
-  getISOWeekYear
-} from 'date-fns';
+  getISOWeekYear,
+} from "date-fns";
 
-import { type DiaSemana } from '../schemas/schemas';
+import { type DiaSemana } from "../schemas/enums";
 
 /**
  * Calculates the start and end dates (ISO format) for a given year and week number.
@@ -36,14 +36,13 @@ export const getDatesFromWeek = (
   const endDate = endOfWeek(date, { weekStartsOn: 1 }); // End of the week (Sunday)
 
   // 4. Format the dates for the API (e.g., 'YYYY-MM-DD')
-  const apiDateFormat = 'yyyy-MM-dd';
+  const apiDateFormat = "yyyy-MM-dd";
 
   return {
     startDate: format(startDate, apiDateFormat),
     endDate: format(endDate, apiDateFormat),
   };
 };
-
 
 export const getCurrentYearAndWeek = (): { year: number; week: number } => {
   const now = new Date();
@@ -53,7 +52,7 @@ export const getCurrentYearAndWeek = (): { year: number; week: number } => {
 };
 
 export const getDiaSemanaFromDate = (date: Date): string => {
-  const diasSemana = ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sab'];
+  const diasSemana = ["dom", "seg", "ter", "qua", "qui", "sex", "sab"];
   return diasSemana[date.getDay()];
 };
 
@@ -64,9 +63,9 @@ export const getDiaSemanaFromDate = (date: Date): string => {
  */
 export const getYearWeekAndWeekday = (
   date: Date
-): { year: number; week: number; weekday: DiaSemana, ISOdate: string } => {
-  const diasSemana = ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sab'];
-  
+): { year: number; week: number; weekday: DiaSemana; ISOdate: string } => {
+  const diasSemana = ["dom", "seg", "ter", "qua", "qui", "sex", "sab"];
+
   return {
     year: getISOWeekYear(date),
     week: getISOWeek(date),
@@ -75,3 +74,11 @@ export const getYearWeekAndWeekday = (
   };
 };
 
+export const formatDateToISO = (date: Date): string => {
+  return date.toISOString().split("T")[0];
+};
+
+export const parseToAPIFormat = (isoString: string): string => {
+  const apiDateFormat = "yyyy-MM-dd";
+  return format(isoString, apiDateFormat);
+};
