@@ -1,14 +1,20 @@
 import { create } from "zustand";
 import RcisServer from "../servers/RcisServer";
 import type { Rci, RciCreate, RciUpdate } from "../schemas/rciSchemas";
+import type {
+  CondicaoInsegura,
+  NivelRisco,
+  Unidade,
+} from "../schemas/stateSchemas";
+import type { RciStatus } from "../schemas/enums";
 
 export interface RciFilters {
   periodo: string;
   ativo: boolean;
-  condicaoInsegura: string;
-  unidade: string;
-  nivelRisco: string;
-  status: string;
+  condicaoInsegura: CondicaoInsegura | null;
+  unidade: Unidade | null;
+  nivelRisco: NivelRisco | null;
+  status: RciStatus | null;
 }
 
 interface RciState {
@@ -34,10 +40,10 @@ export const useRcisStore = create<RciState>((set, get) => ({
   filters: {
     periodo: "Todos",
     ativo: false,
-    condicaoInsegura: "",
-    unidade: "",
-    nivelRisco: "",
-    status: "",
+    condicaoInsegura: null,
+    unidade: null,
+    nivelRisco: null,
+    status: null,
   },
   isLoading: false,
   error: null,
@@ -148,10 +154,10 @@ export const useRcisStore = create<RciState>((set, get) => ({
       filters: {
         periodo: "Todos",
         ativo: false,
-        condicaoInsegura: "",
-        unidade: "",
-        nivelRisco: "",
-        status: "",
+        condicaoInsegura: null,
+        unidade: null,
+        nivelRisco: null,
+        status: null,
       },
     });
     get().applyFilters();
@@ -195,8 +201,8 @@ export const useRcisStore = create<RciState>((set, get) => ({
     if (filters.condicaoInsegura) {
       filtered = filtered.filter(
         (rci) =>
-          rci.condicao_insegura.nome === filters.condicaoInsegura ||
-          rci.condicao_insegura.id.toString() === filters.condicaoInsegura
+          rci.condicao_insegura === filters.condicaoInsegura ||
+          rci.condicao_insegura.id === filters.condicaoInsegura?.id
       );
     }
 
@@ -204,8 +210,8 @@ export const useRcisStore = create<RciState>((set, get) => ({
     if (filters.unidade) {
       filtered = filtered.filter(
         (rci) =>
-          rci.unidade.nome === filters.unidade ||
-          rci.unidade.id.toString() === filters.unidade
+          rci.unidade === filters.unidade ||
+          rci.unidade.id === filters.unidade?.id
       );
     }
 
@@ -213,8 +219,8 @@ export const useRcisStore = create<RciState>((set, get) => ({
     if (filters.nivelRisco) {
       filtered = filtered.filter(
         (rci) =>
-          rci.nivel_risco.severidade === filters.nivelRisco ||
-          rci.nivel_risco.id.toString() === filters.nivelRisco
+          rci.nivel_risco === filters.nivelRisco ||
+          rci.nivel_risco.id === filters.nivelRisco?.id
       );
     }
 
