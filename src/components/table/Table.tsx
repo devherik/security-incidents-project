@@ -3,12 +3,11 @@ import { useEffect, useState } from "react";
 import { useRcisStore } from "../../stores/useRcisStore";
 import { useAuthStore } from "../../stores/useAuthStore";
 
-import { formatDateToISO } from "../../utils/dateUtil";
-
 import style from "./style.module.css";
 
 import LoadingOverlay from "../loading-overlay/LoadingOverlay";
 import Filters from "./Filters";
+import Row from "./Row";
 
 export default function Table() {
   const colaborador = useAuthStore((state) => state.colaborador);
@@ -57,15 +56,7 @@ export default function Table() {
           </thead>
           <tbody>
             {rcis.map((rci) => (
-              <tr key={rci.id}>
-                <th>{rci.unidade.sigla}</th>
-                <th>{`${rci.nivel_risco.sigla_risco} - ${rci.nivel_risco.severidade}`}</th>
-                <th>{rci.condicao_insegura.nome}</th>
-                <th>{rci.autor.first_name}</th>
-                <th>{rci.status}</th>
-                <th>{rci.link_plano_acao}</th>
-                <th>{formatDateToISO(new Date(rci.dtcriacao))}</th>
-              </tr>
+              <Row rci={rci} />
             ))}
           </tbody>
         </table>
