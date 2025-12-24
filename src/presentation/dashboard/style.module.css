@@ -21,3 +21,10 @@
   gap: 16px;
   overflow-y: auto;
 }
+
+.novoRciContent {
+  background-color: var(--primary-color);
+  border-radius: 16px;
+  width: 60vw;
+  height: 80vh;
+}

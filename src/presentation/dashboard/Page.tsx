@@ -10,6 +10,7 @@ import PageTitle from "../../components/page-title/PageTitle";
 import NewItemButton from "../../components/new-item-button/NewItemButton";
 import Loader from "../../components/loader/Loader";
 import Table from "../../components/table/Table";
+import NovoRci from "./NovoRci";
 
 export default function DashboardPage() {
   const colaborador = useAuthStore((state) => state.colaborador);
@@ -61,7 +62,7 @@ export default function DashboardPage() {
             subtitle={`Olá, ${colaborador?.first_name}.`}
           />
           <NewItemButton label="Novo RCI" alt="Adicionar novo RCI">
-            <div></div>
+            <NovoRci />
           </NewItemButton>
         </header>
         <main className={style.main}>
