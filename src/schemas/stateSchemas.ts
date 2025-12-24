@@ -31,7 +31,7 @@ export const UnidadeSetorSchema = z.object({
   dtmodificacao: z.date().default(() => new Date()),
 });
 
-export const CondicaoInsegurancaSchema = z.object({
+export const CondicaoInseguraSchema = z.object({
   id: z.number().int().positive(),
   nome: z.string().min(1).max(250),
   categoria: z.string().min(1).max(100),
@@ -84,7 +84,7 @@ export const ImageMetadataArraySchema = z.array(ImageMetadataSchema);
 export type Unidade = z.infer<typeof UnidadeSchema>;
 export type Setor = z.infer<typeof SetorSchema>;
 export type UnidadeSetor = z.infer<typeof UnidadeSetorSchema>;
-export type CondicaoInseguranca = z.infer<typeof CondicaoInsegurancaSchema>;
+export type CondicaoInseguranca = z.infer<typeof CondicaoInseguraSchema>;
 export type NivelRisco = z.infer<typeof NivelRiscoSchema>;
 export type PaginationMeta = z.infer<typeof PaginationMetaSchema>;
 export type ApiError = z.infer<typeof ApiErrorSchema>;

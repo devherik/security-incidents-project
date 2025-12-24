@@ -23,3 +23,18 @@ export const severidadeEnum = z.enum([
   "Baixo",
   "Insignificante",
 ]);
+
+export const diaSemanaEnum = z.enum([
+  "seg",
+  "ter",
+  "qua",
+  "qui",
+  "sex",
+  "sab",
+  "dom",
+]);
+
+export type UserRole = z.infer<typeof userRoleEnum>;
+export type RciStatus = z.infer<typeof rciStatusEnum>;
+export type Severidade = z.infer<typeof severidadeEnum>;
+export type DiaSemana = z.infer<typeof diaSemanaEnum>;

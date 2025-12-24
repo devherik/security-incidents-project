@@ -4,7 +4,7 @@ import { ColaboradorSchema } from "./colaboradorSchema";
 import {
   UnidadeSetorSchema,
   UnidadeSchema,
-  CondicaoInsegurancaSchema,
+  CondicaoInseguraSchema,
   NivelRiscoSchema,
 } from "./stateSchemas";
 import { rciStatusEnum } from "./enums";
@@ -14,7 +14,7 @@ export const RciSchema = z.object({
   autor: ColaboradorSchema,
   unidade: UnidadeSchema,
   setor: UnidadeSetorSchema,
-  condicao_inseguranca: CondicaoInsegurancaSchema,
+  condicao_insegura: CondicaoInseguraSchema,
   nivel_risco: NivelRiscoSchema,
   data_limite: z.date(),
   status: rciStatusEnum,
