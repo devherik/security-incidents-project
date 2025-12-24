@@ -8,7 +8,7 @@
 .label {
   font-family: var(--main-font);
   color: var(--accent-color);
-  font-size: 0.875rem;
+  font-size: 0.85rem;
   margin-bottom: 5px;
   font-weight: 500;
 }
@@ -32,7 +32,7 @@
   border: 1px solid var(--green-color);
   background-color: var(--green-color);
   font-family: var(--main-font);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: var(--text-color);
   cursor: pointer;
   transition: all 0.2s ease;
@@ -118,7 +118,7 @@
   border: none;
   border-bottom: 1px solid var(--green-color);
   font-family: var(--main-font);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: var(--text-color);
   background-color: var(--primary-color);
   outline: none;
@@ -132,6 +132,7 @@
   list-style: none;
   margin: 0;
   padding: 0;
+  font-size: 0.85rem;
   overflow-y: auto;
   max-height: 250px;
 }
@@ -139,7 +140,7 @@
 .item {
   padding: 10px 12px;
   font-family: var(--main-font);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: var(--text-color);
   cursor: pointer;
   transition: background-color 0.15s ease;
@@ -161,7 +162,7 @@
 .noResults {
   padding: 16px 12px;
   font-family: var(--main-font);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: var(--accent-color);
   text-align: center;
   font-style: italic;
@@ -233,7 +234,7 @@
   gap: 0.5rem;
   font-family: var(--secondary-font);
   color: var(--text-color);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 }
 
 .checkboxInput {
@@ -247,5 +248,5 @@
   text-align: center;
   font-family: var(--secondary-font);
   color: var(--accent-color);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 }

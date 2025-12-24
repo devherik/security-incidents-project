@@ -43,7 +43,7 @@ export default function Table() {
 
       {/* Table content */}
       <LoadingOverlay isLoading={isLoading}>
-        <table>
+        <table className={style.table}>
           <thead>
             <tr>
               <th>Unidade</th>
