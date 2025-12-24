@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import { getNextMonth } from "../utils/dateUtil";
+
 import { ColaboradorSchema } from "./colaboradorSchema";
 import {
   UnidadeSetorSchema,
@@ -26,12 +28,18 @@ export const RciSchema = z.object({
   dtmodificacao: z.date().default(() => new Date()),
 });
 
-export const RciCreateSchema = RciSchema.omit({
-  id: true,
-  autor: true,
-  dtcriacao: true,
-  dtmodificacao: true,
-  solucao: true,
+export const RciCreateSchema = z.object({
+  autor_id: z.number().int().positive(),
+  unidade_id: z.number().int().positive(),
+  setor_id: z.number().int().positive(),
+  condicao_insegura_id: z.number().int().positive(),
+  nivel_risco_id: z.number().int().positive(),
+  data_limite: z.date().default(() => new Date(getNextMonth())).optional(),
+  status: rciStatusEnum.default("Aberto"),
+  tipo: z.string().min(1).max(100),
+  link_plano_acao: z.url().optional(),
+  detalhamento: z.string().min(1).max(1000),
+  solucao: z.string().min(1).max(1000).optional(),
 });
 
 export const RciUpdateSchema = RciSchema.pick({

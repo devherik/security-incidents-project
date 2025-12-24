@@ -82,3 +82,11 @@ export const parseToAPIFormat = (isoString: string): string => {
   const apiDateFormat = "yyyy-MM-dd";
   return format(isoString, apiDateFormat);
 };
+
+export const getNextMonth = () => {
+  // Returns the date 30 days from now - api format
+  const now = new Date();
+  const nextMonth = new Date(now);
+  nextMonth.setMonth(now.getMonth() + 1);
+  return formatDateToISO(nextMonth);
+};
