@@ -1,7 +1,6 @@
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useAppStore } from "../../stores/useAppStore";
-import { useRcisStore } from "../../stores/useRcisStore";
 import { useAuthStore } from "../../stores/useAuthStore";
 
 import style from "./style.module.css";
@@ -10,13 +9,10 @@ import SlideInEffect from "../../animations/slide-in/SlideInEffect";
 import PageTitle from "../../components/page-title/PageTitle";
 import NewItemButton from "../../components/new-item-button/NewItemButton";
 import Loader from "../../components/loader/Loader";
-
-// import usePermissions from "../../hooks/usePermissions";
+import Table from "../../components/table/Table";
 
 export default function DashboardPage() {
   const colaborador = useAuthStore((state) => state.colaborador);
-  const rcis = useRcisStore((state) => state.filteredRcis);
-  //   const { hasGroup } = usePermissions();
 
   const [isInitializing, setIsInitializing] = useState(true);
 
@@ -45,22 +41,6 @@ export default function DashboardPage() {
     initializeApp();
   }, []); // Runs once on mount
 
-  useEffect(() => {
-    const fetchRcisData = async () => {
-      if (colaborador) {
-        try {
-          await useRcisStore.getState().fetchRcis(colaborador.id.toString());
-        } catch (error) {
-          const errorMessage =
-            error instanceof Error ? error.message : "Failed to load RCI data";
-          console.error("RCI data fetch error:", errorMessage);
-        }
-      }
-    };
-
-    fetchRcisData();
-  }, [colaborador]);
-
   // Show loading screen during initialization
   if (isInitializing) {
     return (
@@ -77,25 +57,15 @@ export default function DashboardPage() {
       <div className={style.content}>
         <header className="flex flex-row items-center justify-between w-auto p-4 h-28">
           <PageTitle
-            title="Minhas Tarefas"
+            title="Registro de Condições Inseguras"
             subtitle={`Olá, ${colaborador?.first_name}.`}
           />
           <NewItemButton label="Novo RCI" alt="Adicionar novo RCI">
-            <div className="flex flex-col">
-              {rcis.length > 0 ? (
-                rcis.map((rci) => (
-                  <span key={rci.id}>
-                    RCI #{rci.id} - {rci.condicao_inseguranca.nome}
-                  </span>
-                ))
-              ) : (
-                <span>Você não tem RCIs.</span>
-              )}
-            </div>
+            <div></div>
           </NewItemButton>
         </header>
         <main>
-          <div></div>
+          <Table />
         </main>
       </div>
     </SlideInEffect>

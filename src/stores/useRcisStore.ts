@@ -195,8 +195,8 @@ export const useRcisStore = create<RciState>((set, get) => ({
     if (filters.condicaoInsegura) {
       filtered = filtered.filter(
         (rci) =>
-          rci.condicao_inseguranca.nome === filters.condicaoInsegura ||
-          rci.condicao_inseguranca.id.toString() === filters.condicaoInsegura
+          rci.condicao_insegura.nome === filters.condicaoInsegura ||
+          rci.condicao_insegura.id.toString() === filters.condicaoInsegura
       );
     }
 
