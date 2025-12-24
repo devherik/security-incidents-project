@@ -1,5 +1,5 @@
 import apiClient, { type ApiError } from "../api/apiClient";
-import type { ImageMetadata } from "../schemas/stateSchemas";
+import type { CondicaoInsegura, ImageMetadata, NivelRisco, Setor, Unidade } from "../schemas/stateSchemas";
 
 class AppServer {
   static instance: AppServer;
@@ -15,7 +15,7 @@ class AppServer {
 
   public async fetchCondicoesInseguras() {
     try {
-      const response = await apiClient.get("/v1/condicao_insegura/");
+      const response = await apiClient.get<CondicaoInsegura[]>("/v1/condicao_insegura/");
       return response.data;
     } catch (error) {
       const apiError = error as ApiError;
@@ -26,7 +26,7 @@ class AppServer {
 
   public async fetchUnidades() {
     try {
-      const response = await apiClient.get("/v1/unidade/");
+      const response = await apiClient.get<Unidade[]>("/v1/unidade/");
       return response.data;
     } catch (error) {
       const apiError = error as ApiError;
@@ -37,7 +37,7 @@ class AppServer {
 
   public async fetchNiveisDeRisco() {
     try {
-      const response = await apiClient.get("/v1/nivel_risco/");
+      const response = await apiClient.get<NivelRisco[]>("/v1/nivel_risco/");
       return response.data;
     } catch (error) {
       const apiError = error as ApiError;
@@ -48,7 +48,7 @@ class AppServer {
 
   public async fetchSetores(unidadeId: string) {
     try {
-      const response = await apiClient.get(
+      const response = await apiClient.get<Setor[]>(
         `/v1/unidade_setor/por_unidade/${unidadeId}/`
       );
       return response.data;
