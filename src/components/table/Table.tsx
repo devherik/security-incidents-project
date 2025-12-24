@@ -8,6 +8,7 @@ import { formatDateToISO } from "../../utils/dateUtil";
 import style from "./style.module.css";
 
 import LoadingOverlay from "../loading-overlay/LoadingOverlay";
+import Filters from "./Filters";
 
 export default function Table() {
   const colaborador = useAuthStore((state) => state.colaborador);
@@ -37,7 +38,9 @@ export default function Table() {
   return (
     <div>
       {/* Table filters, search, export and pagination */}
-      <div></div>
+
+      <Filters />
+
       {/* Table content */}
       <LoadingOverlay isLoading={isLoading}>
         <table>
