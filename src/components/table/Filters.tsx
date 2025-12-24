@@ -18,6 +18,7 @@ export default function Filters() {
   return (
     <div className={style.filtersContainer}>
       <SelectItemForm
+        label="Período"
         placeholder="Selecione o período"
         items={periodos.map((p) => ({ id: p, descricao: p }))}
         value={
@@ -31,6 +32,7 @@ export default function Filters() {
       />
 
       <SelectItemForm
+        label="Unidade"
         items={unidades.map((u) => ({ id: u.id, descricao: u.sigla }))}
         placeholder="Selecione a unidade"
         value={
@@ -47,6 +49,7 @@ export default function Filters() {
       />
 
       <SelectItemForm
+        label="Nível de Risco"
         items={niveisDeRisco.map((n) => ({
           id: n.id,
           descricao: n.severidade,
@@ -69,6 +72,7 @@ export default function Filters() {
       />
 
       <SelectItemForm
+        label="Ocorrência"
         items={condicoesInseguras.map((n) => ({
           id: n.id,
           descricao: n.nome,
@@ -90,8 +94,9 @@ export default function Filters() {
         }
       />
 
-      <label style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+      <label className={style.checkboxLabel}>
         <input
+          className={style.checkboxInput}
           type="checkbox"
           checked={filters.ativo}
           onChange={(e) => setFilter("ativo", e.target.checked)}
@@ -99,11 +104,8 @@ export default function Filters() {
         Ativo
       </label>
 
-      <button
-        onClick={clearFilters}
-        style={{ padding: "5px 10px", cursor: "pointer" }}
-      >
-        Limpar Filtros
+      <button onClick={clearFilters} className={style.clearFiltersButton}>
+        Limpar
       </button>
     </div>
   );

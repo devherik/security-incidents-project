@@ -156,12 +156,7 @@ export const useAppStore = create<AppState>()(
       getNiveisDeRisco: async () => {
         try {
           const data = await AppServer.fetchNiveisDeRisco();
-          const orderedData = orderByField<NivelRisco>({
-            list: data,
-            field: "severidade",
-            descending: false,
-          });
-          set({ niveisDeRisco: orderedData });
+          set({ niveisDeRisco: data });
         } catch (error) {
           console.error("Error fetching risk levels:", error);
         }
