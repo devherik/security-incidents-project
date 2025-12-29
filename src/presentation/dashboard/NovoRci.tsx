@@ -106,126 +106,129 @@ export default function NovoRci({ onClose }: { onClose?: () => void }) {
 
   return (
     <div className={style.novoRciContent}>
-      <header>
+      <header className={style.novoRciHeader}>
         <PageTitle
           title="Novo RCI"
           subtitle="Cadastre aqui uma nova ocorrência."
         />
       </header>
-      <main>
-        <SelectItemForm
-          label="Unidade"
-          items={unidades.map((u) => ({ id: u.id, descricao: u.sigla }))}
-          placeholder="Selecione a unidade"
-          value={
-            newRciData.unidade_id
-              ? {
-                  id: newRciData.unidade_id,
-                  descricao:
-                    unidades.find((u) => u.id === newRciData.unidade_id)
-                      ?.sigla || "",
-                }
-              : null
-          }
-          onChange={(e) => handleUnidadeChange(e?.id || null)}
-        />
-
-        <SelectItemForm
-          label="Nível de Risco"
-          items={niveisDeRisco.map((n) => ({
-            id: n.id,
-            descricao: n.severidade,
-          }))}
-          placeholder="Selecione a severidade"
-          value={
-            newRciData.nivel_risco_id
-              ? {
-                  id: newRciData.nivel_risco_id,
-                  descricao:
-                    niveisDeRisco.find(
-                      (n) => n.id === newRciData.nivel_risco_id
-                    )?.severidade || "",
-                }
-              : null
-          }
-          onChange={(e) =>
-            setNewRciData((prev) => ({
-              ...prev,
-              nivel_risco_id: e?.id || 0,
-            }))
-          }
-        />
-
-        <SelectItemForm
-          label="Ocorrência"
-          items={condicoesInseguras.map((n) => ({
-            id: n.id,
-            descricao: n.nome,
-          }))}
-          placeholder="Selecione a ocorrência"
-          value={
-            newRciData.condicao_insegura_id
-              ? {
-                  id: newRciData.condicao_insegura_id,
-                  descricao:
-                    condicoesInseguras.find(
-                      (c) => c.id === newRciData.condicao_insegura_id
-                    )?.nome || "",
-                }
-              : null
-          }
-          onChange={(e) =>
-            setNewRciData((prev) => ({
-              ...prev,
-              condicao_insegura_id: e?.id || 0,
-            }))
-          }
-        />
-
-        <SelectItemForm
-          label="Setor"
-          items={setoresUnidade.map((n) => ({
-            id: n.id,
-            descricao: n.setor.nome,
-          }))}
-          placeholder="Selecione o setor"
-          value={
-            newRciData.setor_id
-              ? {
-                  id: newRciData.setor_id,
-                  descricao:
-                    setoresUnidade.find((s) => s.id === newRciData.setor_id)
-                      ?.setor.nome || "",
-                }
-              : null
-          }
-          onChange={(e) => handleSetorChange(e?.id || null)}
-          disabled={newRciData.unidade_id === 0 && setoresUnidade.length === 0}
-        />
-        <InputForm
-          label="Responsável"
-          value={selectedSetor?.responsavel.first_name || ""}
-          setValue={() => {}}
-          disabled={true}
-          rows={1}
-          required
-          placeholder="Responsável pela ocorrência"
-        />
-        <InputForm
-          label="Detalhes da Ocorrência"
-          value={newRciData.detalhamento}
-          setValue={(value) =>
-            setNewRciData((prev) => ({
-              ...prev,
-              detalhamento: value,
-            }))
-          }
-          rows={5}
-          required
-          placeholder="Descreva a ocorrência em detalhes"
-        />
+      <main className={style.novoRciMain}>
+        <div className={style.novoRciForm}>
+          <SelectItemForm
+            label="Unidade"
+            items={unidades.map((u) => ({ id: u.id, descricao: u.sigla }))}
+            placeholder="Selecione a unidade"
+            value={
+              newRciData.unidade_id
+                ? {
+                    id: newRciData.unidade_id,
+                    descricao:
+                      unidades.find((u) => u.id === newRciData.unidade_id)
+                        ?.sigla || "",
+                  }
+                : null
+            }
+            onChange={(e) => handleUnidadeChange(e?.id || null)}
+          />
+          <SelectItemForm
+            label="Setor"
+            items={setoresUnidade.map((n) => ({
+              id: n.id,
+              descricao: n.setor.nome,
+            }))}
+            placeholder="Selecione o setor"
+            value={
+              newRciData.setor_id
+                ? {
+                    id: newRciData.setor_id,
+                    descricao:
+                      setoresUnidade.find((s) => s.id === newRciData.setor_id)
+                        ?.setor.nome || "",
+                  }
+                : null
+            }
+            onChange={(e) => handleSetorChange(e?.id || null)}
+            disabled={
+              newRciData.unidade_id === 0 && setoresUnidade.length === 0
+            }
+          />
+          <InputForm
+            label="Responsável"
+            value={selectedSetor?.responsavel.first_name || ""}
+            setValue={() => {}}
+            disabled={true}
+            rows={1}
+            required
+            placeholder="Responsável pela ocorrência"
+          />
+        </div>
+        <div className={style.novoRciForm}>
+          <SelectItemForm
+            label="Nível de Risco"
+            items={niveisDeRisco.map((n) => ({
+              id: n.id,
+              descricao: n.severidade,
+            }))}
+            placeholder="Selecione a severidade"
+            value={
+              newRciData.nivel_risco_id
+                ? {
+                    id: newRciData.nivel_risco_id,
+                    descricao:
+                      niveisDeRisco.find(
+                        (n) => n.id === newRciData.nivel_risco_id
+                      )?.severidade || "",
+                  }
+                : null
+            }
+            onChange={(e) =>
+              setNewRciData((prev) => ({
+                ...prev,
+                nivel_risco_id: e?.id || 0,
+              }))
+            }
+          />
+          <SelectItemForm
+            label="Ocorrência"
+            items={condicoesInseguras.map((n) => ({
+              id: n.id,
+              descricao: n.nome,
+            }))}
+            placeholder="Selecione a ocorrência"
+            value={
+              newRciData.condicao_insegura_id
+                ? {
+                    id: newRciData.condicao_insegura_id,
+                    descricao:
+                      condicoesInseguras.find(
+                        (c) => c.id === newRciData.condicao_insegura_id
+                      )?.nome || "",
+                  }
+                : null
+            }
+            onChange={(e) =>
+              setNewRciData((prev) => ({
+                ...prev,
+                condicao_insegura_id: e?.id || 0,
+              }))
+            }
+          />
+          <InputForm
+            label="Detalhes da Ocorrência"
+            value={newRciData.detalhamento}
+            setValue={(value) =>
+              setNewRciData((prev) => ({
+                ...prev,
+                detalhamento: value,
+              }))
+            }
+            rows={5}
+            required
+            placeholder="Descreva a ocorrência em detalhes"
+          />
+        </div>
       </main>
-      <footer>
+      <footer className={style.novoRciFooter}>
         <BaseButton label="Salvar" onClick={handleSave} disabled={isSaving} />
       </footer>
     </div>

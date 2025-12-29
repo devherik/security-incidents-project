@@ -12,7 +12,7 @@
   border-radius: 8px;
   border: 1px solid var(--green-color);
   font-family: var(--main-font, "Chivo", sans-serif);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: var(--text-color);
   background-color: var(--green-color);
   min-height: 42px;
