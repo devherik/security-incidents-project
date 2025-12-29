@@ -32,4 +32,5 @@
   border-radius: 16px;
   width: 60vw;
   height: 80vh;
+  overflow-y: auto;
 }

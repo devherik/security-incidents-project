@@ -17,7 +17,7 @@ export default function InputForm({
   value: string | number;
   setValue: (value: string) => void;
   rows: number;
-  cols: number;
+  cols?: number;
   required: boolean;
   placeholder?: string;
   disabled?: boolean;
@@ -35,7 +35,7 @@ export default function InputForm({
         <textarea
           className={`${resize ? "resize-y" : "resize-none"} ${style.input}`}
           rows={rows}
-          cols={cols}
+          {...(cols !== undefined ? { cols } : {})}
           name="title"
           required={required}
           defaultValue={value}

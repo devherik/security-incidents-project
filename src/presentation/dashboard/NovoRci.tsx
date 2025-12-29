@@ -207,10 +207,22 @@ export default function NovoRci({ onClose }: { onClose?: () => void }) {
           value={selectedSetor?.responsavel.first_name || ""}
           setValue={() => {}}
           disabled={true}
-          cols={30}
           rows={1}
           required
           placeholder="Responsável pela ocorrência"
+        />
+        <InputForm
+          label="Detalhes da Ocorrência"
+          value={newRciData.detalhamento}
+          setValue={(value) =>
+            setNewRciData((prev) => ({
+              ...prev,
+              detalhamento: value,
+            }))
+          }
+          rows={5}
+          required
+          placeholder="Descreva a ocorrência em detalhes"
         />
       </main>
       <footer>
