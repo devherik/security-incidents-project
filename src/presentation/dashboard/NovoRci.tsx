@@ -229,7 +229,7 @@ export default function NovoRci({ onClose }: { onClose?: () => void }) {
         </div>
       </main>
       <footer className={style.novoRciFooter}>
-        <BaseButton label="Salvar" onClick={handleSave} disabled={isSaving} />
+        <BaseButton label="Salvar o RCI" onClick={handleSave} disabled={isSaving} />
       </footer>
     </div>
   );

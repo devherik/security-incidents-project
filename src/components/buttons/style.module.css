@@ -5,7 +5,7 @@
   color: var(--text-color);
   cursor: pointer;
   font-family: var(--main-font);
-  font-size: 1rem;
+  font-size: 0.85rem;
   padding: 0.5rem 1rem;
   transition: all 0.3s ease;
 }
@@ -18,7 +18,8 @@
 }
 
 .button:hover:not(:disabled) {
-  scale: 1.05;
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px,
+    rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;
 }
 
 .icon {
@@ -50,7 +51,7 @@
   color: var(--primary-color);
   cursor: pointer;
   font-family: var(--main-font);
-  font-size: 1rem;
+  font-size: 0.85rem;
   padding: 0.5rem 1rem;
   transition: all 0.3s ease;
 }
@@ -63,7 +64,8 @@
 }
 
 .deleteButton:hover:not(:disabled) {
-  scale: 1.05;
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px,
+    rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;
 }
 
 .ghostButton {
@@ -73,7 +75,7 @@
   color: var(--text-color);
   cursor: pointer;
   font-family: var(--main-font);
-  font-size: 1rem;
+  font-size: 0.85rem;
   padding: 0.5rem 1rem;
   transition: all 0.3s ease, color 0.3s ease;
 }
