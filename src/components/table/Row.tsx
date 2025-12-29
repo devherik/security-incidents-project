@@ -9,7 +9,7 @@ export default function Row({ rci }: { rci: Rci }) {
   const navigate = useNavigate();
 
   const handleRciClick = () => {
-    navigate(`/${rci.id}`, { replace: false, state: { rci } });
+    navigate(`/rci/${rci.id}`, { replace: false, state: { rci } });
   };
 
   return (

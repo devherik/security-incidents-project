@@ -38,7 +38,7 @@ function App() {
               }
             />
             <Route
-              path="/:id"
+              path="/rci/:id"
               element={
                 <ProtectedRoute>
                   <RciPage />
