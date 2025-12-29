@@ -99,11 +99,6 @@ export default function NovoRci({ onClose }: { onClose?: () => void }) {
     fetchSetores();
   }, [newRciData.unidade_id, getSetoresByUnidade]);
 
-  // Log setoresUnidade whenever it updates (separate concern)
-  useEffect(() => {
-    console.log("SetoresUnidade updated:", setoresUnidade);
-  }, [setoresUnidade]);
-
   return (
     <div className={style.novoRciContent}>
       <header className={style.novoRciHeader}>
@@ -149,7 +144,7 @@ export default function NovoRci({ onClose }: { onClose?: () => void }) {
             }
             onChange={(e) => handleSetorChange(e?.id || null)}
             disabled={
-              newRciData.unidade_id === 0 && setoresUnidade.length === 0
+              newRciData.unidade_id === 0 || setoresUnidade.length === 0
             }
           />
           <InputForm
@@ -167,7 +162,7 @@ export default function NovoRci({ onClose }: { onClose?: () => void }) {
             label="Nível de Risco"
             items={niveisDeRisco.map((n) => ({
               id: n.id,
-              descricao: n.severidade,
+              descricao:`${n.sigla_risco} - ${n.severidade}`,
             }))}
             placeholder="Selecione a severidade"
             value={

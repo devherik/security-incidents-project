@@ -186,7 +186,6 @@ export const useAppStore = create<AppState>()(
             field: "setor",
             descending: false,
           });
-          console.log("Setores updated after unidade change", orderedData);
           set({ setoresUnidade: orderedData });
         } catch (error) {
           console.error("Error fetching sectors by unit:", error);
