@@ -5,7 +5,7 @@ import { severidadeEnum } from "./enums";
 
 export const UnidadeSchema = z.object({
   id: z.number().int().positive(),
-  gstor: ColaboradorSchema,
+  gestor: ColaboradorSchema,
   sigla: z.string().min(1).max(10),
   nome: z.string().min(1).max(100),
   ativo: z.boolean().default(true),
