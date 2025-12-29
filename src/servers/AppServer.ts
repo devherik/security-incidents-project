@@ -1,5 +1,5 @@
 import apiClient, { type ApiError } from "../api/apiClient";
-import type { CondicaoInsegura, ImageMetadata, NivelRisco, Setor, Unidade } from "../schemas/stateSchemas";
+import type { CondicaoInsegura, ImageMetadata, NivelRisco, Unidade, UnidadeSetor } from "../schemas/stateSchemas";
 
 class AppServer {
   static instance: AppServer;
@@ -48,7 +48,7 @@ class AppServer {
 
   public async fetchSetores(unidadeId: string) {
     try {
-      const response = await apiClient.get<Setor[]>(
+      const response = await apiClient.get<UnidadeSetor[]>(
         `/v1/unidade_setor/por_unidade/${unidadeId}/`
       );
       return response.data;

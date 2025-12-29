@@ -11,6 +11,7 @@ import type {
   NivelRisco,
   Setor,
   Unidade,
+  UnidadeSetor,
 } from "../schemas/stateSchemas";
 import type { Periodo, RciStatus } from "../schemas/enums";
 
@@ -37,7 +38,7 @@ interface AppState {
   niveisDeRisco: NivelRisco[];
   unidades: Unidade[];
   setores: Setor[];
-  setoresUnidade: Setor[];
+  setoresUnidade: UnidadeSetor[];
   status: RciStatus[];
   periodo: Periodo[];
 
@@ -45,7 +46,6 @@ interface AppState {
   getCondicoesInseguras: () => Promise<void>;
   getNiveisDeRisco: () => Promise<void>;
   getUnidades: () => Promise<void>;
-  getSetores: () => Promise<void>;
   getSetoresByUnidade: (unidadeId: string) => Promise<void>;
   fecthInitData: () => Promise<void>;
 
@@ -178,28 +178,15 @@ export const useAppStore = create<AppState>()(
         }
       },
 
-      getSetores: async () => {
-        try {
-          const data = await AppServer.fetchSetores("");
-          const orderedData = orderByField<Setor>({
-            list: data,
-            field: "nome",
-            descending: false,
-          });
-          set({ setores: orderedData });
-        } catch (error) {
-          console.error("Error fetching sectors:", error);
-        }
-      },
-
       getSetoresByUnidade: async (unidadeId: string) => {
         try {
           const data = await AppServer.fetchSetores(unidadeId);
-          const orderedData = orderByField<Setor>({
+          const orderedData = orderByField<UnidadeSetor>({
             list: data,
-            field: "nome",
+            field: "setor",
             descending: false,
           });
+          console.log("Setores updated after unidade change", orderedData);
           set({ setoresUnidade: orderedData });
         } catch (error) {
           console.error("Error fetching sectors by unit:", error);
