@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import type { Rci } from "../../schemas/rciSchemas";
 
 import { formatDateToISO } from "../../utils/dateUtil";
@@ -5,8 +6,14 @@ import { formatDateToISO } from "../../utils/dateUtil";
 import style from "./style.module.css";
 
 export default function Row({ rci }: { rci: Rci }) {
+  const navigate = useNavigate();
+
+  const handleRciClick = () => {
+    navigate(`/${rci.id}`, { replace: false, state: { rci } });
+  };
+
   return (
-    <tr className={style.row} key={rci.id}>
+    <tr className={style.row} key={rci.id} onClick={handleRciClick}>
       <th>{rci.unidade.sigla}</th>
       <th>{`${rci.nivel_risco.sigla_risco} - ${rci.nivel_risco.severidade}`}</th>
       <th>{rci.condicao_insegura.nome}</th>

@@ -1,6 +1,6 @@
 import "./App.css";
 import { lazy, Suspense, useEffect } from "react";
-import { BrowserRouter, Navigate, Route, Routes, } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
 import Loader from "./components/loader/Loader";
 import Toast from "./components/toast/Toast";
@@ -11,6 +11,7 @@ import ProtectedRoute from "./components/route-handlers/ProtectedRoute";
 
 const Login = lazy(() => import("./presentation/login/Page"));
 import DashboardPage from "./presentation/dashboard/Page";
+import RciPage from "./presentation/rci/Page";
 
 function App() {
   useEffect(() => {
@@ -33,6 +34,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <DashboardPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/:id"
+              element={
+                <ProtectedRoute>
+                  <RciPage />
                 </ProtectedRoute>
               }
             />
