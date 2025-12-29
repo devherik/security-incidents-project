@@ -84,10 +84,10 @@
   width: 100%;
   background-color: var(--gray-color);
   font-size: 0.85rem;
-  color: var(--text-color);
+  color: var(--accent-color);
   transition: all 0.3s ease;
   padding: 0.5rem 1rem;
-  border: none;
+  border: 1px solid var(--green-color);
   border-radius: 8px;
   cursor: pointer;
 }
@@ -95,6 +95,7 @@
 .typeButtonSelected {
   width: 100%;
   background-color: var(--green-color);
+  color: var(--text-color);
 }
 
 .typeButton:hover {
