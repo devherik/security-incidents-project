@@ -92,22 +92,12 @@ export const useAuthStore = create<AuthState>()(
       logout: async () => {
         set({ isLoading: true, error: null });
         try {
-          //   const { token } = get();
-
-          // Invalidate token on server
-          //   await AuthServer.logout({ token: token! });
-
-          // Clear all user-specific stores
-
-          // Clear localStorage for all user-specific data
-
-          // Reset auth store to initial state
-          set(initialState);
+          get().reset();
           set({ isLoading: false });
         } catch (error) {
           console.error("Logout failed:", error);
           // Still clear state even if server logout fails
-          set(initialState);
+          get().reset();
           throw error;
         }
       },

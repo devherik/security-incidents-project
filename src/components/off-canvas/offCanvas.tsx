@@ -5,6 +5,7 @@ import { useRef, useEffect, useState, useCallback } from "react";
 import styles from "./style.module.css";
 import { useAuthStore } from "../../stores/useAuthStore";
 import GhostButton from "../buttons/GhostButton";
+import { useNavigate } from "react-router-dom";
 
 const TextInfo = ({ label }: { label: string }) => (
   <span
@@ -31,6 +32,7 @@ export default function OffCanvas({
 }) {
   const colaborador = useAuthStore((state) => state.colaborador);
   const logout = useAuthStore((state) => state.logout);
+  const navigate = useNavigate();
 
   const offCanvasRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
@@ -55,6 +57,12 @@ export default function OffCanvas({
       closeOffCanvas();
     }
   }, [isOpen, closeOffCanvas]);
+
+  const handlelogout = () => {
+    logout();
+    closeOffCanvas();
+    navigate("/login", { replace: true });
+  }
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -103,10 +111,7 @@ export default function OffCanvas({
           </span>
           <GhostButton
             label="Logout"
-            onClick={() => {
-              logout();
-              closeOffCanvas();
-            }}
+            onClick={handlelogout}
           />
         </header>
         <main className={styles.offCanvasContent}>
