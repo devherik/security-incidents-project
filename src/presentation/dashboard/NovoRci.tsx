@@ -163,6 +163,29 @@ export default function NovoRci({ onClose }: { onClose?: () => void }) {
             required
             placeholder="Responsável pela ocorrência"
           />
+          <div className={style.tipoContainer}>
+            <span className={style.buttonGroupLabel}>Tipo da Ocorrência</span>
+            <div className={style.buttonGroup}>
+              <button
+                onClick={() => handleTipoChange("0")}
+                className={`${style.typeButton} ${
+                  newRciData.tipo === "0" ? style.typeButtonSelected : ""
+                }`}
+              >
+                Condição Insegura
+              </button>
+              <button
+                onClick={() => handleTipoChange("1")}
+                className={`${style.typeButton} ${
+                  newRciData.tipo === "1" ? style.typeButtonSelected : ""
+                }`}
+              >
+                Quase Acidente
+              </button>
+            </div>
+          </div>
+        </div>
+        <div className={style.novoRciForm}>
           <SelectItemForm
             label="Nível de Risco"
             items={niveisDeRisco.map((n) => ({
@@ -188,30 +211,6 @@ export default function NovoRci({ onClose }: { onClose?: () => void }) {
               }))
             }
           />
-        </div>
-        <div className={style.novoRciForm}>
-          <div className={style.tipoContainer}>
-            <span className={style.buttonGroupLabel}>Tipo da Ocorrência</span>
-            <div className={style.buttonGroup}>
-              <button
-                onClick={() => handleTipoChange("0")}
-                className={`${style.typeButton} ${
-                  newRciData.tipo === "0" ? style.typeButtonSelected : ""
-                }`}
-              >
-                Condição Insegura
-              </button>
-              <button
-                onClick={() => handleTipoChange("1")}
-                className={`${style.typeButton} ${
-                  newRciData.tipo === "1" ? style.typeButtonSelected : ""
-                }`}
-              >
-                Quase Acidente
-              </button>
-            </div>
-          </div>
-
           <SelectItemForm
             label="Ocorrência"
             items={condicoesInseguras.map((n) => ({
