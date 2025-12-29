@@ -88,5 +88,5 @@ export const getNextMonth = () => {
   const now = new Date();
   const nextMonth = new Date(now);
   nextMonth.setMonth(now.getMonth() + 1);
-  return nextMonth;
+  return formatDateToISO(nextMonth);
 };
