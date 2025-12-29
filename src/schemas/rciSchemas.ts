@@ -55,6 +55,15 @@ export const RciUpdateSchema = RciCreateSchema.pick({
   id: z.number().int().positive(),
 });
 
+export const RciLogSchema = z.object({
+  id: z.number().int().positive(),
+  referencia_id: z.string().min(1).max(100),
+  justificativa: z.string().min(1).max(1000),
+  nome: z.string().min(1).max(200),
+  dtcriacao: z.string().min(1).max(100),
+});
+
 export type Rci = z.infer<typeof RciSchema>;
 export type RciCreate = z.infer<typeof RciCreateSchema>;
 export type RciUpdate = z.infer<typeof RciUpdateSchema>;
+export type RciLog = z.infer<typeof RciLogSchema>;

@@ -8,7 +8,7 @@ import NavigateButton from "../../components/buttons/NavigateButton";
 import SelectItemForm from "../../components/select-item-form/SelectItemForm";
 import InputForm from "../../components/input-form/InputForm";
 
-import type { Rci, RciUpdate } from "../../schemas/rciSchemas";
+import type { Rci, RciLog, RciUpdate } from "../../schemas/rciSchemas";
 import type { UnidadeSetor } from "../../schemas/stateSchemas";
 import { RciUpdateSchema } from "../../schemas/rciSchemas";
 
@@ -23,6 +23,7 @@ export default function RciPage() {
   const navigate = useNavigate();
 
   const updateRci = useRcisStore((state) => state.updateRci);
+  const [rciLogs, setRciLogs] = useState<RciLog[]>([]);
   const showToast = useAppStore((state) => state.showToast);
   const getSetoresByUnidade = useAppStore((state) => state.getSetoresByUnidade);
 
@@ -109,6 +110,21 @@ export default function RciPage() {
       setSelectedSetor(setor || null);
     }
   }, [setoresUnidade, newRciData.setor_id]);
+
+  useEffect(() => {
+    const fetchRciLogs = async () => {
+      try {
+        const history = await useRcisStore
+          .getState()
+          .fetchRciHistory(rci.id.toString());
+        setRciLogs(history);
+      } catch (error) {
+        console.error("Failed to fetch RCI logs:", error);
+      }
+    };
+
+    fetchRciLogs();
+  }, [rci.id]);
 
   if (!rci) {
     return (
@@ -262,8 +278,23 @@ export default function RciPage() {
                   placeholder="Descreva a ocorrência em detalhes"
                 />
               </div>
+              <div className={style.history}>
+                {rciLogs.length === 0 ? (
+                  <p>Nenhum histórico disponível para este RCI.</p>
+                ) : (
+                  <ul>
+                    {rciLogs.map((log) => (
+                      <li key={log.id} className="mb-2">
+                        <p className="font-semibold">
+                          {log.nome} - {log.dtcriacao.split("T")[0]}
+                        </p>
+                        <p>{log.justificativa}</p>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
             </div>
-            <div className={style.history}></div>
           </main>
           <footer className={style.footer}>
             <BaseButton

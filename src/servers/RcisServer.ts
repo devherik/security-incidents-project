@@ -1,6 +1,6 @@
 import apiClient, { type ApiError } from "../api/apiClient";
 
-import type { Rci, RciCreate, RciUpdate } from "../schemas/rciSchemas";
+import type { Rci, RciCreate, RciLog, RciUpdate } from "../schemas/rciSchemas";
 
 class RciServer {
   static instance: RciServer;
@@ -21,6 +21,17 @@ class RciServer {
     } catch (error) {
       const apiError = error as ApiError;
       console.error("Error fetching RCIs:", apiError);
+      throw apiError;
+    }
+  }
+
+  public async fetchRciLogs(rciId: string) {
+    try {
+      const response = await apiClient.get<RciLog[]>(`/v2/rcis/logs/${rciId}`);
+      return response.data;
+    } catch (error) {
+      const apiError = error as ApiError;
+      console.error("Error fetching RCI history:", apiError);
       throw apiError;
     }
   }

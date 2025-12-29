@@ -4,7 +4,7 @@ import RcisServer from "../servers/RcisServer";
 
 import { orderByDate } from "../utils/listsUtil";
 
-import type { Rci, RciCreate, RciUpdate } from "../schemas/rciSchemas";
+import type { Rci, RciCreate, RciLog, RciUpdate } from "../schemas/rciSchemas";
 import type {
   CondicaoInsegura,
   NivelRisco,
@@ -29,6 +29,7 @@ interface RciState {
   error: string | null;
 
   fetchRcis: (userId: string) => Promise<void>;
+  fetchRciHistory: (rciId: string) => Promise<RciLog[]>;
   createRci: (rciData: RciCreate) => Promise<void>;
   updateRci: (rciId: string, rciData: RciUpdate) => Promise<void>;
   deleteRci: (rciId: string) => Promise<void>;
@@ -76,6 +77,21 @@ export const useRcisStore = create<RciState>((set, get) => ({
       const message =
         error instanceof Error ? error.message : "Failed to fetch RCIs";
       set({ error: message });
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+
+  fetchRciHistory: async (rciId: string) => {
+    set({ isLoading: true, error: null });
+    try {
+      const history = await RcisServer.fetchRciLogs(rciId);
+      return history;
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "Failed to fetch RCI history";
+      set({ error: message });
+      return [];
     } finally {
       set({ isLoading: false });
     }
