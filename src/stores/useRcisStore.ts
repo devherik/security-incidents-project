@@ -153,6 +153,7 @@ export const useRcisStore = create<RciState>((set, get) => ({
   },
 
   setFilter: (key, value) => {
+    // TODO: Add 'periodo' filter by date range
     set((state) => ({
       filters: { ...state.filters, [key]: value },
     }));
