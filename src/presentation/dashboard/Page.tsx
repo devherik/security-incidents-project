@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import { useAppStore } from "../../stores/useAppStore";
 import { useAuthStore } from "../../stores/useAuthStore";
@@ -15,36 +15,15 @@ import UserButton from "../../components/user-btn/UserButton";
 
 export default function DashboardPage() {
   const colaborador = useAuthStore((state) => state.colaborador);
+  const isInitialized = useAppStore((state) => state.isInitialized);
 
-  const [isInitializing, setIsInitializing] = useState(true);
-
-  // Initial data fetch - runs once on app mount
+  // Trigger initialization on mount - store handles idempotency
   useEffect(() => {
-    const initializeApp = async () => {
-      setIsInitializing(true);
+    useAppStore.getState().fecthInitData();
+  }, []);
 
-      try {
-        console.log("Initializing application data...");
-        // Fetch all critical data in parallel
-        const promises = [useAppStore.getState().fecthInitData()];
-
-        await Promise.all(promises);
-      } catch (error) {
-        const errorMessage =
-          error instanceof Error
-            ? error.message
-            : "Failed to load application data";
-        console.error("App initialization error:", errorMessage);
-      } finally {
-        setIsInitializing(false);
-      }
-    };
-
-    initializeApp();
-  }, []); // Runs once on mount
-
-  // Show loading screen during initialization
-  if (isInitializing) {
+  // Show loading screen during first-time initialization only
+  if (!isInitialized) {
     return (
       <Loader
         message="Carregando dados da aplicação..."

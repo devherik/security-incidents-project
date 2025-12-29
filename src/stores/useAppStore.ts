@@ -32,6 +32,7 @@ interface AppState {
   isLoading: boolean;
   toast: ToastState;
   visibleNavbar: boolean;
+  isInitialized: boolean; // Track if initial data has been loaded
 
   // Cached data
   condicoesInseguras: CondicaoInsegura[];
@@ -73,6 +74,7 @@ const initialState = {
     "Todos",
   ] as Periodo[],
   isLoading: false,
+  isInitialized: false,
   toast: {
     message: "",
     type: "info" as ToastType,
@@ -193,14 +195,25 @@ export const useAppStore = create<AppState>()(
       },
 
       fecthInitData: async () => {
+        // Skip if already initialized - this prevents redundant fetches
+        // when the component remounts after navigation
+        if (get().isInitialized) {
+          console.log("App already initialized, skipping data fetch");
+          return;
+        }
+
         try {
           await Promise.all([
             get().getCondicoesInseguras(),
             get().getNiveisDeRisco(),
             get().getUnidades(),
           ]);
+          
+          // Mark as initialized after successful fetch
+          set({ isInitialized: true });
         } catch (error) {
           console.error("Error fetching initial data:", error);
+          // Don't set isInitialized on error, allowing retry on next mount
         }
       },
 
