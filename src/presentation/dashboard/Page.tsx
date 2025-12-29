@@ -34,8 +34,8 @@ export default function DashboardPage() {
   }
 
   return (
-    <SlideInEffect duration={0.5}>
-      <div className={style.content}>
+    <div className={style.content}>
+      <SlideInEffect duration={0.5}>
         <header className="flex flex-row items-center justify-between w-auto p-4 h-28">
           <PageTitle
             title="Registro de Condições Inseguras"
@@ -51,7 +51,7 @@ export default function DashboardPage() {
         <main className={style.main}>
           <Table />
         </main>
-      </div>
-    </SlideInEffect>
+      </SlideInEffect>
+    </div>
   );
 }
