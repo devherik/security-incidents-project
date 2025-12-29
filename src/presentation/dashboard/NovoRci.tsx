@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import style from "./style.module.css";
 
@@ -13,6 +13,8 @@ import { useRcisStore } from "../../stores/useRcisStore";
 import PageTitle from "../../components/page-title/PageTitle";
 import BaseButton from "../../components/buttons/BaseButton";
 import SelectItemForm from "../../components/select-item-form/SelectItemForm";
+import type { UnidadeSetor } from "../../schemas/stateSchemas";
+import InputForm from "../../components/input-form/InputForm";
 
 export default function NovoRci({ onClose }: { onClose?: () => void }) {
   const colaborador = useAuthStore((state) => state.colaborador);
@@ -26,6 +28,7 @@ export default function NovoRci({ onClose }: { onClose?: () => void }) {
   const setoresUnidade = useAppStore((state) => state.setoresUnidade);
 
   const [isSaving, setIsSaving] = useState(false);
+  const [selectedSetor, setSelectedSetor] = useState<UnidadeSetor | null>(null);
   const [newRciData, setNewRciData] = useState<RciCreate>({
     autor_id: colaborador?.id || 0,
     unidade_id: 0,
@@ -63,18 +66,43 @@ export default function NovoRci({ onClose }: { onClose?: () => void }) {
     }
   };
 
-  const handleFetchSetores = useCallback(async () => {
-    await getSetoresByUnidade(newRciData.unidade_id.toString());
-    console.log("Setores fetched for unidade:", newRciData.unidade_id);
-    console.log("SetoresUnidade:", setoresUnidade);
+  const handleUnidadeChange = async (unidadeId: number | null) => {
+    if (!unidadeId) {
+      return;
+    }
+    setNewRciData((prev) => ({
+      ...prev,
+      unidade_id: unidadeId,
+      setor_id: 0, // Reset setor_id when unidade changes
+    }));
+    setSelectedSetor(null);
+    await getSetoresByUnidade(unidadeId.toString());
+  };
+
+  const handleSetorChange = (setorId: number | null) => {
+    setNewRciData((prev) => ({
+      ...prev,
+      setor_id: setorId || 0,
+    }));
+    const setor = setoresUnidade.find((s) => s.id === setorId) || null;
+    setSelectedSetor(setor);
+  };
+
+  // Fetch setores whenever unidade changes
+  useEffect(() => {
+    const fetchSetores = async () => {
+      if (newRciData.unidade_id !== 0) {
+        await getSetoresByUnidade(newRciData.unidade_id.toString());
+      }
+    };
+
+    fetchSetores();
   }, [newRciData.unidade_id, getSetoresByUnidade]);
 
+  // Log setoresUnidade whenever it updates (separate concern)
   useEffect(() => {
-    if (newRciData.unidade_id !== 0) {
-      handleFetchSetores();
-    }
-    handleFetchSetores();
-  }, [handleFetchSetores, newRciData.unidade_id]);
+    console.log("SetoresUnidade updated:", setoresUnidade);
+  }, [setoresUnidade]);
 
   return (
     <div className={style.novoRciContent}>
@@ -99,12 +127,7 @@ export default function NovoRci({ onClose }: { onClose?: () => void }) {
                 }
               : null
           }
-          onChange={(e) =>
-            setNewRciData((prev) => ({
-              ...prev,
-              unidade_id: e?.id || 0,
-            }))
-          }
+          onChange={(e) => handleUnidadeChange(e?.id || null)}
         />
 
         <SelectItemForm
@@ -163,7 +186,7 @@ export default function NovoRci({ onClose }: { onClose?: () => void }) {
           label="Setor"
           items={setoresUnidade.map((n) => ({
             id: n.id,
-            descricao: n.nome,
+            descricao: n.setor.nome,
           }))}
           placeholder="Selecione o setor"
           value={
@@ -171,18 +194,23 @@ export default function NovoRci({ onClose }: { onClose?: () => void }) {
               ? {
                   id: newRciData.setor_id,
                   descricao:
-                    setoresUnidade.find((c) => c.id === newRciData.setor_id)
-                      ?.nome || "",
+                    setoresUnidade.find((s) => s.id === newRciData.setor_id)
+                      ?.setor.nome || "",
                 }
               : null
           }
-          onChange={(e) =>
-            setNewRciData((prev) => ({
-              ...prev,
-              setor_id: e?.id || 0,
-            }))
-          }
+          onChange={(e) => handleSetorChange(e?.id || null)}
           disabled={newRciData.unidade_id === 0 && setoresUnidade.length === 0}
+        />
+        <InputForm
+          label="Responsável"
+          value={selectedSetor?.responsavel.first_name || ""}
+          setValue={() => {}}
+          disabled={true}
+          cols={30}
+          rows={1}
+          required
+          placeholder="Responsável pela ocorrência"
         />
       </main>
       <footer>
