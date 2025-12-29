@@ -15,6 +15,7 @@ import BaseButton from "../../components/buttons/BaseButton";
 import SelectItemForm from "../../components/select-item-form/SelectItemForm";
 import type { UnidadeSetor } from "../../schemas/stateSchemas";
 import InputForm from "../../components/input-form/InputForm";
+import { getNextMonth } from "../../utils/dateUtil";
 
 export default function NovoRci({ onClose }: { onClose?: () => void }) {
   const colaborador = useAuthStore((state) => state.colaborador);
@@ -40,6 +41,7 @@ export default function NovoRci({ onClose }: { onClose?: () => void }) {
     link_plano_acao: undefined,
     detalhamento: "",
     solucao: undefined,
+    data_limite: getNextMonth(),
   });
 
   const handleSave = async () => {
