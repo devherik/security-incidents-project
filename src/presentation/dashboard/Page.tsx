@@ -11,6 +11,7 @@ import NewItemButton from "../../components/new-item-button/NewItemButton";
 import Loader from "../../components/loader/Loader";
 import Table from "../../components/table/Table";
 import NovoRci from "./NovoRci";
+import UserButton from "../../components/user-btn/UserButton";
 
 export default function DashboardPage() {
   const colaborador = useAuthStore((state) => state.colaborador);
@@ -61,9 +62,12 @@ export default function DashboardPage() {
             title="Registro de Condições Inseguras"
             subtitle={`Olá, ${colaborador?.first_name}.`}
           />
-          <NewItemButton label="Novo RCI" alt="Adicionar novo RCI">
-            <NovoRci />
-          </NewItemButton>
+          <div className="flex flex-row items-center gap-4">
+            <NewItemButton label="Novo RCI" alt="Adicionar novo RCI">
+              <NovoRci />
+            </NewItemButton>
+            <UserButton />
+          </div>
         </header>
         <main className={style.main}>
           <Table />

@@ -4,8 +4,19 @@ import { useRef, useEffect, useState, useCallback } from "react";
 
 import styles from "./style.module.css";
 import { useAuthStore } from "../../stores/useAuthStore";
-import ImageContainer from "../image-container/ImageContainer";
-import { useCargosStore } from "../../stores/useCargosStore";
+import GhostButton from "../buttons/GhostButton";
+
+const TextInfo = ({ label }: { label: string }) => (
+  <span
+    style={{
+      color: "var(--primary-color)",
+      fontSize: "0.8rem",
+      fontFamily: "var(--secondary-font)",
+    }}
+  >
+    {label}
+  </span>
+);
 
 /** * OffCanvas component that displays a side panel.
  * @returns {JSX.Element|null} - Returns the off-canvas JSX or null if not visible.
@@ -18,11 +29,12 @@ export default function OffCanvas({
   isOpen: boolean;
   onClose: () => void;
 }) {
+  const colaborador = useAuthStore((state) => state.colaborador);
+  const logout = useAuthStore((state) => state.logout);
+
   const offCanvasRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
-  const colaborador = useAuthStore((state) => state.colaborador);
-  const getCargoNameById = useCargosStore((state) => state.getCargoNameById);
 
   const closeOffCanvas = useCallback(() => {
     setIsClosing(true);
@@ -35,14 +47,19 @@ export default function OffCanvas({
     return () => clearTimeout(timer);
   }, [onClose]);
 
-  useEffect(() => {
+  const toggleOffCanvas = useCallback(() => {
     if (isOpen) {
       setIsVisible(true);
       setIsClosing(false);
-    } else if (isVisible) {
+    } else {
       closeOffCanvas();
     }
-  }, [isOpen, isVisible, closeOffCanvas]);
+  }, [isOpen, closeOffCanvas]);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    toggleOffCanvas();
+  }, [isOpen, toggleOffCanvas]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -65,33 +82,6 @@ export default function OffCanvas({
     return null;
   }
 
-  const UserProfile = () => (
-    <div className={styles.userProfile}>
-      <div className={styles.userAvatar}>
-        <ImageContainer
-          image={{
-            url: colaborador?.foto_url || "",
-            filename: colaborador?.nome_completo || "user-avatar",
-            altText: colaborador?.nome_completo || "User Avatar",
-          }}
-          altText="User Avatar"
-        />
-      </div>
-    </div>
-  );
-
-  const TextInfo = ({ label }: { label: string }) => (
-    <span
-      style={{
-        color: "var(--primary-color)",
-        fontSize: "0.8rem",
-        fontFamily: "var(--secondary-font)",
-      }}
-    >
-      {label}
-    </span>
-  );
-
   return (
     <div className={`${styles.offCanvasOverlay} ${isOpen ? styles.open : ""}`}>
       <div
@@ -101,7 +91,6 @@ export default function OffCanvas({
         ref={offCanvasRef}
       >
         <header className={styles.offCanvasHeader}>
-          <UserProfile />
           <span
             style={{
               color: "var(--primary-color)",
@@ -110,19 +99,19 @@ export default function OffCanvas({
               fontFamily: "var(--secondary-font)",
             }}
           >
-            {colaborador?.nome_completo}
+            {colaborador?.first_name} {colaborador?.last_name}
           </span>
+          <GhostButton
+            label="Logout"
+            onClick={() => {
+              logout();
+              closeOffCanvas();
+            }}
+          />
         </header>
         <main className={styles.offCanvasContent}>
           <TextInfo
             label={colaborador ? `Email: ${colaborador.email}` : "Email: N/A"}
-          />
-          <TextInfo
-            label={
-              colaborador
-                ? `Cargo: ${getCargoNameById(colaborador.cargo)}`
-                : "Cargo: N/A"
-            }
           />
         </main>
       </div>

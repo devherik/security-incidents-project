@@ -103,6 +103,7 @@ export const useAuthStore = create<AuthState>()(
 
           // Reset auth store to initial state
           set(initialState);
+          set({ isLoading: false });
         } catch (error) {
           console.error("Logout failed:", error);
           // Still clear state even if server logout fails
