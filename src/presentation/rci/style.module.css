@@ -30,9 +30,11 @@
 .cabecalho {
   display: flex;
   flex-direction: column;
+  font-family: var(--secondary-font);
   justify-content: space-between;
   align-items: start;
   width: 100%;
+  padding-bottom: 0.5rem;
   border-bottom: 1px solid var(--accent-color);
 }
 
@@ -46,6 +48,7 @@
 .form {
   display: flex;
   flex-direction: column;
+  columns: 2;
   width: 60%;
   gap: 1rem;
 }

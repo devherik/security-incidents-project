@@ -142,7 +142,7 @@ export default function RciPage() {
           </header>
           <main className={style.main}>
             <div className={style.cabecalho}>
-              <h1 className="mb-4 text-2xl font-bold">
+              <h1 className="text-2xl font-bold ">
                 {rci.tipo === "0" ? "Condição Insegura" : "Quase Acidente"} #
                 {rci.id}
               </h1>
@@ -153,76 +153,76 @@ export default function RciPage() {
             </div>
             <div className={style.info}>
               <div className={style.form}>
-                <SelectItemForm
-                  label="Unidade"
-                  items={unidades.map((u) => ({
-                    id: u.id,
-                    descricao: u.sigla,
-                  }))}
-                  placeholder="Selecione a unidade"
-                  value={{
-                    id: rci.unidade.id,
-                    descricao: rci.unidade.sigla,
-                  }}
-                  onChange={() => {}}
-                  disabled={true}
-                />
-                <SelectItemForm
-                  label="Setor"
-                  items={setoresUnidade.map((n) => ({
-                    id: n.id,
-                    descricao: n.setor.nome,
-                  }))}
-                  placeholder="Selecione o setor"
-                  value={
-                    newRciData.setor_id
-                      ? {
-                          id: newRciData.setor_id,
-                          descricao:
-                            setoresUnidade.find(
-                              (s) => s.id === newRciData.setor_id
-                            )?.setor.nome || "",
-                        }
-                      : null
-                  }
-                  onChange={(e) => handleSetorChange(e?.id || null)}
-                />
-                <InputForm
-                  label="Responsável"
-                  value={""}
-                  setValue={() => {}}
-                  disabled={true}
-                  rows={1}
-                  required
-                  placeholder={selectedSetor?.responsavel.first_name || ""}
-                />
-                <SelectItemForm
-                  label="Nível de Risco"
-                  items={niveisDeRisco.map((n) => ({
-                    id: n.id,
-                    descricao: `${n.sigla_risco} - ${n.severidade}`,
-                  }))}
-                  placeholder="Selecione a severidade"
-                  value={
-                    newRciData.nivel_risco_id
-                      ? {
-                          id: newRciData.nivel_risco_id,
-                          descricao:
-                            niveisDeRisco.find(
-                              (n) => n.id === newRciData.nivel_risco_id
-                            )?.severidade || "",
-                        }
-                      : null
-                  }
-                  onChange={(e) =>
-                    setNewRciData((prev) => ({
-                      ...prev,
-                      nivel_risco_id: e?.id || 0,
-                    }))
-                  }
-                />
-              </div>
-              <div className={style.form}>
+                <div className="grid grid-cols-2 gap-1.5">
+                  <SelectItemForm
+                    label="Unidade"
+                    items={unidades.map((u) => ({
+                      id: u.id,
+                      descricao: u.sigla,
+                    }))}
+                    placeholder="Selecione a unidade"
+                    value={{
+                      id: rci.unidade.id,
+                      descricao: rci.unidade.sigla,
+                    }}
+                    onChange={() => {}}
+                    disabled={true}
+                  />
+                  <SelectItemForm
+                    label="Setor"
+                    items={setoresUnidade.map((n) => ({
+                      id: n.id,
+                      descricao: n.setor.nome,
+                    }))}
+                    placeholder="Selecione o setor"
+                    value={
+                      newRciData.setor_id
+                        ? {
+                            id: newRciData.setor_id,
+                            descricao:
+                              setoresUnidade.find(
+                                (s) => s.id === newRciData.setor_id
+                              )?.setor.nome || "",
+                          }
+                        : null
+                    }
+                    onChange={(e) => handleSetorChange(e?.id || null)}
+                  />
+                  <InputForm
+                    label="Responsável"
+                    value={""}
+                    setValue={() => {}}
+                    disabled={true}
+                    rows={1}
+                    required
+                    placeholder={selectedSetor?.responsavel.first_name || ""}
+                  />
+                  <SelectItemForm
+                    label="Nível de Risco"
+                    items={niveisDeRisco.map((n) => ({
+                      id: n.id,
+                      descricao: `${n.sigla_risco} - ${n.severidade}`,
+                    }))}
+                    placeholder="Selecione a severidade"
+                    value={
+                      newRciData.nivel_risco_id
+                        ? {
+                            id: newRciData.nivel_risco_id,
+                            descricao:
+                              niveisDeRisco.find(
+                                (n) => n.id === newRciData.nivel_risco_id
+                              )?.severidade || "",
+                          }
+                        : null
+                    }
+                    onChange={(e) =>
+                      setNewRciData((prev) => ({
+                        ...prev,
+                        nivel_risco_id: e?.id || 0,
+                      }))
+                    }
+                  />
+                </div>
                 <SelectItemForm
                   label="Ocorrência"
                   items={condicoesInseguras.map((n) => ({
