@@ -36,7 +36,7 @@ export default function NovoRci({ onClose }: { onClose?: () => void }) {
     condicao_insegura_id: 0,
     nivel_risco_id: 0,
     status: "Aberto",
-    tipo: "",
+    tipo: "0",
     link_plano_acao: undefined,
     detalhamento: "",
     solucao: undefined,
@@ -86,6 +86,13 @@ export default function NovoRci({ onClose }: { onClose?: () => void }) {
     }));
     const setor = setoresUnidade.find((s) => s.id === setorId) || null;
     setSelectedSetor(setor);
+  };
+
+  const handleTipoChange = (tipo: "0" | "1") => {
+    setNewRciData((prev) => ({
+      ...prev,
+      tipo: prev.tipo === tipo ? prev.tipo : tipo,
+    }));
   };
 
   // Fetch setores whenever unidade changes
@@ -156,13 +163,11 @@ export default function NovoRci({ onClose }: { onClose?: () => void }) {
             required
             placeholder="Responsável pela ocorrência"
           />
-        </div>
-        <div className={style.novoRciForm}>
           <SelectItemForm
             label="Nível de Risco"
             items={niveisDeRisco.map((n) => ({
               id: n.id,
-              descricao:`${n.sigla_risco} - ${n.severidade}`,
+              descricao: `${n.sigla_risco} - ${n.severidade}`,
             }))}
             placeholder="Selecione a severidade"
             value={
@@ -183,6 +188,30 @@ export default function NovoRci({ onClose }: { onClose?: () => void }) {
               }))
             }
           />
+        </div>
+        <div className={style.novoRciForm}>
+          <div className={style.tipoContainer}>
+            <span className={style.buttonGroupLabel}>Tipo da Ocorrência</span>
+            <div className={style.buttonGroup}>
+              <button
+                onClick={() => handleTipoChange("0")}
+                className={`${style.typeButton} ${
+                  newRciData.tipo === "0" ? style.typeButtonSelected : ""
+                }`}
+              >
+                Condição Insegura
+              </button>
+              <button
+                onClick={() => handleTipoChange("1")}
+                className={`${style.typeButton} ${
+                  newRciData.tipo === "1" ? style.typeButtonSelected : ""
+                }`}
+              >
+                Quase Acidente
+              </button>
+            </div>
+          </div>
+
           <SelectItemForm
             label="Ocorrência"
             items={condicoesInseguras.map((n) => ({
@@ -224,7 +253,11 @@ export default function NovoRci({ onClose }: { onClose?: () => void }) {
         </div>
       </main>
       <footer className={style.novoRciFooter}>
-        <BaseButton label="Salvar o RCI" onClick={handleSave} disabled={isSaving} />
+        <BaseButton
+          label="Salvar o RCI"
+          onClick={handleSave}
+          disabled={isSaving}
+        />
       </footer>
     </div>
   );
