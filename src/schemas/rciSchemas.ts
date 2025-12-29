@@ -42,11 +42,17 @@ export const RciCreateSchema = z.object({
   solucao: z.string().min(1).max(1000).optional(),
 });
 
-export const RciUpdateSchema = RciSchema.pick({
+export const RciUpdateSchema = RciCreateSchema.pick({
+  setor_id: true,
+  condicao_insegura_id: true,
+  nivel_risco_id: true,
+  detalhamento: true,
   status: true,
   solucao: true,
   link_plano_acao: true,
   data_limite: true,
+}).extend({
+  id: z.number().int().positive(),
 });
 
 export type Rci = z.infer<typeof RciSchema>;
