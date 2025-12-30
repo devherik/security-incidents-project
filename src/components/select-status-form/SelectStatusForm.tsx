@@ -4,6 +4,15 @@ import { type RciStatus } from "../../schemas/enums";
 
 import styles from "./style.module.css";
 
+// Status color mapping for visual distinction
+const statusColorMap: Record<string, string> = {
+  Aberto: styles.statusAberto,
+  "Em Análise": styles.statusEmAnalise,
+  "Em Andamento": styles.statusEmAndamento,
+  Concluído: styles.statusConcluido,
+  Cancelado: styles.statusCancelado,
+};
+
 interface SelectItemFormProps {
   value: RciStatus | "Aberto";
   onChange: (item: RciStatus | null) => void;
@@ -21,9 +30,12 @@ export default function SelectStatusForm({
   const [searchTerm, setSearchTerm] = useState("");
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const items = ["Aberto", "Em Análise", "Concluído", "Cancelado"].filter(
+  const items = ["Aberto", "Em Análise", "Em Andamento", "Concluído", "Cancelado"].filter(
     (item) => item.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  // Get the color class for a given status
+  const getStatusColorClass = (status: string) => statusColorMap[status] || "";
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -63,7 +75,7 @@ export default function SelectStatusForm({
         <div
           className={`${styles.selectDisplay} ${
             disabled ? styles.disabled : ""
-          }`}
+          } ${value ? getStatusColorClass(value) : ""}`}
           onClick={() => !disabled && setIsOpen(!isOpen)}
         >
           <span
@@ -100,9 +112,10 @@ export default function SelectStatusForm({
                     key={item}
                     className={`${styles.item} ${
                       value === item ? styles.selectedItem : ""
-                    }`}
+                    } ${getStatusColorClass(item)}`}
                     onClick={() => handleSelectItem(item as RciStatus)}
                   >
+                    <span className={styles.statusDot}></span>
                     {item}
                   </li>
                 ))

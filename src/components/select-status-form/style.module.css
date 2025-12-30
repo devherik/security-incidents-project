@@ -251,3 +251,79 @@
   color: var(--accent-color);
   font-size: 0.85rem;
 }
+
+/* Status color variants */
+.statusAberto {
+  border-color: var(--blue-color);
+  background-color: var(--blue-light-color);
+}
+
+.statusEmAnalise {
+  border-color: var(--yellow-color);
+  background-color: var(--yellow-light-color);
+}
+
+.statusEmAndamento {
+  border-color: var(--gray-color);
+  background-color: var(--gray-light-color);
+}
+
+.statusConcluido {
+  border-color: var(--green-color);
+  background-color: var(--green-light-color);
+}
+
+.statusCancelado {
+  border-color: var(--red-color);
+  background-color: var(--red-light-color);
+}
+
+/* Status dot indicator in dropdown */
+.statusDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 8px;
+}
+
+.statusAberto .statusDot {
+  background-color: var(--blue-color);
+}
+
+.statusEmAnalise .statusDot {
+  background-color: var(--yellow-color);
+}
+
+.statusEmAndamento .statusDot {
+  background-color: var(--gray-color);
+}
+
+.statusConcluido .statusDot {
+  background-color: var(--green-color);
+}
+
+.statusCancelado .statusDot {
+  background-color: var(--red-color);
+}
+
+/* Hover states for colored items */
+.item.statusAberto:hover {
+  background-color: rgba(59, 130, 246, 0.25);
+}
+
+.item.statusEmAnalise:hover {
+  background-color: rgba(245, 158, 11, 0.25);
+}
+
+.item.statusEmAndamento:hover {
+  background-color: rgba(251, 191, 36, 0.25);
+}
+
+.item.statusConcluido:hover {
+  background-color: rgba(16, 185, 129, 0.25);
+}
+
+.item.statusCancelado:hover {
+  background-color: rgba(239, 68, 68, 0.25);
+}

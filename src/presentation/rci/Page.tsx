@@ -175,7 +175,7 @@ export default function RciPage() {
                 </p>
               </div>
               <SelectStatusForm
-                value={rci.status}
+                value={newRciData.status}
                 onChange={(newStatus) =>
                   setNewRciData((prev) => ({
                     ...prev,
