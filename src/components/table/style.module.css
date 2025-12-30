@@ -150,3 +150,51 @@
 .statusRejeitado .dot {
   background-color: #ef4444;
 }
+
+/* Date Range Filter */
+.dateRangeFilter {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.filterLabel {
+  font-family: var(--main-font);
+  color: var(--accent-color);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.dateInputs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dateInput {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--green-color);
+  background-color: var(--green-color);
+  font-family: var(--main-font);
+  font-size: 0.85rem;
+  color: var(--text-color);
+  min-height: 40px;
+  transition: all 0.2s ease;
+}
+
+.dateInput:hover {
+  border-color: var(--accent-color);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dateInput:focus {
+  outline: none;
+  border-color: var(--accent-color);
+}
+
+.dateSeparator {
+  font-family: var(--secondary-font);
+  font-size: 0.85rem;
+  color: var(--accent-color);
+}

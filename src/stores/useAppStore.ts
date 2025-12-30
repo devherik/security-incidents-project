@@ -65,7 +65,13 @@ const initialState = {
   unidades: [],
   setores: [],
   setoresUnidade: [],
-  status: [],
+  status: [
+    "Aberto",
+    "Em Análise",
+    "Em Andamento",
+    "Finalizado",
+    "Rejeitado",
+  ] as RciStatus[],
   periodo: [
     "Últimas 24 horas",
     "Últimos 7 dias",
@@ -208,7 +214,7 @@ export const useAppStore = create<AppState>()(
             get().getNiveisDeRisco(),
             get().getUnidades(),
           ]);
-          
+
           // Mark as initialized after successful fetch
           set({ isInitialized: true });
         } catch (error) {

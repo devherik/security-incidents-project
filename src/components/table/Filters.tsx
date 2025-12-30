@@ -14,6 +14,7 @@ export default function Filters() {
   const periodos = useAppStore((state) => state.periodo);
   const condicoesInseguras = useAppStore((state) => state.condicoesInseguras);
   const niveisDeRisco = useAppStore((state) => state.niveisDeRisco);
+  const status = useAppStore((state) => state.status);
 
   return (
     <div className={style.filtersContainer}>
@@ -45,6 +46,20 @@ export default function Filters() {
         }
         onChange={(e) =>
           setFilter("unidade", unidades.find((u) => u.id === e?.id) || null)
+        }
+      />
+
+      <SelectItemForm
+        label="Status"
+        items={status.map((s) => ({ id: s, descricao: s }))}
+        placeholder="Selecione o status"
+        value={
+          filters.status
+            ? { id: filters.status, descricao: filters.status }
+            : null
+        }
+        onChange={(e) =>
+          setFilter("status", status.find((s) => s === e?.id) || null)
         }
       />
 
