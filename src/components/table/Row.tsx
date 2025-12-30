@@ -2,11 +2,13 @@ import { useNavigate } from "react-router-dom";
 
 import type { Rci } from "../../schemas/rciSchemas";
 import type { RciStatus } from "../../schemas/enums";
+import type { NivelRisco } from "../../schemas/stateSchemas";
 
 import { formatDateToISO } from "../../utils/dateUtil";
 
+import linkIcon from "../../assets/icons/link.svg";
+
 import style from "./style.module.css";
-import type { NivelRisco } from "../../schemas/stateSchemas";
 
 // Status color mapping matching SelectStatusForm
 const statusColorMap: Record<string, string> = {
@@ -50,6 +52,34 @@ const NivelRiscoBadge = ({ risco }: { risco: NivelRisco }) => {
   );
 };
 
+const LinkBadge = ({ link }: { link?: string }) => {
+  if (!link) {
+    return (
+      <span className={style.noLinkBadge}>
+        <img
+          className={style.linkIconDisabled}
+          src={linkIcon}
+          alt="No link available"
+        />
+      </span>
+    );
+  }
+  return (
+    <a
+      href={link}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={style.linkBadge}
+    >
+      <img
+        className={style.linkIcon}
+        src={linkIcon}
+        alt="Link to action plan"
+      />
+    </a>
+  );
+};
+
 export default function Row({ rci }: { rci: Rci }) {
   const navigate = useNavigate();
 
@@ -68,7 +98,9 @@ export default function Row({ rci }: { rci: Rci }) {
       <th>
         <StatusBadge status={rci.status} />
       </th>
-      <th>{rci.link_plano_acao}</th>
+      <th>
+        <LinkBadge link={rci.link_plano_acao} />
+      </th>
       <th>{formatDateToISO(new Date(rci.dtcriacao))}</th>
     </tr>
   );

@@ -228,3 +228,17 @@
   font-size: 0.85rem;
   color: var(--accent-color);
 }
+
+.linkIcon {
+  z-index: 1;
+  width: 20px;
+  height: 20px;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 8px 32px var(--green-color);
+}
+
+.linkIconDisabled {
+  width: 16px;
+  height: 16px;
+  filter: grayscale(100%) opacity(50%);
+}
