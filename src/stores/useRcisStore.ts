@@ -9,6 +9,7 @@ import type {
   CondicaoInsegura,
   DateRange,
   NivelRisco,
+  PaginationMeta,
   Unidade,
 } from "../schemas/stateSchemas";
 import type { RciStatus } from "../schemas/enums";
@@ -26,6 +27,7 @@ interface RciState {
   rcis: Rci[];
   filteredRcis: Rci[];
   filters: RciFilters;
+  pagination: PaginationMeta;
   isLoading: boolean;
   error: string | null;
 
@@ -36,6 +38,7 @@ interface RciState {
   deleteRci: (rciId: string) => Promise<void>;
 
   setFilter: <K extends keyof RciFilters>(key: K, value: RciFilters[K]) => void;
+  setPage: (page: number) => void;
   clearFilters: () => void;
   applyFilters: () => void;
 }
@@ -50,6 +53,12 @@ export const useRcisStore = create<RciState>((set, get) => ({
     unidade: null,
     nivelRisco: null,
     status: null,
+  },
+  pagination: {
+    page: 1,
+    per_page: 10,
+    total: 0,
+    total_pages: 0,
   },
   isLoading: false,
   error: null,
@@ -177,6 +186,12 @@ export const useRcisStore = create<RciState>((set, get) => ({
     get().applyFilters();
   },
 
+  setPage: (page: number) => {
+    set((state) => ({
+      pagination: { ...state.pagination, page },
+    }));
+  },
+
   clearFilters: () => {
     set({
       filters: {
@@ -243,6 +258,18 @@ export const useRcisStore = create<RciState>((set, get) => ({
       filtered = filtered.filter((rci) => rci.status === filters.status);
     }
 
-    set({ filteredRcis: filtered });
+    const total = filtered.length;
+    const per_page = get().pagination.per_page;
+    const total_pages = Math.ceil(total / per_page);
+
+    set({
+      filteredRcis: filtered,
+      pagination: {
+        ...get().pagination,
+        total,
+        total_pages,
+        page: 1,
+      },
+    });
   },
 }));

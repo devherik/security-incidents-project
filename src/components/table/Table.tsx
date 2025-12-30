@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { useRcisStore } from "../../stores/useRcisStore";
 import { useAuthStore } from "../../stores/useAuthStore";
@@ -8,12 +8,20 @@ import style from "./style.module.css";
 import LoadingOverlay from "../loading-overlay/LoadingOverlay";
 import Filters from "./Filters";
 import Row from "./Row";
+import Pagination from "./Pagination";
 
 export default function Table() {
   const colaborador = useAuthStore((state) => state.colaborador);
   const rcis = useRcisStore((state) => state.filteredRcis);
+  const pagination = useRcisStore((state) => state.pagination);
+  const setPage = useRcisStore((state) => state.setPage);
 
   const [isLoading, setIsLoading] = useState(false);
+
+  const paginatedRcis = useMemo(() => {
+    const startIndex = (pagination.page - 1) * pagination.per_page;
+    return rcis.slice(startIndex, startIndex + pagination.per_page);
+  }, [rcis, pagination.page, pagination.per_page]);
 
   useEffect(() => {
     const fetchRcisData = async () => {
@@ -55,12 +63,14 @@ export default function Table() {
             </tr>
           </thead>
           <tbody>
-            {rcis.map((rci) => (
-              <Row rci={rci} />
+            {paginatedRcis.map((rci) => (
+              <Row key={rci.id} rci={rci} />
             ))}
           </tbody>
         </table>
       </LoadingOverlay>
+
+      <Pagination meta={pagination} onPageChange={setPage} />
     </div>
   );
 }

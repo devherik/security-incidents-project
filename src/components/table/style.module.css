@@ -242,3 +242,80 @@
   height: 16px;
   filter: grayscale(100%) opacity(50%);
 }
+
+/* Pagination */
+.paginationContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+.paginationButton {
+  padding: 8px 16px;
+  border: 1px solid var(--accent-color);
+  border-radius: 6px;
+  background-color: transparent;
+  color: var(--accent-color);
+  font-family: var(--secondary-font);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.paginationButton:hover:not(:disabled) {
+  background-color: var(--accent-color);
+  color: var(--background-color);
+}
+
+.paginationButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pageNumbers {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.pageNumber {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--gray-color);
+  border-radius: 6px;
+  background-color: transparent;
+  color: var(--text-color);
+  font-family: var(--secondary-font);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pageNumber:hover {
+  border-color: var(--accent-color);
+  color: var(--accent-color);
+}
+
+.activePage {
+  background-color: var(--accent-color);
+  border-color: var(--accent-color);
+  color: var(--background-color);
+}
+
+.activePage:hover {
+  background-color: var(--accent-color);
+  color: var(--background-color);
+}
+
+.ellipsis {
+  padding: 0 8px;
+  color: var(--text-color);
+  font-family: var(--secondary-font);
+}
+
