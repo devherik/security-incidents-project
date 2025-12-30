@@ -29,10 +29,10 @@
 
 .cabecalho {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   font-family: var(--secondary-font);
   justify-content: space-between;
-  align-items: start;
+  align-items: center;
   width: 100%;
   padding-bottom: 0.5rem;
   border-bottom: 1px solid var(--accent-color);

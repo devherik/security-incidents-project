@@ -17,6 +17,8 @@ import { formatDateToISO } from "../../utils/dateUtil";
 import { useAppStore } from "../../stores/useAppStore";
 import { useRcisStore } from "../../stores/useRcisStore";
 import BaseButton from "../../components/buttons/BaseButton";
+import SelectStatusForm from "../../components/select-status-form/SelectStatusForm";
+import DatePicker from "../../components/date-picker/DatePicker";
 
 export default function RciPage() {
   const location = useLocation();
@@ -162,14 +164,25 @@ export default function RciPage() {
           </header>
           <main className={style.main}>
             <div className={style.cabecalho}>
-              <h1 className="text-2xl font-bold ">
-                {rci.tipo === "0" ? "Condição Insegura" : "Quase Acidente"} #
-                {rci.id}
-              </h1>
-              <p>
-                Criado por {rci.autor.first_name} em{" "}
-                {formatDateToISO(rci.dtcriacao)}
-              </p>
+              <div>
+                <h1 className="text-2xl font-bold ">
+                  {rci.tipo === "0" ? "Condição Insegura" : "Quase Acidente"} #
+                  {rci.id}
+                </h1>
+                <p>
+                  Criado por {rci.autor.first_name} em{" "}
+                  {formatDateToISO(rci.dtcriacao)}
+                </p>
+              </div>
+              <SelectStatusForm
+                value={rci.status}
+                onChange={(newStatus) =>
+                  setNewRciData((prev) => ({
+                    ...prev,
+                    status: newStatus || "Aberto",
+                  }))
+                }
+              />
             </div>
             <div className={style.info}>
               <div className={style.form}>
@@ -242,31 +255,57 @@ export default function RciPage() {
                       }))
                     }
                   />
+                  <SelectItemForm
+                    label="Ocorrência"
+                    items={condicoesInseguras.map((n) => ({
+                      id: n.id,
+                      descricao: n.nome,
+                    }))}
+                    placeholder="Selecione a ocorrência"
+                    value={
+                      newRciData.condicao_insegura_id
+                        ? {
+                            id: newRciData.condicao_insegura_id,
+                            descricao:
+                              condicoesInseguras.find(
+                                (c) => c.id === newRciData.condicao_insegura_id
+                              )?.nome || "",
+                          }
+                        : null
+                    }
+                    onChange={(e) =>
+                      setNewRciData((prev) => ({
+                        ...prev,
+                        condicao_insegura_id: e?.id || 0,
+                      }))
+                    }
+                  />
+                  <DatePicker
+                    value={
+                      newRciData.data_limite?.toISOString().split("T")[0] || ""
+                    }
+                    label="Data Limite"
+                    onChange={(date) => {
+                      if (!date) return;
+                      setNewRciData((prev) => ({
+                        ...prev,
+                        data_limite: date ? new Date(date) : new Date(),
+                      }));
+                    }}
+                  />
                 </div>
-                <SelectItemForm
-                  label="Ocorrência"
-                  items={condicoesInseguras.map((n) => ({
-                    id: n.id,
-                    descricao: n.nome,
-                  }))}
-                  placeholder="Selecione a ocorrência"
-                  value={
-                    newRciData.condicao_insegura_id
-                      ? {
-                          id: newRciData.condicao_insegura_id,
-                          descricao:
-                            condicoesInseguras.find(
-                              (c) => c.id === newRciData.condicao_insegura_id
-                            )?.nome || "",
-                        }
-                      : null
-                  }
-                  onChange={(e) =>
+                <InputForm
+                  label="Link do Plano de Ação"
+                  value={newRciData.link_plano_acao || ""}
+                  setValue={(value) =>
                     setNewRciData((prev) => ({
                       ...prev,
-                      condicao_insegura_id: e?.id || 0,
+                      link_plano_acao: value,
                     }))
                   }
+                  rows={1}
+                  required={false}
+                  placeholder="Cole o link aqui"
                 />
                 <InputForm
                   label="Detalhes da Ocorrência"
