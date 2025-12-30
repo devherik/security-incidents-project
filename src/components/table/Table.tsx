@@ -51,7 +51,7 @@ export default function Table() {
               <th>Autor</th>
               <th>Status</th>
               <th>Plano de Ação</th>
-              <th>Período</th>
+              <th>Data de Criação</th>
             </tr>
           </thead>
           <tbody>
