@@ -9,8 +9,8 @@ const statusColorMap: Record<string, string> = {
   Aberto: styles.statusAberto,
   "Em Análise": styles.statusEmAnalise,
   "Em Andamento": styles.statusEmAndamento,
-  Concluído: styles.statusConcluido,
-  Cancelado: styles.statusCancelado,
+  Finalizado: styles.statusFinalizado,
+  Rejeitado: styles.statusRejeitado,
 };
 
 interface SelectItemFormProps {
@@ -30,7 +30,7 @@ export default function SelectStatusForm({
   const [searchTerm, setSearchTerm] = useState("");
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const items = ["Aberto", "Em Análise", "Em Andamento", "Concluído", "Cancelado"].filter(
+  const items = ["Aberto", "Em Análise", "Em Andamento", "Finalizado", "Rejeitado"].filter(
     (item) => item.toLowerCase().includes(searchTerm.toLowerCase())
   );
 

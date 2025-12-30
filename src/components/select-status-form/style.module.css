@@ -268,12 +268,12 @@
   background-color: var(--gray-light-color);
 }
 
-.statusConcluido {
+.statusFinalizado {
   border-color: var(--green-color);
   background-color: var(--green-light-color);
 }
 
-.statusCancelado {
+.statusRejeitado {
   border-color: var(--red-color);
   background-color: var(--red-light-color);
 }
@@ -299,11 +299,11 @@
   background-color: var(--gray-color);
 }
 
-.statusConcluido .statusDot {
+.statusFinalizado .statusDot {
   background-color: var(--green-color);
 }
 
-.statusCancelado .statusDot {
+.statusRejeitado .statusDot {
   background-color: var(--red-color);
 }
 
@@ -320,10 +320,10 @@
   background-color: rgba(251, 191, 36, 0.25);
 }
 
-.item.statusConcluido:hover {
+.item.statusFinalizado:hover {
   background-color: rgba(16, 185, 129, 0.25);
 }
 
-.item.statusCancelado:hover {
+.item.statusRejeitado:hover {
   background-color: rgba(239, 68, 68, 0.25);
 }
