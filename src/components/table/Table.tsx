@@ -9,12 +9,22 @@ import LoadingOverlay from "../loading-overlay/LoadingOverlay";
 import Filters from "./Filters";
 import Row from "./Row";
 import Pagination from "./Pagination";
+import { useAppStore } from "../../stores/useAppStore";
+import TableColumnFilter from "./table-column-filter/select-item-form/SelectItemForm";
 
 export default function Table() {
   const colaborador = useAuthStore((state) => state.colaborador);
   const rcis = useRcisStore((state) => state.filteredRcis);
   const pagination = useRcisStore((state) => state.pagination);
   const setPage = useRcisStore((state) => state.setPage);
+
+  const filters = useRcisStore((state) => state.filters);
+  const setFilter = useRcisStore((state) => state.setFilter);
+
+  const unidades = useAppStore((state) => state.unidades);
+  const condicoesInseguras = useAppStore((state) => state.condicoesInseguras);
+  const niveisDeRisco = useAppStore((state) => state.niveisDeRisco);
+  const status = useAppStore((state) => state.status);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -53,11 +63,96 @@ export default function Table() {
         <table className={style.table}>
           <thead>
             <tr>
-              <th>Unidade</th>
-              <th>Grau de Risco</th>
-              <th>Ocorrência</th>
+              <th>
+                <TableColumnFilter
+                  items={unidades.map((u) => ({
+                    id: u.id,
+                    descricao: u.sigla,
+                  }))}
+                  placeholder="Unidade"
+                  value={
+                    filters.unidade
+                      ? {
+                          id: filters.unidade.id,
+                          descricao: filters.unidade.sigla,
+                        }
+                      : null
+                  }
+                  onChange={(e) =>
+                    setFilter(
+                      "unidade",
+                      unidades.find((u) => u.id === e?.id) || null
+                    )
+                  }
+                />
+              </th>
+              <th>
+                <TableColumnFilter
+                  items={niveisDeRisco.map((n) => ({
+                    id: n.id,
+                    descricao: `${n.sigla_risco} - ${n.severidade}`,
+                  }))}
+                  placeholder="Grau de Risco"
+                  value={
+                    filters.nivelRisco
+                      ? {
+                          id: filters.nivelRisco.id,
+                          descricao: filters.nivelRisco.severidade,
+                        }
+                      : null
+                  }
+                  onChange={(e) =>
+                    setFilter(
+                      "nivelRisco",
+                      niveisDeRisco.find((n) => n.id === e?.id) || null
+                    )
+                  }
+                />
+              </th>
+              <th>
+                <TableColumnFilter
+                  items={condicoesInseguras.map((n) => ({
+                    id: n.id,
+                    descricao: n.nome,
+                  }))}
+                  placeholder="Ocorrência"
+                  value={
+                    filters.condicaoInsegura
+                      ? {
+                          id: filters.condicaoInsegura.id,
+                          descricao: filters.condicaoInsegura.nome,
+                        }
+                      : null
+                  }
+                  onChange={(e) =>
+                    setFilter(
+                      "condicaoInsegura",
+                      condicoesInseguras.find((c) => c.id === e?.id) || null
+                    )
+                  }
+                />
+              </th>
               <th>Autor</th>
-              <th>Status</th>
+              <th>
+                <TableColumnFilter
+                  items={status.map((n) => ({
+                    id: n,
+                    descricao: n,
+                  }))}
+                  placeholder="Status"
+                  value={
+                    filters.status
+                      ? {
+                          id: filters.status,
+                          descricao: filters.status,
+                        }
+                      : null
+                  }
+                  onChange={(e) =>
+                    setFilter("status", status.find((c) => c === e?.id) || null)
+                  }
+                />
+              </th>
               <th>Plano de Ação</th>
               <th>Data de Criação</th>
             </tr>

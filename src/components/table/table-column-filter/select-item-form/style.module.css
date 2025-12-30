@@ -1,0 +1,252 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+}
+
+.label {
+  font-family: var(--main-font);
+  color: var(--accent-color);
+  font-size: 0.85rem;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+.required {
+  color: var(--red-color);
+  margin-left: 4px;
+}
+
+.selectWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.selectDisplay {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--green-color);
+  background-color: var(--green-color);
+  font-family: var(--main-font);
+  font-size: 0.85rem;
+  color: var(--text-color);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 40px;
+}
+
+.selectDisplay:hover:not(.disabled) {
+  border-color: var(--accent-color);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.selectDisplay.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background-color: var(--gray-color);
+}
+
+.selectedText {
+  color: var(--text-color);
+  flex: 1;
+}
+
+.placeholderText {
+  color: var(--accent-color);
+  opacity: 0.7;
+  flex: 1;
+}
+
+.icons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.clearButton {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--accent-color);
+  cursor: pointer;
+  padding: 0;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+}
+
+.clearButton:hover {
+  color: var(--red-color);
+}
+
+.arrow {
+  font-size: 0.7rem;
+  color: var(--accent-color);
+  transition: transform 0.2s ease;
+}
+
+.arrowUp {
+  transform: rotate(180deg);
+}
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background-color: var(--primary-color);
+  border: 1px solid var(--green-color);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  max-height: 300px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 10px 12px;
+  border: none;
+  border-bottom: 1px solid var(--green-color);
+  font-family: var(--main-font);
+  font-size: 0.85rem;
+  color: var(--text-color);
+  background-color: var(--primary-color);
+  outline: none;
+}
+
+.searchInput:focus {
+  border-bottom-color: var(--accent-color);
+}
+
+.itemList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.85rem;
+  overflow-y: auto;
+  max-height: 250px;
+}
+
+.item {
+  padding: 10px 12px;
+  font-family: var(--main-font);
+  font-size: 0.85rem;
+  color: var(--text-color);
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.item:hover {
+  background-color: var(--green-color);
+}
+
+.selectedItem {
+  background-color: var(--tertiary-color);
+  font-weight: 500;
+}
+
+.selectedItem:hover {
+  background-color: var(--tertiary-color);
+}
+
+.noResults {
+  padding: 16px 12px;
+  font-family: var(--main-font);
+  font-size: 0.85rem;
+  color: var(--accent-color);
+  text-align: center;
+  font-style: italic;
+}
+
+/* Scrollbar styling for dropdown */
+.itemList::-webkit-scrollbar {
+  width: 8px;
+}
+
+.itemList::-webkit-scrollbar-track {
+  background: var(--secondary-color);
+  border-radius: 4px;
+}
+
+.itemList::-webkit-scrollbar-thumb {
+  background: var(--accent-color);
+  border-radius: 4px;
+}
+
+.itemList::-webkit-scrollbar-thumb:hover {
+  background: var(--border-color);
+}
+
+.form {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 150px;
+  width: 100%;
+}
+
+.checklistWrapper {
+  border: 1px solid var(--green-color);
+  border-radius: 8px;
+  background-color: var(--primary-color);
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.checkboxList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 240px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.checkboxItem {
+  border: 1px solid var(--secondary-color);
+  border-radius: 6px;
+  padding: 0.4rem 0.6rem;
+  background-color: var(--primary-color);
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.checkboxItem:hover {
+  border-color: var(--accent-color);
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--secondary-font);
+  color: var(--text-color);
+  font-size: 0.85rem;
+}
+
+.checkboxInput {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--accent-color);
+}
+
+.checkboxEmptyState {
+  padding: 0.75rem;
+  text-align: center;
+  font-family: var(--secondary-font);
+  color: var(--accent-color);
+  font-size: 0.85rem;
+}
