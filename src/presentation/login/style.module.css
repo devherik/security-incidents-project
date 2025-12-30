@@ -8,6 +8,9 @@
   width: 100vw;
   height: 100vh;
   background-color: var(--accent-color);
+  background-image: url("/src/assets/login-bg.jpg");
+  background-size: cover;
+  background-position: center;
 }
 
 .logo {

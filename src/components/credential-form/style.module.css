@@ -9,7 +9,7 @@
   border-radius: 8px;
   border: 1px solid var(--green-color);
   font-family: var(--main-font, "Chivo", sans-serif);
-  font-size: 1rem;
+  font-size: 0.85rem;
   color: var(--text-color);
   background-color: var(--green-color);
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
@@ -39,7 +39,7 @@
   left: 16px;
   top: 15px;
   font-family: var(--main-font, "Chivo", sans-serif);
-  font-size: 1rem;
+  font-size: 0.85rem;
   color: var(--accent-color);
   pointer-events: none; /* Allows clicks to pass through to the input */
   transition: all 0.2s ease-in-out;
