@@ -23,6 +23,7 @@
 
 .table tr {
   display: table-row;
+  color: var(--text-color);
   vertical-align: middle;
 }
 
