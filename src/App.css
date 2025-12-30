@@ -9,8 +9,3 @@
   transition: margin-left 0.3s ease;
 }
 
-@media (max-width: 768px) {
-  .app-content {
-    margin-left: 64px;
-  }
-}
