@@ -5,6 +5,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import {type DateRange } from "../../schemas/stateSchemas";
 
 import styles from "./style.module.css";
+import "./custom_datepicker.css";
 
 interface DatePickerProps {
   label?: string;
