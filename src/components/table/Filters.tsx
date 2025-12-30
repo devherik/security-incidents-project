@@ -3,6 +3,7 @@ import { useRcisStore } from "../../stores/useRcisStore";
 import DateByRangePicker from "../date-picker/DateRangePicker";
 
 import SelectItemForm from "../select-item-form/SelectItemForm";
+import SelectStatusForm from "../select-status-form/SelectStatusForm";
 
 import style from "./style.module.css";
 
@@ -34,26 +35,11 @@ export default function Filters() {
           setFilter("unidade", unidades.find((u) => u.id === e?.id) || null)
         }
       />
-
       <SelectItemForm
-        label="Status"
-        items={status.map((s) => ({ id: s, descricao: s }))}
-        placeholder="Selecione o status"
-        value={
-          filters.status
-            ? { id: filters.status, descricao: filters.status }
-            : null
-        }
-        onChange={(e) =>
-          setFilter("status", status.find((s) => s === e?.id) || null)
-        }
-      />
-
-      <SelectItemForm
-        label="Nível de Risco"
+        label="Grau de Risco"
         items={niveisDeRisco.map((n) => ({
           id: n.id,
-          descricao: n.severidade,
+          descricao: `${n.sigla_risco} - ${n.severidade}`,
         }))}
         placeholder="Selecione a severidade"
         value={
@@ -71,7 +57,6 @@ export default function Filters() {
           )
         }
       />
-
       <SelectItemForm
         label="Ocorrência"
         items={condicoesInseguras.map((n) => ({
@@ -94,6 +79,15 @@ export default function Filters() {
           )
         }
       />
+      <SelectStatusForm
+        value={
+          filters.status ? filters.status : null
+        }
+        onChange={(e) =>
+          setFilter("status", status.find((s) => s === e) || null)
+        }
+      />
+
       <DateByRangePicker
         label="Período"
         onChange={(e) => {

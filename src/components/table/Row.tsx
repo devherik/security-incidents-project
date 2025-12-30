@@ -6,6 +6,7 @@ import type { RciStatus } from "../../schemas/enums";
 import { formatDateToISO } from "../../utils/dateUtil";
 
 import style from "./style.module.css";
+import type { NivelRisco } from "../../schemas/stateSchemas";
 
 // Status color mapping matching SelectStatusForm
 const statusColorMap: Record<string, string> = {
@@ -16,11 +17,19 @@ const statusColorMap: Record<string, string> = {
   Rejeitado: style.statusRejeitado,
 };
 
+const riscoColorMap: Record<string, string> = {
+  G1: style.riscoG1,
+  G2: style.riscoG2,
+  G3: style.riscoG3,
+  G4: style.riscoG4,
+  G5: style.riscoG5,
+};
+
 interface StatusBadgeProps {
   status: RciStatus | string;
 }
 
-function StatusBadge({ status }: StatusBadgeProps) {
+const StatusBadge = ({ status }: StatusBadgeProps) => {
   const colorClass = statusColorMap[status] || "";
 
   return (
@@ -29,7 +38,17 @@ function StatusBadge({ status }: StatusBadgeProps) {
       {status}
     </span>
   );
-}
+};
+
+const NivelRiscoBadge = ({ risco }: { risco: NivelRisco }) => {
+  const colorClass = riscoColorMap[risco.sigla_risco] || "";
+
+  return (
+    <span className={`${style.badge} ${colorClass}`}>
+      {`${risco.sigla_risco} - ${risco.severidade}`}
+    </span>
+  );
+};
 
 export default function Row({ rci }: { rci: Rci }) {
   const navigate = useNavigate();
@@ -41,7 +60,9 @@ export default function Row({ rci }: { rci: Rci }) {
   return (
     <tr className={style.row} key={rci.id} onClick={handleRciClick}>
       <th>{rci.unidade.sigla}</th>
-      <th>{`${rci.nivel_risco.sigla_risco} - ${rci.nivel_risco.severidade}`}</th>
+      <th>
+        <NivelRiscoBadge risco={rci.nivel_risco} />
+      </th>
       <th>{rci.condicao_insegura.nome}</th>
       <th>{rci.autor.first_name}</th>
       <th>
