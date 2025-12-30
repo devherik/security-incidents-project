@@ -1,5 +1,6 @@
 import { useAppStore } from "../../stores/useAppStore";
 import { useRcisStore } from "../../stores/useRcisStore";
+import DateByRangePicker from "../date-picker/DateRangePicker";
 
 import SelectItemForm from "../select-item-form/SelectItemForm";
 
@@ -18,6 +19,14 @@ export default function Filters() {
 
   return (
     <div className={style.filtersContainer}>
+      <DateByRangePicker
+        onChange={() => {}}
+        value={{
+          startDate: new Date(),
+          endDate: new Date(),
+          key: "selection",
+        }}
+      />
       <SelectItemForm
         label="Período"
         placeholder="Selecione o período"
