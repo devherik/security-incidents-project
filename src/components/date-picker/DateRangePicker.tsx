@@ -1,13 +1,10 @@
-import { DateRangePicker } from "react-date-range";
+import DatePicker from "react-datepicker";
 import { ptBR } from "date-fns/locale";
+import "react-datepicker/dist/react-datepicker.css";
+
+import {type DateRange } from "../../schemas/stateSchemas";
 
 import styles from "./style.module.css";
-
-interface DateRange {
-  startDate: Date;
-  endDate: Date;
-  key: string;
-}
 
 interface DatePickerProps {
   label?: string;
@@ -22,10 +19,6 @@ export default function DateByRangePicker({
   onChange,
   required = false,
 }: DatePickerProps) {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleSelect = (ranges: any) => {
-    onChange(ranges.selection);
-  };
 
   return (
     <div className={styles.container}>
@@ -36,14 +29,12 @@ export default function DateByRangePicker({
         </label>
       )}
       <div className={styles.inputWrapper}>
-        <DateRangePicker
-            ranges={[value]}
-            onChange={handleSelect}
-            showDateDisplay={false}
-            showMonthAndYearPickers={false}
+        <DatePicker
+            selectsRange={true}
+            startDate={value.startDate}
+            endDate={value.endDate}
+            onChange={(dates) => onChange({ startDate: dates[0], endDate: dates[1] })}
             locale={ptBR}
-            moveRangeOnFirstSelection={false}
-            rangeColors={["var(--green-color)"]}
         />
       </div>
     </div>

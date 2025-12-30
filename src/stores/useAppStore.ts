@@ -12,8 +12,9 @@ import type {
   Setor,
   Unidade,
   UnidadeSetor,
+  DateRange,
 } from "../schemas/stateSchemas";
-import type { Periodo, RciStatus } from "../schemas/enums";
+import type { RciStatus } from "../schemas/enums";
 
 type ToastType = "success" | "error" | "info" | "warning";
 
@@ -41,7 +42,7 @@ interface AppState {
   setores: Setor[];
   setoresUnidade: UnidadeSetor[];
   status: RciStatus[];
-  periodo: Periodo[];
+  periodo: DateRange;
 
   // Data fetching actions
   getCondicoesInseguras: () => Promise<void>;
@@ -72,13 +73,10 @@ const initialState = {
     "Finalizado",
     "Rejeitado",
   ] as RciStatus[],
-  periodo: [
-    "Últimas 24 horas",
-    "Últimos 7 dias",
-    "Últimos 30 dias",
-    "Últimos 90 dias",
-    "Todos",
-  ] as Periodo[],
+  periodo: {
+    startDate: null,
+    endDate: null,
+  },
   isLoading: false,
   isInitialized: false,
   toast: {

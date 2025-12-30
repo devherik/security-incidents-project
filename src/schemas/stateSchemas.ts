@@ -67,6 +67,11 @@ export const PaginatedResponseSchema = <T extends z.ZodTypeAny>(
     meta: PaginationMetaSchema,
   });
 
+export const DateRangeSchema = z.object({
+  startDate: z.date().nullable(),
+  endDate: z.date().nullable(),
+});
+
 export const ApiErrorSchema = z.object({
   message: z.string(),
   errors: z.record(z.string(), z.array(z.string())).optional(),
@@ -87,5 +92,6 @@ export type UnidadeSetor = z.infer<typeof UnidadeSetorSchema>;
 export type CondicaoInsegura = z.infer<typeof CondicaoInseguraSchema>;
 export type NivelRisco = z.infer<typeof NivelRiscoSchema>;
 export type PaginationMeta = z.infer<typeof PaginationMetaSchema>;
+export type DateRange = z.infer<typeof DateRangeSchema>;
 export type ApiError = z.infer<typeof ApiErrorSchema>;
 export type ImageMetadata = z.infer<typeof ImageMetadataSchema>;

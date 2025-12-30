@@ -7,13 +7,14 @@ import { orderByDate } from "../utils/listsUtil";
 import type { Rci, RciCreate, RciLog, RciUpdate } from "../schemas/rciSchemas";
 import type {
   CondicaoInsegura,
+  DateRange,
   NivelRisco,
   Unidade,
 } from "../schemas/stateSchemas";
 import type { RciStatus } from "../schemas/enums";
 
 export interface RciFilters {
-  periodo: string;
+  periodo: DateRange | null;
   ativo: boolean;
   condicaoInsegura: CondicaoInsegura | null;
   unidade: Unidade | null;
@@ -43,7 +44,7 @@ export const useRcisStore = create<RciState>((set, get) => ({
   rcis: [],
   filteredRcis: [],
   filters: {
-    periodo: "Todos",
+    periodo: null,
     ativo: true,
     condicaoInsegura: null,
     unidade: null,
@@ -179,7 +180,7 @@ export const useRcisStore = create<RciState>((set, get) => ({
   clearFilters: () => {
     set({
       filters: {
-        periodo: "Todos",
+        periodo: null,
         ativo: true,
         condicaoInsegura: null,
         unidade: null,
@@ -195,26 +196,12 @@ export const useRcisStore = create<RciState>((set, get) => ({
     let filtered = [...rcis];
 
     // Periodo
-    const now = new Date();
-    if (filters.periodo && filters.periodo !== "Todos") {
-      let cutoffDate = new Date();
-      switch (filters.periodo) {
-        case "Últimas 24 horas":
-          cutoffDate.setHours(now.getHours() - 24);
-          break;
-        case "Últimos 7 dias":
-          cutoffDate.setDate(now.getDate() - 7);
-          break;
-        case "Últimos 30 dias":
-          cutoffDate.setDate(now.getDate() - 30);
-          break;
-        case "Últimos 90 dias":
-          cutoffDate.setDate(now.getDate() - 90);
-          break;
-        default:
-          cutoffDate = new Date(0);
-      }
-      filtered = filtered.filter((rci) => rci.dtcriacao >= cutoffDate);
+    if (filters.periodo && filters.periodo !== null) {
+      filtered = filtered.filter(
+        (rci) =>
+          rci.dtcriacao >= (filters.periodo?.startDate ?? new Date(0)) &&
+          rci.dtcriacao <= (filters.periodo?.endDate ?? new Date())
+      );
     }
 
     // Ativo (Assuming it means not finalized/rejected)

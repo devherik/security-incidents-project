@@ -12,7 +12,6 @@ export default function Filters() {
   const clearFilters = useRcisStore((state) => state.clearFilters);
 
   const unidades = useAppStore((state) => state.unidades);
-  const periodos = useAppStore((state) => state.periodo);
   const condicoesInseguras = useAppStore((state) => state.condicoesInseguras);
   const niveisDeRisco = useAppStore((state) => state.niveisDeRisco);
   const status = useAppStore((state) => state.status);
@@ -20,25 +19,11 @@ export default function Filters() {
   return (
     <div className={style.filtersContainer}>
       <DateByRangePicker
-        onChange={() => {}}
-        value={{
-          startDate: new Date(),
-          endDate: new Date(),
-          key: "selection",
-        }}
-      />
-      <SelectItemForm
         label="Período"
-        placeholder="Selecione o período"
-        items={periodos.map((p) => ({ id: p, descricao: p }))}
-        value={
-          filters.periodo
-            ? { id: filters.periodo, descricao: filters.periodo }
-            : null
-        }
-        onChange={(e) =>
-          setFilter("periodo", periodos.find((p) => p === e?.id) || "")
-        }
+        onChange={(e) => {
+          setFilter("periodo", { startDate: e.startDate, endDate: e.endDate });
+        }}
+        value={filters.periodo ?? { startDate: null, endDate: null }}
       />
 
       <SelectItemForm
