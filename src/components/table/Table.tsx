@@ -43,7 +43,7 @@ export default function Table() {
   }, [colaborador]);
 
   return (
-    <div>
+    <div className={style.tableContainer}>
       {/* Table filters, search, export and pagination */}
 
       <Filters />
@@ -68,9 +68,8 @@ export default function Table() {
             ))}
           </tbody>
         </table>
+        <Pagination meta={pagination} onPageChange={setPage} />
       </LoadingOverlay>
-
-      <Pagination meta={pagination} onPageChange={setPage} />
     </div>
   );
 }

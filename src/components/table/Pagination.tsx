@@ -1,5 +1,9 @@
 import type { PaginationMeta } from "../../schemas/stateSchemas";
+
 import style from "./style.module.css";
+
+import arrowLeftIcon from "../../assets/icons/arrow-left.svg";
+import arrowRightIcon from "../../assets/icons/arrow-right.svg";
 
 interface PaginationProps {
   meta: PaginationMeta;
@@ -53,7 +57,7 @@ export default function Pagination({ meta, onPageChange }: PaginationProps) {
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
       >
-        Anterior
+        <img className={style.paginationButtonIcon} src={arrowLeftIcon} alt="Previous page" />
       </button>
 
       <div className={style.pageNumbers}>
@@ -81,7 +85,7 @@ export default function Pagination({ meta, onPageChange }: PaginationProps) {
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
       >
-        Próximo
+        <img className={style.paginationButtonIcon} src={arrowRightIcon} alt="Next page" />
       </button>
     </div>
   );
