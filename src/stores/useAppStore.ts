@@ -12,7 +12,6 @@ import type {
   Setor,
   Unidade,
   UnidadeSetor,
-  DateRange,
 } from "../schemas/stateSchemas";
 import type { RciStatus } from "../schemas/enums";
 
@@ -42,7 +41,7 @@ interface AppState {
   setores: Setor[];
   setoresUnidade: UnidadeSetor[];
   status: RciStatus[];
-  periodo: DateRange;
+  windowSize: { width: number; height: number };
 
   // Data fetching actions
   getCondicoesInseguras: () => Promise<void>;
@@ -53,6 +52,7 @@ interface AppState {
 
   // Actions
   setVisibleNavbar: (visible: boolean) => void;
+  setWindowSize: (size: { width: number; height: number }) => void;
   setLoading: (loading: boolean) => void;
   showToast: (message: string, type?: ToastType, duration?: number) => void;
   hideToast: () => void;
@@ -73,10 +73,6 @@ const initialState = {
     "Finalizado",
     "Rejeitado",
   ] as RciStatus[],
-  periodo: {
-    startDate: null,
-    endDate: null,
-  },
   isLoading: false,
   isInitialized: false,
   toast: {
@@ -85,8 +81,9 @@ const initialState = {
     visible: false,
   },
   visibleNavbar: true,
-  setVisibleNavbar: (visible: boolean) => {
-    initialState.visibleNavbar = visible;
+  windowSize: {
+    width: typeof window !== "undefined" ? window.innerWidth : 0,
+    height: typeof window !== "undefined" ? window.innerHeight : 0,
   },
 };
 
@@ -95,6 +92,14 @@ export const useAppStore = create<AppState>()(
     (set, get) => ({
       // Initialize state
       ...initialState,
+
+      setVisibleNavbar: (visible: boolean) => {
+        set({ visibleNavbar: visible });
+      },
+
+      setWindowSize: (size: { width: number; height: number }) => {
+        set({ windowSize: size });
+      },
 
       setLoading: (loading: boolean) => {
         set({ isLoading: loading });
@@ -140,10 +145,6 @@ export const useAppStore = create<AppState>()(
             visible: false,
           },
         });
-      },
-
-      setVisibleNavbar: (visible: boolean) => {
-        set({ visibleNavbar: visible });
       },
 
       // Data fetching actions

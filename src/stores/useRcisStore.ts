@@ -2,6 +2,8 @@ import { create } from "zustand";
 
 import RcisServer from "../servers/RcisServer";
 
+import { useAppStore } from "./useAppStore";
+
 import { orderByDate } from "../utils/listsUtil";
 
 import type { Rci, RciCreate, RciLog, RciUpdate } from "../schemas/rciSchemas";
@@ -56,7 +58,7 @@ export const useRcisStore = create<RciState>((set, get) => ({
   },
   pagination: {
     page: 1,
-    per_page: 10,
+    per_page: useAppStore.getState().windowSize.width > 1080 ? 10 : 7,
     total: 0,
     total_pages: 0,
   },

@@ -6,6 +6,7 @@ import Loader from "./components/loader/Loader";
 import Toast from "./components/toast/Toast";
 
 import { useAuthStore } from "./stores/useAuthStore";
+import { useAppStore } from "./stores/useAppStore";
 
 import ProtectedRoute from "./components/route-handlers/ProtectedRoute";
 
@@ -14,10 +15,22 @@ import DashboardPage from "./presentation/dashboard/Page";
 import RciPage from "./presentation/rci/Page";
 
 function App() {
+  const setWindowSize = useAppStore((state) => state.setWindowSize);
+
   useEffect(() => {
     // Hydrate auth ONCE on mount
     useAuthStore.getState().hydrate();
-  }, []);
+
+    const handleResize = () => {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [setWindowSize]);
 
   return (
     <>
