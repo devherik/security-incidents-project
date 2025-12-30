@@ -56,6 +56,10 @@ export default function RciPage() {
     setIsUpdating(true);
     try {
       const parsedData = RciUpdateSchema.safeParse(newRciData);
+      if (!parsedData.success) {
+        showToast("Dados inválidos. Verifique os campos.", "error");
+        return;
+      }
       await updateRci(rci.id.toString(), parsedData.data).then(() => {
         showToast("RCI atualizado com sucesso!", "success");
         setHasChanges(false);
@@ -279,6 +283,7 @@ export default function RciPage() {
                 />
               </div>
               <div className={style.history}>
+                <h2 className="mb-4 text-xl font-bold">Histórico do RCI</h2>
                 {rciLogs.length === 0 ? (
                   <p>Nenhum histórico disponível para este RCI.</p>
                 ) : (
