@@ -18,14 +18,6 @@ export default function Filters() {
 
   return (
     <div className={style.filtersContainer}>
-      <DateByRangePicker
-        label="Período"
-        onChange={(e) => {
-          setFilter("periodo", { startDate: e.startDate, endDate: e.endDate });
-        }}
-        value={filters.periodo ?? { startDate: null, endDate: null }}
-      />
-
       <SelectItemForm
         label="Unidade"
         items={unidades.map((u) => ({ id: u.id, descricao: u.sigla }))}
@@ -101,6 +93,13 @@ export default function Filters() {
             condicoesInseguras.find((c) => c.id === e?.id) || null
           )
         }
+      />
+      <DateByRangePicker
+        label="Período"
+        onChange={(e) => {
+          setFilter("periodo", { startDate: e.startDate, endDate: e.endDate });
+        }}
+        value={filters.periodo ?? { startDate: null, endDate: null }}
       />
 
       <label className={style.checkboxLabel}>

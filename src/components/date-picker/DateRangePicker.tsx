@@ -13,6 +13,12 @@ interface DatePickerProps {
   required?: boolean;
 }
 
+const CustomInput = ({ value, onClick }: { value?: string; onClick?: () => void }) => (
+  <button className={styles.customInput} onClick={onClick}>
+    {value || "Selecione o periodo"}
+  </button>
+);
+
 export default function DateByRangePicker({
   label = "",
   value,
@@ -35,6 +41,7 @@ export default function DateByRangePicker({
             endDate={value.endDate}
             onChange={(dates) => onChange({ startDate: dates[0], endDate: dates[1] })}
             locale={ptBR}
+            customInput={<CustomInput />}
         />
       </div>
     </div>
