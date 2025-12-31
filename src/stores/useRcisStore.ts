@@ -24,6 +24,7 @@ export interface RciFilters {
   unidade: Unidade | null;
   nivelRisco: NivelRisco | null;
   status: RciStatus | null;
+  search: string;
 }
 
 interface RciState {
@@ -57,6 +58,7 @@ export const useRcisStore = create<RciState>((set, get) => ({
     unidade: null,
     nivelRisco: null,
     status: null,
+    search: "",
   },
   pagination: {
     page: 1,
@@ -262,6 +264,7 @@ export const useRcisStore = create<RciState>((set, get) => ({
         unidade: null,
         nivelRisco: null,
         status: null,
+        search: "",
       },
     });
     get().applyFilters();
@@ -317,6 +320,36 @@ export const useRcisStore = create<RciState>((set, get) => ({
     // Status
     if (filters.status) {
       filtered = filtered.filter((rci) => rci.status === filters.status);
+    }
+
+    // Global Search
+    if (filters.search && filters.search.trim() !== "") {
+      const searchLower = filters.search.toLowerCase();
+      filtered = filtered.filter((rci) => {
+        const unidadeMatch =
+          rci.unidade.nome.toLowerCase().includes(searchLower) ||
+          rci.unidade.sigla.toLowerCase().includes(searchLower);
+        const ocorrenciaMatch = rci.condicao_insegura.nome
+          .toLowerCase()
+          .includes(searchLower);
+        const autorMatch =
+          rci.autor.first_name.toLowerCase().includes(searchLower) ||
+          rci.autor.username.toLowerCase().includes(searchLower);
+        const responsavelMatch = rci.setor.responsavel.first_name
+          .toLowerCase()
+          .includes(searchLower);
+        const setorMatch = rci.setor.setor.nome
+          .toLowerCase()
+          .includes(searchLower);
+
+        return (
+          unidadeMatch ||
+          ocorrenciaMatch ||
+          autorMatch ||
+          responsavelMatch ||
+          setorMatch
+        );
+      });
     }
 
     const total = filtered.length;

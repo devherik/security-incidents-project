@@ -1,5 +1,6 @@
 import { useRcisStore } from "../../stores/useRcisStore";
 import DateByRangePicker from "../date-picker/DateRangePicker";
+import { SearchBar } from "../search-bar/SearchBar";
 
 import style from "./style.module.css";
 
@@ -10,6 +11,8 @@ export default function Filters() {
 
   return (
     <div className={style.filtersContainer}>
+      <SearchBar />
+      
       <DateByRangePicker
         onChange={(e) => {
           setFilter("periodo", { startDate: e.startDate, endDate: e.endDate });
