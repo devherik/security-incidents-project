@@ -4,4 +4,46 @@
   }
 }
 
+.container {
+  position: relative;
+  isolation: isolate;
+}
+
+.content {
+  transition: opacity 0.3s ease;
+}
+
+.contentLoading {
+  pointer-events: none;
+  user-select: none;
+  opacity: 0.5;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(1px);
+}
+
+.shimmer {
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  animation: shimmer 1.5s infinite;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.4) 50%,
+    transparent 100%
+  );
+}
+
+
 
