@@ -256,7 +256,7 @@
 .paginationContainer {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: end;
   gap: 12px;
   padding: 1rem;
   margin-top: 1rem;
@@ -275,7 +275,7 @@
 }
 
 .paginationButton:hover:not(:disabled) {
-  background-color: var(--accent-color);
+  background-color: var(--gray-color);
   color: var(--background-color);
 }
 
@@ -317,13 +317,12 @@
 }
 
 .activePage {
-  background-color: var(--accent-color);
+  background-color: var(--gray-color);
   border-color: var(--accent-color);
   color: var(--background-color);
 }
 
 .activePage:hover {
-  background-color: var(--accent-color);
   color: var(--background-color);
 }
 
