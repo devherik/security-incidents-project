@@ -15,6 +15,7 @@ import type {
   Unidade,
 } from "../schemas/stateSchemas";
 import type { RciStatus } from "../schemas/enums";
+import XlsxAdapter from "../adapters/XlsxAdapter";
 
 export interface RciFilters {
   periodo: DateRange | null;
@@ -41,6 +42,7 @@ interface RciState {
 
   setFilter: <K extends keyof RciFilters>(key: K, value: RciFilters[K]) => void;
   setPage: (page: number) => void;
+  exportRcisToExcel: (filename: string) => void;
   clearFilters: () => void;
   applyFilters: () => void;
 }
@@ -192,6 +194,61 @@ export const useRcisStore = create<RciState>((set, get) => ({
     set((state) => ({
       pagination: { ...state.pagination, page },
     }));
+  },
+
+  exportRcisToExcel: (filename: string) => {
+    const { rcis } = get();
+
+    if (rcis.length === 0) {
+      set({ error: "Nenhuma tarefa para exportar" });
+      return;
+    }
+
+    try {
+      XlsxAdapter.exportToExcel(
+        rcis,
+        [
+          { header: "ID", accessor: (t) => t.id },
+          { header: "Unidade", accessor: (t) => t.unidade.sigla },
+          { header: "Setor", accessor: (t) => t.setor.setor.nome },
+          {
+            header: "Responsável",
+            accessor: (t) => t.setor.responsavel.first_name,
+          },
+          {
+            header: "Grau de Risco",
+            accessor: (t) =>
+              `${t.nivel_risco.severidade}${t.nivel_risco.severidade}` || "",
+          },
+          { header: "Ocorrência", accessor: (t) => t.condicao_insegura.nome },
+          { header: "Autor", accessor: (t) => t.autor.first_name },
+          { header: "Status", accessor: (t) => t.status },
+          {
+            header: "Criado em",
+            accessor: (t) => t.dtcriacao.toLocaleString(),
+            format: (value) =>
+              value
+                ? new Date(value as string).toLocaleDateString("pt-BR")
+                : "",
+          },
+          {
+            header: "Prazo",
+            accessor: (t) => t.data_limite.toLocaleString(),
+            format: (value) =>
+              value
+                ? new Date(value as string).toLocaleDateString("pt-BR")
+                : "",
+          },
+        ],
+        filename
+      );
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Erro ao exportar tarefas";
+
+      set({ error: errorMessage });
+      throw error;
+    }
   },
 
   clearFilters: () => {

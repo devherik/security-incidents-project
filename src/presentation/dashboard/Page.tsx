@@ -12,6 +12,7 @@ import Loader from "../../components/loader/Loader";
 import Table from "../../components/table/Table";
 import NovoRci from "./NovoRci";
 import UserButton from "../../components/user-btn/UserButton";
+import ExcelExportButton from "../../components/excel-export-button/ExcelExportButton";
 
 export default function DashboardPage() {
   const colaborador = useAuthStore((state) => state.colaborador);
@@ -42,6 +43,7 @@ export default function DashboardPage() {
             subtitle={`Olá, ${colaborador?.first_name}.`}
           />
           <div className="flex flex-row items-center gap-4">
+            <ExcelExportButton />
             <NewItemButton label="Novo RCI" alt="Adicionar novo RCI">
               <NovoRci />
             </NewItemButton>

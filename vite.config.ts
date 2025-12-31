@@ -9,10 +9,14 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "src"),
+      xlsx: "xlsx/xlsx.mjs",
     },
   },
   build: {
     outDir: "build",
+  },
+  optimizeDeps: {
+    include: ["xlsx"],
   },
   server: {
     proxy: {
