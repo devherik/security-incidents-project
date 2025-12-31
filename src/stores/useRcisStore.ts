@@ -197,16 +197,18 @@ export const useRcisStore = create<RciState>((set, get) => ({
   },
 
   exportRcisToExcel: (filename: string) => {
-    const { rcis } = get();
+    const { filteredRcis } = get();
 
-    if (rcis.length === 0) {
+    console.log("Exporting RCIs to Excel:", filteredRcis.length);
+
+    if (filteredRcis.length === 0) {
       set({ error: "Nenhuma tarefa para exportar" });
       return;
     }
 
     try {
       XlsxAdapter.exportToExcel(
-        rcis,
+        filteredRcis,
         [
           { header: "ID", accessor: (t) => t.id },
           { header: "Unidade", accessor: (t) => t.unidade.sigla },

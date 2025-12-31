@@ -29,18 +29,21 @@ export default function ExcelExportButton({
   variant = "outline",
   showIcon = true,
 }: ExcelExportButtonProps) {
-  const { exportRcisToExcel, rcis } = useRcisStore();
+  const { exportRcisToExcel, filteredRcis } = useRcisStore();
   const { showToast } = useAppStore();
 
   const handleExport = () => {
     try {
-      if (rcis.length === 0) {
+      if (filteredRcis.length === 0) {
         showToast("Nenhuma tarefa para exportar", "warning");
         return;
       }
 
       exportRcisToExcel(filename);
-      showToast(`${rcis.length} RCIs exportadas com sucesso!`, "success");
+      showToast(
+        `${filteredRcis.length} RCIs exportadas com sucesso!`,
+        "success"
+      );
     } catch (error) {
       showToast(
         error instanceof Error ? error.message : "Erro ao exportar RCIs",
@@ -52,9 +55,9 @@ export default function ExcelExportButton({
   return (
     <button
       onClick={handleExport}
-      disabled={rcis.length === 0}
+      disabled={filteredRcis.length === 0}
       className={`${styles.exportButton} ${styles[variant]}`}
-      title={rcis.length === 0 ? "Nenhuma RCI disponível" : "Exportar"}
+      title={filteredRcis.length === 0 ? "Nenhuma RCI disponível" : "Exportar"}
     >
       {showIcon && (
         <img src={exportIcon} alt="Exportar" className={styles.icon} />
