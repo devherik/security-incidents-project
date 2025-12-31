@@ -33,7 +33,7 @@
   --yellow-light-color: rgba(245, 158, 11, 0.15);
 
   @media (max-width: 1920px) {
-    padding: 0 1rem;
+    padding: 0 2rem;
   }
   @media (max-width: 768px) {
     padding: 0 1rem;

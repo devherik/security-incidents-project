@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import style from "./style.module.css"
+import style from "./style.module.css";
 
 const SlideInEffect = ({
   children,
@@ -28,9 +28,7 @@ const SlideInEffect = ({
   }
 
   return (
-    <div className={`${fadeIn}`}>
-      {children}
-    </div>
+    <div className={`${fadeIn} flex flex-col w-full h-full`}>{children}</div>
   );
 };
 
