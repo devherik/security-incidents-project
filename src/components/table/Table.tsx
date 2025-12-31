@@ -158,6 +158,7 @@ export default function Table() {
                 />
               </th>
               <th className={style.colPlano}>Plano de Ação</th>
+              <th className={style.colPrazo}>Prazo</th>
               <th className={style.colData}>Data de Criação</th>
             </tr>
           </thead>

@@ -6,6 +6,8 @@ import type { NivelRisco } from "../../schemas/stateSchemas";
 
 import { formatDateToISO } from "../../utils/dateUtil";
 
+import { DeadlineProgressBar } from "../deadline-progress-bar/DeadlineProgressBar";
+
 import linkIcon from "../../assets/icons/link.svg";
 
 import style from "./style.module.css";
@@ -104,6 +106,12 @@ export default function Row({ rci }: { rci: Rci }) {
       </th>
       <th className={style.colPlano}>
         <LinkBadge link={rci.link_plano_acao} />
+      </th>
+      <th className={style.colPrazo}>
+        <DeadlineProgressBar 
+          dtcriacao={rci.dtcriacao} 
+          data_limite={rci.data_limite} 
+        />
       </th>
       <th className={style.colData}>
         {formatDateToISO(new Date(rci.dtcriacao))}

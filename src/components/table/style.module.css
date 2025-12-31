@@ -76,6 +76,11 @@
   min-width: 130px;
 }
 
+.colPrazo {
+  width: 150px;
+  min-width: 150px;
+}
+
 .row {
   padding: 1rem 1rem;
   border-bottom: 1px solid var(--gray-color);
