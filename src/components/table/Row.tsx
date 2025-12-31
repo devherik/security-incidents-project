@@ -89,19 +89,25 @@ export default function Row({ rci }: { rci: Rci }) {
 
   return (
     <tr className={style.row} key={rci.id} onClick={handleRciClick}>
-      <th>{rci.unidade.sigla}</th>
-      <th>
+      <th className={style.colUnidade}>{rci.unidade.sigla}</th>
+      <th className={style.colRisco}>
         <NivelRiscoBadge risco={rci.nivel_risco} />
       </th>
-      <th>{rci.condicao_insegura.nome}</th>
-      <th>{rci.autor.first_name}</th>
-      <th>
+      <th className={style.colOcorrencia} title={rci.condicao_insegura.nome}>
+        {rci.condicao_insegura.nome}
+      </th>
+      <th className={style.colAutor} title={rci.autor.first_name}>
+        {rci.autor.first_name}
+      </th>
+      <th className={style.colStatus}>
         <StatusBadge status={rci.status} />
       </th>
-      <th>
+      <th className={style.colPlano}>
         <LinkBadge link={rci.link_plano_acao} />
       </th>
-      <th>{formatDateToISO(new Date(rci.dtcriacao))}</th>
+      <th className={style.colData}>
+        {formatDateToISO(new Date(rci.dtcriacao))}
+      </th>
     </tr>
   );
 }

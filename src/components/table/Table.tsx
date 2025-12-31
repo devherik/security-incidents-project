@@ -67,7 +67,7 @@ export default function Table() {
         <table className={style.table}>
           <thead>
             <tr>
-              <th>
+              <th className={style.colUnidade}>
                 <TableColumnFilter
                   items={unidades.map((u) => ({
                     id: u.id,
@@ -90,7 +90,7 @@ export default function Table() {
                   }
                 />
               </th>
-              <th>
+              <th className={style.colRisco}>
                 <TableColumnFilter
                   items={niveisDeRisco.map((n) => ({
                     id: n.id,
@@ -113,7 +113,7 @@ export default function Table() {
                   }
                 />
               </th>
-              <th>
+              <th className={style.colOcorrencia}>
                 <TableColumnFilter
                   items={condicoesInseguras.map((n) => ({
                     id: n.id,
@@ -136,8 +136,8 @@ export default function Table() {
                   }
                 />
               </th>
-              <th>Autor</th>
-              <th>
+              <th className={style.colAutor}>Autor</th>
+              <th className={style.colStatus}>
                 <TableColumnFilter
                   items={status.map((n) => ({
                     id: n,
@@ -157,8 +157,8 @@ export default function Table() {
                   }
                 />
               </th>
-              <th>Plano de Ação</th>
-              <th>Data de Criação</th>
+              <th className={style.colPlano}>Plano de Ação</th>
+              <th className={style.colData}>Data de Criação</th>
             </tr>
           </thead>
           <tbody>

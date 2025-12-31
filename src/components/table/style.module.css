@@ -35,6 +35,45 @@
 
 .table th {
   color: var(--text-color);
+  overflow: auto;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.colUnidade {
+  width: 80px;
+  min-width: 80px;
+}
+
+.colRisco {
+  width: 160px;
+  min-width: 160px;
+}
+
+.colOcorrencia {
+  max-width: 300px;
+  min-width: 200px;
+}
+
+.colAutor {
+  max-width: 150px;
+  min-width: 120px;
+}
+
+.colStatus {
+  width: 140px;
+  min-width: 140px;
+}
+
+.colPlano {
+  width: 110px;
+  min-width: 110px;
+  text-align: center !important;
+}
+
+.colData {
+  width: 130px;
+  min-width: 130px;
 }
 
 .row {
