@@ -2,6 +2,9 @@ import { useEffect, useMemo, useState } from "react";
 
 import { useRcisStore } from "../../stores/useRcisStore";
 import { useAuthStore } from "../../stores/useAuthStore";
+import { useAppStore } from "../../stores/useAppStore";
+
+import usePermissions from "../../hooks/usePermissions";
 
 import style from "./style.module.css";
 
@@ -9,7 +12,6 @@ import LoadingOverlay from "../loading-overlay/LoadingOverlay";
 import Filters from "./Filters";
 import Row from "./Row";
 import Pagination from "./Pagination";
-import { useAppStore } from "../../stores/useAppStore";
 import TableColumnFilter from "./table-column-filter/select-item-form/SelectItemForm";
 
 export default function Table() {
@@ -25,6 +27,8 @@ export default function Table() {
   const condicoesInseguras = useAppStore((state) => state.condicoesInseguras);
   const niveisDeRisco = useAppStore((state) => state.niveisDeRisco);
   const status = useAppStore((state) => state.status);
+
+  const { hasGroup } = usePermissions();
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -56,7 +60,7 @@ export default function Table() {
     <div className={style.tableContainer}>
       {/* Table filters, search, export and pagination */}
 
-      <Filters />
+      {!hasGroup(1) && <Filters />}
 
       {/* Table content */}
       <LoadingOverlay isLoading={isLoading}>

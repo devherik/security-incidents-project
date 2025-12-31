@@ -1,7 +1,7 @@
 .container {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: auto;
 }
 
 .label {
@@ -29,7 +29,7 @@
   border-radius: 8px;
   border: 1px solid var(--green-color);
   font-family: var(--main-font, "Chivo", sans-serif);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: var(--text-color);
   background-color: var(--green-color);
   min-height: 42px; /* Consistent height with other inputs */
@@ -64,7 +64,7 @@
 }
 
 .customInput {
-  width: 100%;
+  width: auto;
   padding: 8px 12px;
   border-radius: 8px;
   border: 1px solid var(--green-color);
