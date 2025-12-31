@@ -58,7 +58,7 @@ export const useRcisStore = create<RciState>((set, get) => ({
   },
   pagination: {
     page: 1,
-    per_page: useAppStore.getState().windowSize.width > 1080 ? 10 : 7,
+    per_page: useAppStore.getState().windowSize.height <= 1070 ? 12 : 7,
     total: 0,
     total_pages: 0,
   },
