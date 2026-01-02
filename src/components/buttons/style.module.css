@@ -69,10 +69,10 @@
 }
 
 .ghostButton {
-  background-color: transparent;
-  border: 2px solid var(--primary-color);
+  background-color: var(--red-light-color);
+  border: 1px solid var(--red-color);
   border-radius: 8px;
-  color: var(--text-color);
+  color: var(--red-color);
   cursor: pointer;
   font-family: var(--main-font);
   font-size: 0.85rem;
