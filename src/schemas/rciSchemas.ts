@@ -78,11 +78,16 @@ export const RciUpdateSchema = RciCreateSchema.pick({
   nivel_risco_id: true,
   detalhamento: true,
   status: true,
-  solucao: true,
   link_plano_acao: true,
   data_limite: true,
 }).extend({
   id: z.number().int().positive(),
+});
+
+export const RciFinalizeSchema = RciCreateSchema.pick({
+  id: true,
+  solucao: true,
+  status: true,
 });
 
 export const RciLogSchema = z.object({
@@ -96,4 +101,5 @@ export const RciLogSchema = z.object({
 export type Rci = z.infer<typeof RciSchema>;
 export type RciCreate = z.infer<typeof RciCreateSchema>;
 export type RciUpdate = z.infer<typeof RciUpdateSchema>;
+export type RciFinalize = z.infer<typeof RciFinalizeSchema>;
 export type RciLog = z.infer<typeof RciLogSchema>;

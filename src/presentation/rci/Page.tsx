@@ -1,3 +1,5 @@
+import { z } from "zod";
+
 import { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -41,8 +43,9 @@ export default function RciPage() {
     id: rci?.id || 0,
     status: rci?.status || "Aberto",
     link_plano_acao: rci?.link_plano_acao || "",
-    data_limite: rci?.data_limite ? rci.data_limite.toISOString().split("T")[0] : undefined,
-    solucao: rci?.solucao || "",
+    data_limite: rci?.data_limite
+      ? rci.data_limite.toISOString().split("T")[0]
+      : undefined,
     setor_id: rci?.setor.id || 0,
     condicao_insegura_id: rci?.condicao_insegura.id || 0,
     nivel_risco_id: rci?.nivel_risco.id || 0,
@@ -51,6 +54,7 @@ export default function RciPage() {
 
   const [hasChanges, setHasChanges] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
+  const [isFinishing, setIsFinishing] = useState(false);
 
   // Derive selectedSetor to avoid frequent re-renders through extra state updates
   const selectedSetor = useMemo(() => {
@@ -65,25 +69,39 @@ export default function RciPage() {
     if (!rci) return;
     setIsUpdating(true);
     try {
-      const parsedData = RciUpdateSchema.safeParse(newRciData);
-      if (!parsedData.success) {
-        showToast("Dados inválidos. Verifique os campos.", "error");
-        return;
-      }
-      await updateRci(rci.id.toString(), parsedData.data);
-      showToast("RCI atualizado com sucesso!", "success");
-      setHasChanges(false);
-      navigate(-1);
+      console.log("Tentando atualizar o RCI...", newRciData);
+      RciUpdateSchema.parse(newRciData);
+      // await updateRci(rci.id.toString(), parsedData.data);
+      // showToast("RCI atualizado com sucesso!", "success");
+      // setHasChanges(false);
+      // navigate(-1);
     } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : "Erro desconhecido";
-      showToast(`Erro ao atualizar RCI: ${errorMessage}`, "error");
+      if (error instanceof z.ZodError) {
+        showToast(
+          error.issues.map((issue) => issue.message).join(", "),
+          "error"
+        );
+      } else {
+        const errorMessage =
+          error instanceof Error ? error.message : "Erro desconhecido";
+        showToast(`Erro ao criar RCI: ${errorMessage}`, "error");
+      }
     } finally {
       setIsUpdating(false);
     }
   };
 
+  const handleFinishRci = async () => {};
+
   const handleChange = (field: keyof RciUpdate, value: unknown) => {
+    if (!rci) return;
+    if (field === "status") {
+      if (value === "Finalizado" || value === "Rejeitado") {
+        setIsFinishing(true);
+      } else {
+        setIsFinishing(false);
+      }
+    }
     setHasChanges(true);
     setNewRciData((prev) => ({ ...prev, [field]: value }));
   };
@@ -149,9 +167,17 @@ export default function RciPage() {
               <div className="flex flex-row items-center gap-4">
                 <SelectStatusForm
                   value={newRciData.status}
-                  onChange={(newStatus) =>
-                    handleChange("status", newStatus || "Aberto")
-                  }
+                  onChange={(newStatus) => {
+                    if (
+                      (newStatus === "Finalizado" ||
+                        newStatus === "Rejeitado") &&
+                      hasChanges
+                    ) {
+                      showToast("Você tem alterações não salvas.", "warning");
+                      return;
+                    }
+                    handleChange("status", newStatus || "Aberto");
+                  }}
                 />
                 <button className={style.deleteButton} title="Deletar RCI">
                   <img src={deleteIcon} alt="Deletar RCI" />
@@ -191,6 +217,7 @@ export default function RciPage() {
                         : null
                     }
                     onChange={(e) => handleChange("setor_id", e?.id || 0)}
+                    disabled={isFinishing}
                   />
                   <InputForm
                     label="Responsável"
@@ -220,6 +247,7 @@ export default function RciPage() {
                         : null
                     }
                     onChange={(e) => handleChange("nivel_risco_id", e?.id || 0)}
+                    disabled={isFinishing}
                   />
                   <SelectItemForm
                     label="Ocorrência"
@@ -242,15 +270,19 @@ export default function RciPage() {
                     onChange={(e) =>
                       handleChange("condicao_insegura_id", e?.id || 0)
                     }
+                    disabled={isFinishing}
                   />
                   <DatePicker
                     value={newRciData.data_limite || ""}
                     label="Data Limite"
                     onChange={(date) => {
                       if (!date) return;
-                      const newDate = new Date(date).toISOString().split("T")[0];
+                      const newDate = new Date(date)
+                        .toISOString()
+                        .split("T")[0];
                       handleChange("data_limite", newDate);
                     }}
+                    disabled={isFinishing}
                   />
                 </div>
                 <InputForm
@@ -260,6 +292,7 @@ export default function RciPage() {
                   rows={1}
                   required={false}
                   placeholder="Cole o link aqui"
+                  disabled={isFinishing}
                 />
                 <InputForm
                   label="Detalhes da Ocorrência"
@@ -268,6 +301,7 @@ export default function RciPage() {
                   rows={5}
                   required
                   placeholder="Descreva a ocorrência em detalhes"
+                  disabled={isFinishing}
                 />
               </div>
               <div className={style.history}>
@@ -292,7 +326,7 @@ export default function RciPage() {
           <footer className={style.footer}>
             <BaseButton
               label="Salvar o RCI"
-              onClick={handleUpdateRci}
+              onClick={isFinishing ? handleFinishRci : handleUpdateRci}
               disabled={!hasChanges || isUpdating}
             />
           </footer>
