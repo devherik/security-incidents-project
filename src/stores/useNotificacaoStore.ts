@@ -35,10 +35,9 @@ export const useNotificacaoStore = create<NotificacaoState>((set, get) => ({
   marcarComoLida: async (notificacaoId: number) => {
     try {
       await AuthServer.markNotificationsAsRead(notificacaoId);
-      const updatedNotificacoes = get().notificacoes.map((notificacao) =>
-        notificacao.id === notificacaoId
-          ? { ...notificacao, lida: true }
-          : notificacao
+      // Remove the notification from the list instead of just marking it as read
+      const updatedNotificacoes = get().notificacoes.filter(
+        (notificacao) => notificacao.id !== notificacaoId
       );
       set({ notificacoes: updatedNotificacoes });
     } catch (error) {
@@ -49,12 +48,12 @@ export const useNotificacaoStore = create<NotificacaoState>((set, get) => ({
   marcarTodasComoLidas: async () => {
     try {
       const notificacoes = get().notificacoes;
-      const updatedNotificacoes = notificacoes.map(
-        (notificacao) => (
-          get().marcarComoLida(notificacao.id), { ...notificacao, lida: true }
+      await Promise.all(
+        notificacoes.map((notificacao) =>
+          AuthServer.markNotificationsAsRead(notificacao.id)
         )
       );
-      set({ notificacoes: updatedNotificacoes });
+      set({ notificacoes: [] });
     } catch (error) {
       console.error("Error marking all notifications as read:", error);
     }
