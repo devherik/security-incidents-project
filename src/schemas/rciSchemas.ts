@@ -74,6 +74,8 @@ export const RciCreateSchema = z.object({
 });
 
 export const RciUpdateSchema = RciCreateSchema.pick({
+  autor_id: true,
+  unidade_id: true,
   setor_id: true,
   condicao_insegura_id: true,
   nivel_risco_id: true,
@@ -83,6 +85,10 @@ export const RciUpdateSchema = RciCreateSchema.pick({
   data_limite: true,
 }).extend({
   id: z.number().int().positive(),
+  justificativa: z
+    .string()
+    .min(10, "Justificativa deve ter pelo menos 10 caracteres")
+    .max(1000, "Justificativa deve ter no máximo 1000 caracteres")
 });
 
 export const RciFinalizeSchema = RciCreateSchema.pick({

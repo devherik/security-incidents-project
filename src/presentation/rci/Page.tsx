@@ -49,6 +49,8 @@ export default function RciPage() {
 
   const [newRciData, setNewRciData] = useState<RciUpdate>(() => ({
     id: rci?.id || 0,
+    autor_id: rci?.autor.id || 0,
+    unidade_id: rci?.unidade.id || 0,
     status: rci?.status || "Aberto",
     link_plano_acao: rci?.link_plano_acao || "",
     data_limite: rci?.data_limite
@@ -58,12 +60,13 @@ export default function RciPage() {
     condicao_insegura_id: rci?.condicao_insegura.id || 0,
     nivel_risco_id: rci?.nivel_risco.id || 0,
     detalhamento: rci?.detalhamento || "",
+    justificativa: "",
   }));
 
   const [solucao, setSolucao] = useState<string>(rci?.solucao || "");
-  const [observacao, setObservacao] = useState<string>("");
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
   const [isFinishing, setIsFinishing] = useState(false);
@@ -83,10 +86,10 @@ export default function RciPage() {
     try {
       console.log("Tentando atualizar o RCI...", newRciData);
       RciUpdateSchema.parse(newRciData);
-      // await updateRci(rci.id.toString(), parsedData.data);
-      // showToast("RCI atualizado com sucesso!", "success");
-      // setHasChanges(false);
-      // navigate(-1);
+      await updateRci(rci.id.toString(), newRciData);
+      showToast("RCI atualizado com sucesso!", "success");
+      setHasChanges(false);
+      navigate(-1);
     } catch (error) {
       if (error instanceof z.ZodError) {
         showToast(
@@ -114,10 +117,10 @@ export default function RciPage() {
       };
       console.log("Tentando atualizar o RCI...", rciToFinalize);
       RciFinalizeSchema.parse(rciToFinalize);
-      // await updateRci(rci.id.toString(), parsedData.data);
-      // showToast("RCI atualizado com sucesso!", "success");
-      // setHasChanges(false);
-      // navigate(-1);
+      await updateRci(rci.id.toString(), rciToFinalize);
+      showToast("RCI atualizado com sucesso!", "success");
+      setHasChanges(false);
+      navigate(-1);
     } catch (error) {
       if (error instanceof z.ZodError) {
         showToast(
@@ -129,6 +132,22 @@ export default function RciPage() {
           error instanceof Error ? error.message : "Erro desconhecido";
         showToast(`Erro ao criar RCI: ${errorMessage}`, "error");
       }
+    } finally {
+      setIsUpdating(false);
+    }
+  };
+
+  const handleDeleteRci = async () => {
+    if (!rci) return;
+    setIsUpdating(true);
+    try {
+      await deleteRci(rci.id.toString());
+      showToast("RCI deletado com sucesso!", "success");
+      navigate(-1);
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Erro desconhecido";
+      showToast(`Erro ao deletar RCI: ${errorMessage}`, "error");
     } finally {
       setIsUpdating(false);
     }
@@ -221,7 +240,11 @@ export default function RciPage() {
                       handleChange("status", newStatus || "Aberto");
                     }}
                   />
-                  <button className={style.deleteButton} title="Deletar RCI">
+                  <button
+                    className={style.deleteButton}
+                    title="Deletar RCI"
+                    onClick={() => setIsDeleteModalOpen(true)}
+                  >
                     <img src={deleteIcon} alt="Deletar RCI" />
                   </button>
                 </div>
@@ -402,8 +425,8 @@ export default function RciPage() {
                 <div className="flex flex-col gap-4">
                   <p>Tem certeza que deseja salvar as alterações deste RCI?</p>
                   <InputForm
-                    value={observacao}
-                    setValue={setObservacao}
+                    value={newRciData.justificativa || ""}
+                    setValue={(value) => handleChange("justificativa", value)}
                     rows={5}
                     required
                     placeholder="Descreva a observação para esta alteração"
@@ -427,7 +450,7 @@ export default function RciPage() {
                     }
                     handleFinishRci();
                   } else {
-                    if (observacao.trim().length < 10) {
+                    if (newRciData.justificativa?.trim().length < 10) {
                       showToast(
                         "A observação deve ter pelo menos 10 caracteres.",
                         "error"
@@ -437,6 +460,44 @@ export default function RciPage() {
                     handleUpdateRci();
                   }
                   setIsModalOpen(false);
+                }}
+              />
+            </footer>
+          </div>
+        </Modal>
+        <Modal
+          isOpen={isDeleteModalOpen}
+          onClose={() => setIsDeleteModalOpen(false)}
+          isBlur={true}
+        >
+          <div className={style.modalContent}>
+            <PageTitle title={"Deletar RCI"} />
+            <main>
+              <div className="flex flex-col gap-4">
+                <p>Tem certeza que deseja excluir este RCI?</p>
+                <InputForm
+                  value={solucao}
+                  setValue={setSolucao}
+                  rows={3}
+                  required
+                  placeholder="Descreva a motivo para a exclusão deste RCI"
+                />
+              </div>
+            </main>
+            <footer>
+              <BaseButton
+                isDelete={true}
+                label={"Excluir RCI"}
+                onClick={() => {
+                  if (newRciData.justificativa?.trim().length < 10) {
+                    showToast(
+                      "A motivo deve ter pelo menos 10 caracteres.",
+                      "error"
+                    );
+                    return;
+                  }
+                  handleDeleteRci();
+                  setIsDeleteModalOpen(false);
                 }}
               />
             </footer>

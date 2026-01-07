@@ -1,6 +1,12 @@
 import apiClient, { type ApiError } from "../api/apiClient";
 
-import type { Rci, RciCreate, RciLog, RciUpdate } from "../schemas/rciSchemas";
+import type {
+  Rci,
+  RciCreate,
+  RciFinalize,
+  RciLog,
+  RciUpdate,
+} from "../schemas/rciSchemas";
 
 class RciServer {
   static instance: RciServer;
@@ -47,7 +53,7 @@ class RciServer {
     }
   }
 
-  public async updateRci(rciId: string, rciData: RciUpdate) {
+  public async updateRci(rciId: string, rciData: RciUpdate | RciFinalize) {
     try {
       const response = await apiClient.put(`/v1/rci/${rciId}/`, rciData);
       return response.data as Rci;

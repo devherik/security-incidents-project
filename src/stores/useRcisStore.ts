@@ -6,7 +6,13 @@ import { useAppStore } from "./useAppStore";
 
 import { orderByDate } from "../utils/listsUtil";
 
-import type { Rci, RciCreate, RciLog, RciUpdate } from "../schemas/rciSchemas";
+import type {
+  Rci,
+  RciCreate,
+  RciFinalize,
+  RciLog,
+  RciUpdate,
+} from "../schemas/rciSchemas";
 import type {
   CondicaoInsegura,
   DateRange,
@@ -38,7 +44,7 @@ interface RciState {
   fetchRcis: (userId: string) => Promise<void>;
   fetchRciHistory: (rciId: string) => Promise<RciLog[]>;
   createRci: (rciData: RciCreate) => Promise<void>;
-  updateRci: (rciId: string, rciData: RciUpdate) => Promise<void>;
+  updateRci: (rciId: string, rciData: RciUpdate | RciFinalize) => Promise<void>;
   deleteRci: (rciId: string) => Promise<void>;
 
   setFilter: <K extends keyof RciFilters>(key: K, value: RciFilters[K]) => void;
@@ -138,7 +144,7 @@ export const useRcisStore = create<RciState>((set, get) => ({
     }
   },
 
-  updateRci: async (rciId: string, rciData: RciUpdate) => {
+  updateRci: async (rciId: string, rciData: RciUpdate | RciFinalize) => {
     set({ isLoading: true, error: null });
     try {
       const updatedRci = await RcisServer.updateRci(rciId, rciData);
