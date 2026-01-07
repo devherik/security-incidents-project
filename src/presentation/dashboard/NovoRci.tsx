@@ -38,7 +38,7 @@ export default function NovoRci({ onClose }: { onClose?: () => void }) {
     nivel_risco_id: 0,
     status: "Aberto",
     tipo: "0",
-    link_plano_acao: undefined,
+    link_plano_acao: "",
     data_limite: getNextMonth(),
     detalhamento: "",
     solucao: undefined,
