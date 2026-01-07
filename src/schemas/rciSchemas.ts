@@ -59,8 +59,9 @@ export const RciCreateSchema = z.object({
     .min(1, "Tipo deve ter pelo menos 1 caractere")
     .max(100, "Tipo deve ter no máximo 100 caracteres"),
   link_plano_acao: z
-    .url("Link do Plano de Ação deve ser uma URL válida")
-    .optional(),
+    .string("Link do Plano de Ação deve ser uma URL válida")
+    .optional()
+    .default(""),
   detalhamento: z
     .string()
     .min(30, "Detalhamento deve ter pelo menos 30 caracteres")
@@ -88,6 +89,8 @@ export const RciFinalizeSchema = RciCreateSchema.pick({
   id: true,
   solucao: true,
   status: true,
+}).extend({
+  id: z.number().int().positive(),
 });
 
 export const RciLogSchema = z.object({
