@@ -294,7 +294,7 @@ export default function RciPage() {
                       placeholder={selectedSetor?.responsavel.first_name || ""}
                     />
                     <SelectItemForm
-                      label="Nível de Risco"
+                      label="Grau de Risco"
                       items={niveisDeRisco.map((n) => ({
                         id: n.id,
                         descricao: `${n.sigla_risco} - ${n.severidade}`,
@@ -473,7 +473,7 @@ export default function RciPage() {
           <div className={style.modalContent}>
             <PageTitle title={"Deletar RCI"} />
             <main className="flex flex-col">
-              <p>Tem certeza que deseja excluir este RCI?</p>
+              <p>Tem certeza que deseja deletar este RCI?</p>
             </main>
             <footer className="flex flex-row justify-end gap-4">
               <BaseButton

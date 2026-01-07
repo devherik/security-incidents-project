@@ -33,7 +33,9 @@ export default function InputForm({
       <label className={style.label}>
         {label}
         <textarea
-          className={`${resize ? "resize-y" : "resize-none"} ${style.input}`}
+          className={`${resize ? "resize-y" : "resize-none"} ${style.input} ${
+          disabled ? style.disabled : ""
+          }`}
           rows={rows}
           {...(cols !== undefined ? { cols } : {})}
           name="title"
