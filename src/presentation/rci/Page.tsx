@@ -29,10 +29,13 @@ import { useAppStore } from "../../stores/useAppStore";
 import { useRcisStore } from "../../stores/useRcisStore";
 import Modal from "../../components/modal/Modal";
 import PageTitle from "../../components/page-title/PageTitle";
+import usePermissions from "../../hooks/usePermissions";
 
 export default function RciPage() {
   const location = useLocation();
   const navigate = useNavigate();
+
+  const { hasGroup } = usePermissions();
 
   const updateRci = useRcisStore((state) => state.updateRci);
   const deleteRci = useRcisStore((state) => state.deleteRci);
@@ -69,7 +72,7 @@ export default function RciPage() {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
-  const [isFinishing, setIsFinishing] = useState(false);
+  const [isFinishing, setIsFinishing] = useState(!hasGroup(1) ? false : true);
 
   // Derive selectedSetor to avoid frequent re-renders through extra state updates
   const selectedSetor = useMemo(() => {
@@ -225,7 +228,7 @@ export default function RciPage() {
                     {formatDateToISO(rci.dtcriacao)}
                   </p>
                 </div>
-                <div className="flex flex-row items-center gap-4">
+                {!hasGroup(1) && <div className="flex flex-row items-center gap-4">
                   <SelectStatusForm
                     value={newRciData.status}
                     onChange={(newStatus) => {
@@ -247,7 +250,7 @@ export default function RciPage() {
                   >
                     <img src={deleteIcon} alt="Deletar RCI" />
                   </button>
-                </div>
+                </div>}
               </div>
               <div className={style.info}>
                 <div className={style.form}>
@@ -391,11 +394,11 @@ export default function RciPage() {
                 </div>
               </div>
               <footer className={style.footer}>
-                <BaseButton
+                {!hasGroup(1) &&  <BaseButton
                   label={isFinishing ? "Finalizar RCI" : "Salvar o RCI"}
                   onClick={() => setIsModalOpen(true)}
                   disabled={!hasChanges || isUpdating}
-                />
+                />}
               </footer>
             </main>
           </SlideInEffect>

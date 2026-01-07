@@ -5,6 +5,8 @@ import { useAuthStore } from "../../stores/useAuthStore";
 
 import style from "./style.module.css";
 
+import usePermissions from "../../hooks/usePermissions";
+
 import SlideInEffect from "../../animations/slide-in/SlideInEffect";
 import PageTitle from "../../components/page-title/PageTitle";
 import NewItemButton from "../../components/new-item-button/NewItemButton";
@@ -17,6 +19,7 @@ import ExcelExportButton from "../../components/excel-export-button/ExcelExportB
 export default function DashboardPage() {
   const colaborador = useAuthStore((state) => state.colaborador);
   const isInitialized = useAppStore((state) => state.isInitialized);
+  const { hasGroup } = usePermissions();
 
   // Trigger initialization on mount - store handles idempotency
   useEffect(() => {
@@ -43,7 +46,7 @@ export default function DashboardPage() {
             subtitle={`Olá, ${colaborador?.first_name}.`}
           />
           <div className="flex flex-row items-center gap-4">
-            <ExcelExportButton />
+            {!hasGroup(1) && <ExcelExportButton />}
             <NewItemButton label="Novo RCI" alt="Adicionar novo RCI">
               <NovoRci />
             </NewItemButton>
