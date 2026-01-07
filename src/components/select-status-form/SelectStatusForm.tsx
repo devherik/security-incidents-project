@@ -23,7 +23,6 @@ interface SelectItemFormProps {
 export default function SelectStatusForm({
   value,
   onChange,
-  required = false,
   disabled = false,
 }: SelectItemFormProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -66,10 +65,6 @@ export default function SelectStatusForm({
 
   return (
     <div className={styles.container} ref={containerRef}>
-      <label className={styles.label}>
-        Status
-        {required && <span className={styles.required}>*</span>}
-      </label>
 
       <div className={styles.selectWrapper}>
         <div

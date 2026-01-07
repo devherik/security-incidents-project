@@ -38,6 +38,25 @@
   border-bottom: 1px solid var(--accent-color);
 }
 
+.deleteButton {
+  background: var(--red-color);
+  padding: 0.5rem;
+  border: 1px solid var(--red-color);
+  cursor: pointer;
+  height: 100%;
+  border-radius: 8px;
+}
+
+.deleteButton img {
+  width: 22px;
+  height: auto;
+  margin: 0;
+}
+
+.deleteButton:hover {
+  border-color: var(--accent-color);
+}
+
 .info {
   display: flex;
   flex-direction: row;

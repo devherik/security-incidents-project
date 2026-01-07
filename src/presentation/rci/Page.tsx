@@ -16,6 +16,8 @@ import { RciUpdateSchema } from "../../schemas/rciSchemas";
 
 import { formatDateToISO } from "../../utils/dateUtil";
 
+import deleteIcon from "../../assets/icons/delete.svg";
+
 import { useAppStore } from "../../stores/useAppStore";
 import { useRcisStore } from "../../stores/useRcisStore";
 
@@ -144,12 +146,17 @@ export default function RciPage() {
                   {formatDateToISO(rci.dtcriacao)}
                 </p>
               </div>
-              <SelectStatusForm
-                value={newRciData.status}
-                onChange={(newStatus) =>
-                  handleChange("status", newStatus || "Aberto")
-                }
-              />
+              <div className="flex flex-row items-center gap-4">
+                <SelectStatusForm
+                  value={newRciData.status}
+                  onChange={(newStatus) =>
+                    handleChange("status", newStatus || "Aberto")
+                  }
+                />
+                <button className={style.deleteButton} title="Deletar RCI">
+                  <img src={deleteIcon} alt="Deletar RCI" />
+                </button>
+              </div>
             </div>
             <div className={style.info}>
               <div className={style.form}>
