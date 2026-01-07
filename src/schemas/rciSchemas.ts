@@ -18,14 +18,14 @@ export const RciSchema = z.object({
   setor: UnidadeSetorSchema,
   condicao_insegura: CondicaoInseguraSchema,
   nivel_risco: NivelRiscoSchema,
-  data_limite: z.date(),
+  data_limite: z.coerce.string(),
   status: rciStatusEnum,
   tipo: z.string().min(1).max(100),
   link_plano_acao: z.url().optional(),
   detalhamento: z.string().min(1).max(1000),
   solucao: z.string().min(1).max(1000).optional(),
-  dtcriacao: z.date().default(() => new Date()),
-  dtmodificacao: z.date().default(() => new Date()),
+  dtcriacao: z.coerce.date().default(() => new Date()),
+  dtmodificacao: z.coerce.date().default(() => new Date()),
 });
 
 export const RciCreateSchema = z.object({
@@ -34,7 +34,7 @@ export const RciCreateSchema = z.object({
   setor_id: z.number().int().positive(),
   condicao_insegura_id: z.number().int().positive(),
   nivel_risco_id: z.number().int().positive(),
-  data_limite: z.date().default(() => new Date(getNextMonth())).optional(),
+  data_limite: z.coerce.string().default(() => getNextMonth()).optional(),
   status: rciStatusEnum.default("Aberto"),
   tipo: z.string().min(1).max(100),
   link_plano_acao: z.url().optional(),

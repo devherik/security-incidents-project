@@ -15,6 +15,7 @@ import BaseButton from "../../components/buttons/BaseButton";
 import SelectItemForm from "../../components/select-item-form/SelectItemForm";
 import type { UnidadeSetor } from "../../schemas/stateSchemas";
 import InputForm from "../../components/input-form/InputForm";
+import { getNextMonth } from "../../utils/dateUtil";
 
 export default function NovoRci({ onClose }: { onClose?: () => void }) {
   const colaborador = useAuthStore((state) => state.colaborador);
@@ -38,6 +39,7 @@ export default function NovoRci({ onClose }: { onClose?: () => void }) {
     status: "Aberto",
     tipo: "0",
     link_plano_acao: undefined,
+    data_limite: getNextMonth(),
     detalhamento: "",
     solucao: undefined,
   });
@@ -46,6 +48,7 @@ export default function NovoRci({ onClose }: { onClose?: () => void }) {
     setIsSaving(true);
     try {
       RciCreateSchema.parse(newRciData);
+      console.log("Creating RCI with data:", newRciData);
       await createRci(newRciData).then(() => {
         showToast("RCI criado com sucesso!", "success");
         onClose?.();

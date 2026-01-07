@@ -7,6 +7,9 @@ import SlideInEffect from "../../animations/slide-in/SlideInEffect";
 import NavigateButton from "../../components/buttons/NavigateButton";
 import SelectItemForm from "../../components/select-item-form/SelectItemForm";
 import InputForm from "../../components/input-form/InputForm";
+import BaseButton from "../../components/buttons/BaseButton";
+import SelectStatusForm from "../../components/select-status-form/SelectStatusForm";
+import DatePicker from "../../components/date-picker/DatePicker";
 
 import type { Rci, RciLog, RciUpdate } from "../../schemas/rciSchemas";
 import { RciUpdateSchema } from "../../schemas/rciSchemas";
@@ -15,9 +18,6 @@ import { formatDateToISO } from "../../utils/dateUtil";
 
 import { useAppStore } from "../../stores/useAppStore";
 import { useRcisStore } from "../../stores/useRcisStore";
-import BaseButton from "../../components/buttons/BaseButton";
-import SelectStatusForm from "../../components/select-status-form/SelectStatusForm";
-import DatePicker from "../../components/date-picker/DatePicker";
 
 export default function RciPage() {
   const location = useLocation();
@@ -39,7 +39,7 @@ export default function RciPage() {
     id: rci?.id || 0,
     status: rci?.status || "Aberto",
     link_plano_acao: rci?.link_plano_acao || "",
-    data_limite: rci?.data_limite ? new Date(rci.data_limite) : new Date(),
+    data_limite: rci?.data_limite ? rci.data_limite : undefined,
     solucao: rci?.solucao || "",
     setor_id: rci?.setor.id || 0,
     condicao_insegura_id: rci?.condicao_insegura.id || 0,
@@ -237,9 +237,7 @@ export default function RciPage() {
                     }
                   />
                   <DatePicker
-                    value={
-                      newRciData.data_limite?.toISOString().split("T")[0] || ""
-                    }
+                    value={newRciData.data_limite || ""}
                     label="Data Limite"
                     onChange={(date) => {
                       if (!date) return;

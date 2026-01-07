@@ -7,6 +7,7 @@ import {
   format,
   getISOWeek,
   getISOWeekYear,
+  addMonths,
 } from "date-fns";
 
 import { type DiaSemana } from "../schemas/enums";
@@ -83,10 +84,7 @@ export const parseToAPIFormat = (isoString: string): string => {
   return format(isoString, apiDateFormat);
 };
 
-export const getNextMonth = () => {
-  // Returns the date 30 days from now - api format
-  const now = new Date();
-  const nextMonth = new Date(now);
-  nextMonth.setMonth(now.getMonth() + 1);
-  return formatDateToISO(nextMonth);
+export const getNextMonth = (): string => {
+  // Returns the date 1 month from now - as a Date object
+  return parseToAPIFormat(addMonths(new Date(), 1).toISOString());
 };
