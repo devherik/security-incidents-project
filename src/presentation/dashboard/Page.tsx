@@ -6,6 +6,8 @@ import { useNotificacaoStore } from "../../stores/useNotificacaoStore";
 
 import style from "./style.module.css";
 
+import rciLogo from "../../assets/logos/logo_rci.png";
+
 import usePermissions from "../../hooks/usePermissions";
 
 import SlideInEffect from "../../animations/slide-in/SlideInEffect";
@@ -55,7 +57,7 @@ export default function DashboardPage() {
 
     return () => clearInterval(intervalId);
   }, [colaborador, fetchUserNotifications]);
-  
+
   // Show loading screen during first-time initialization only
   if (!isInitialized) {
     return (
@@ -71,10 +73,13 @@ export default function DashboardPage() {
     <div className={style.content}>
       <SlideInEffect duration={0.5}>
         <header className="flex flex-row items-center justify-between w-auto p-4 h-28">
-          <PageTitle
-            title="Registro de Condições Inseguras"
-            subtitle={`Olá, ${colaborador?.first_name}.`}
-          />
+          <div className="flex flex-row items-center gap-4">
+            <img className={style.logoRci} src={rciLogo} alt="RCI Logo" />
+            <PageTitle
+              title=""
+              subtitle={`Olá, ${colaborador?.first_name}.`}
+            />
+          </div>
           <div className="flex flex-row items-center gap-4">
             {!hasGroup(1) && <ExcelExportButton />}
             <NewItemButton label="Novo RCI" alt="Adicionar novo RCI">

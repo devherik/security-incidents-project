@@ -19,6 +19,13 @@
   overflow-y: scroll;
 }
 
+.logoRci {
+  width: 150px;
+  height: auto;
+  align-self: center;
+  margin-bottom: 1rem;
+}
+
 .novoRciContent {
   display: flex;
   flex-direction: column;

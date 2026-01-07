@@ -24,6 +24,13 @@
   height: auto;
 }
 
+.logoRci {
+  width: 200px;
+  height: auto;
+  align-self: center;
+  margin-bottom: 1rem;
+}
+
 .title {
   padding: 0.25rem 0.5rem;
   font-family: var(--secondary-font);

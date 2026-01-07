@@ -16,6 +16,7 @@ import type { LoginCredentials } from "../../schemas/authSchemas";
 import { LoginCredentialsSchema } from "../../schemas/authSchemas";
 
 import p1Logo from "../../assets/logos/p1-logo.png";
+import rciLogo from "../../assets/logos/logo_rci.png";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -119,7 +120,7 @@ export default function LoginPage() {
           <img src={p1Logo} alt="P1 Logo" />
         </div>
         <main className={style.main}>
-          <span className={style.title}>RCI</span>
+          <img className={style.logoRci} src={rciLogo} alt="RCI Logo" />
           <span className={style.subtitle}>Informe suas credenciais</span>
           <CredentialForm
             id="username"
