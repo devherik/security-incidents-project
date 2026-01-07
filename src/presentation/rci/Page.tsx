@@ -434,7 +434,7 @@ export default function RciPage() {
                 </div>
               )}
             </main>
-            <footer>
+            <footer className="flex flex-row justify-end gap-4">
               <BaseButton
                 label={
                   isFinishing ? "Confirmar Finalização" : "Confirmar Alterações"
@@ -472,30 +472,14 @@ export default function RciPage() {
         >
           <div className={style.modalContent}>
             <PageTitle title={"Deletar RCI"} />
-            <main>
-              <div className="flex flex-col gap-4">
-                <p>Tem certeza que deseja excluir este RCI?</p>
-                <InputForm
-                  value={solucao}
-                  setValue={setSolucao}
-                  rows={3}
-                  required
-                  placeholder="Descreva a motivo para a exclusão deste RCI"
-                />
-              </div>
+            <main className="flex flex-col">
+              <p>Tem certeza que deseja excluir este RCI?</p>
             </main>
-            <footer>
+            <footer className="flex flex-row justify-end gap-4">
               <BaseButton
                 isDelete={true}
-                label={"Excluir RCI"}
+                label={"Sim, deletar RCI"}
                 onClick={() => {
-                  if (newRciData.justificativa?.trim().length < 10) {
-                    showToast(
-                      "A motivo deve ter pelo menos 10 caracteres.",
-                      "error"
-                    );
-                    return;
-                  }
                   handleDeleteRci();
                   setIsDeleteModalOpen(false);
                 }}

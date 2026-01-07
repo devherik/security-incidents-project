@@ -64,11 +64,11 @@ export const RciCreateSchema = z.object({
     .default(""),
   detalhamento: z
     .string()
-    .min(30, "Detalhamento deve ter pelo menos 30 caracteres")
+    .min(15, "Detalhamento deve ter pelo menos 15 caracteres")
     .max(1000, "Detalhamento deve ter no máximo 1000 caracteres"),
   solucao: z
     .string()
-    .min(30, "Solução deve ter pelo menos 30 caracteres")
+    .min(15, "Solução deve ter pelo menos 15 caracteres")
     .max(1000, "Solução deve ter no máximo 1000 caracteres")
     .optional(),
 });
@@ -87,7 +87,7 @@ export const RciUpdateSchema = RciCreateSchema.pick({
   id: z.number().int().positive(),
   justificativa: z
     .string()
-    .min(10, "Justificativa deve ter pelo menos 10 caracteres")
+    .min(15, "Justificativa deve ter pelo menos 15 caracteres")
     .max(1000, "Justificativa deve ter no máximo 1000 caracteres")
 });
 
