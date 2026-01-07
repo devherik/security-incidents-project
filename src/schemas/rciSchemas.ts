@@ -29,17 +29,47 @@ export const RciSchema = z.object({
 });
 
 export const RciCreateSchema = z.object({
-  autor_id: z.number().int().positive(),
-  unidade_id: z.number().int().positive(),
-  setor_id: z.number().int().positive(),
-  condicao_insegura_id: z.number().int().positive(),
-  nivel_risco_id: z.number().int().positive(),
-  data_limite: z.coerce.string().default(() => getNextMonth()).optional(),
+  autor_id: z
+    .number()
+    .int("Autor ID deve ser um número inteiro")
+    .positive("Autor ID deve ser positivo"),
+  unidade_id: z
+    .number()
+    .int("Unidade ID deve ser um número inteiro")
+    .positive("Unidade ID deve ser positivo"),
+  setor_id: z
+    .number()
+    .int("Setor ID deve ser um número inteiro")
+    .positive("Setor ID deve ser positivo"),
+  condicao_insegura_id: z
+    .number()
+    .int("Condição Insegura ID deve ser um número inteiro")
+    .positive("Condição Insegura ID deve ser positivo"),
+  nivel_risco_id: z
+    .number()
+    .int("Nível de Risco ID deve ser um número inteiro")
+    .positive("Nível de Risco ID deve ser positivo"),
+  data_limite: z.coerce
+    .string("Data Limite deve ser uma string no formato 'YYYY-MM-DD'")
+    .default(() => getNextMonth())
+    .optional(),
   status: rciStatusEnum.default("Aberto"),
-  tipo: z.string().min(1).max(100),
-  link_plano_acao: z.url().optional(),
-  detalhamento: z.string().min(1).max(1000),
-  solucao: z.string().min(1).max(1000).optional(),
+  tipo: z
+    .string()
+    .min(1, "Tipo deve ter pelo menos 1 caractere")
+    .max(100, "Tipo deve ter no máximo 100 caracteres"),
+  link_plano_acao: z
+    .url("Link do Plano de Ação deve ser uma URL válida")
+    .optional(),
+  detalhamento: z
+    .string()
+    .min(30, "Detalhamento deve ter pelo menos 30 caracteres")
+    .max(1000, "Detalhamento deve ter no máximo 1000 caracteres"),
+  solucao: z
+    .string()
+    .min(30, "Solução deve ter pelo menos 30 caracteres")
+    .max(1000, "Solução deve ter no máximo 1000 caracteres")
+    .optional(),
 });
 
 export const RciUpdateSchema = RciCreateSchema.pick({
