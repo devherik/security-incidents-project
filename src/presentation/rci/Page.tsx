@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import style from "./style.module.css";
@@ -9,7 +9,6 @@ import SelectItemForm from "../../components/select-item-form/SelectItemForm";
 import InputForm from "../../components/input-form/InputForm";
 
 import type { Rci, RciLog, RciUpdate } from "../../schemas/rciSchemas";
-import type { UnidadeSetor } from "../../schemas/stateSchemas";
 import { RciUpdateSchema } from "../../schemas/rciSchemas";
 
 import { formatDateToISO } from "../../utils/dateUtil";
@@ -36,25 +35,32 @@ export default function RciPage() {
 
   const rci: Rci = location.state?.rci;
 
-  const [selectedSetor, setSelectedSetor] = useState<UnidadeSetor | null>(
-    rci ? rci.setor : null
-  );
-  const [newRciData, setNewRciData] = useState<RciUpdate>({
-    id: rci ? rci.id : 0,
-    status: rci ? rci.status : "Aberto",
-    link_plano_acao: rci ? rci.link_plano_acao || "" : "",
-    data_limite: rci ? rci.data_limite : new Date(),
-    solucao: rci ? rci.solucao || "" : "",
-    setor_id: rci ? rci.setor.id : 0,
-    condicao_insegura_id: rci ? rci.condicao_insegura.id : 0,
-    nivel_risco_id: rci ? rci.nivel_risco.id : 0,
-    detalhamento: rci ? rci.detalhamento : "",
-  });
+  const [newRciData, setNewRciData] = useState<RciUpdate>(() => ({
+    id: rci?.id || 0,
+    status: rci?.status || "Aberto",
+    link_plano_acao: rci?.link_plano_acao || "",
+    data_limite: rci?.data_limite ? new Date(rci.data_limite) : new Date(),
+    solucao: rci?.solucao || "",
+    setor_id: rci?.setor.id || 0,
+    condicao_insegura_id: rci?.condicao_insegura.id || 0,
+    nivel_risco_id: rci?.nivel_risco.id || 0,
+    detalhamento: rci?.detalhamento || "",
+  }));
 
   const [hasChanges, setHasChanges] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
 
+  // Derive selectedSetor to avoid frequent re-renders through extra state updates
+  const selectedSetor = useMemo(() => {
+    if (!rci) return null;
+    if (newRciData.setor_id === rci.setor.id) return rci.setor;
+    return (
+      setoresUnidade.find((s) => s.id === Number(newRciData.setor_id)) || null
+    );
+  }, [setoresUnidade, newRciData.setor_id, rci]);
+
   const handleUpdateRci = async () => {
+    if (!rci) return;
     setIsUpdating(true);
     try {
       const parsedData = RciUpdateSchema.safeParse(newRciData);
@@ -62,75 +68,39 @@ export default function RciPage() {
         showToast("Dados inválidos. Verifique os campos.", "error");
         return;
       }
-      await updateRci(rci.id.toString(), parsedData.data).then(() => {
-        showToast("RCI atualizado com sucesso!", "success");
-        setHasChanges(false);
-        navigate(-1);
-      });
+      await updateRci(rci.id.toString(), parsedData.data);
+      showToast("RCI atualizado com sucesso!", "success");
+      setHasChanges(false);
+      navigate(-1);
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : "Erro desconhecido";
-      showToast(`Erro ao criar RCI: ${errorMessage}`, "error");
+      showToast(`Erro ao atualizar RCI: ${errorMessage}`, "error");
     } finally {
       setIsUpdating(false);
     }
   };
 
-  const handleSetorChange = (setorId: number | null) => {
+  const handleChange = (field: keyof RciUpdate, value: unknown) => {
     setHasChanges(true);
-
-    // Ensure numeric comparison (SelectItem.id can be string | number)
-    const numericSetorId = setorId ? Number(setorId) : 0;
-
-    // Update newRciData with the new setor_id
-    setNewRciData((prev) => ({
-      ...prev,
-      setor_id: numericSetorId,
-    }));
-
-    // Find and update selectedSetor from current setoresUnidade
-    if (numericSetorId) {
-      const setor = setoresUnidade.find((s) => s.id === numericSetorId);
-      setSelectedSetor(setor || null);
-    } else {
-      setSelectedSetor(null);
-    }
+    setNewRciData((prev) => ({ ...prev, [field]: value }));
   };
 
   useEffect(() => {
-    const fetchSetores = async () => {
-      if (rci.unidade.id !== 0) {
-        await getSetoresByUnidade(rci.unidade.id.toString());
-      }
-    };
-
-    fetchSetores();
-  }, [rci.unidade.id, getSetoresByUnidade]);
-
-  // Sync selectedSetor whenever setoresUnidade changes or setor_id changes
-  useEffect(() => {
-    if (newRciData.setor_id && setoresUnidade.length > 0) {
-      const setor = setoresUnidade.find(
-        (s) => s.id === Number(newRciData.setor_id)
-      );
-      setSelectedSetor(setor || null);
+    if (rci?.unidade.id) {
+      getSetoresByUnidade(rci.unidade.id.toString());
     }
-  }, [setoresUnidade, newRciData.setor_id]);
+  }, [rci?.unidade.id, getSetoresByUnidade]);
 
   useEffect(() => {
-    const fetchRciLogs = async () => {
-      try {
-        const history = await useRcisStore
-          .getState()
-          .fetchRciHistory(rci.id.toString());
-        setRciLogs(history);
-      } catch (error) {
-        console.error("Failed to fetch RCI logs:", error);
-      }
-    };
-
-    fetchRciLogs();
-  }, [rci.id]);
+    if (rci?.id) {
+      useRcisStore
+        .getState()
+        .fetchRciHistory(rci.id.toString())
+        .then(setRciLogs)
+        .catch((err) => console.error("Failed to fetch RCI logs:", err));
+    }
+  }, [rci?.id]);
 
   if (!rci) {
     return (
@@ -177,10 +147,7 @@ export default function RciPage() {
               <SelectStatusForm
                 value={newRciData.status}
                 onChange={(newStatus) =>
-                  setNewRciData((prev) => ({
-                    ...prev,
-                    status: newStatus || "Aberto",
-                  }))
+                  handleChange("status", newStatus || "Aberto")
                 }
               />
             </div>
@@ -209,17 +176,14 @@ export default function RciPage() {
                     }))}
                     placeholder="Selecione o setor"
                     value={
-                      newRciData.setor_id
+                      selectedSetor
                         ? {
-                            id: newRciData.setor_id,
-                            descricao:
-                              setoresUnidade.find(
-                                (s) => s.id === newRciData.setor_id
-                              )?.setor.nome || "",
+                            id: selectedSetor.id,
+                            descricao: selectedSetor.setor.nome,
                           }
                         : null
                     }
-                    onChange={(e) => handleSetorChange(e?.id || null)}
+                    onChange={(e) => handleChange("setor_id", e?.id || 0)}
                   />
                   <InputForm
                     label="Responsável"
@@ -248,12 +212,7 @@ export default function RciPage() {
                           }
                         : null
                     }
-                    onChange={(e) =>
-                      setNewRciData((prev) => ({
-                        ...prev,
-                        nivel_risco_id: e?.id || 0,
-                      }))
-                    }
+                    onChange={(e) => handleChange("nivel_risco_id", e?.id || 0)}
                   />
                   <SelectItemForm
                     label="Ocorrência"
@@ -274,10 +233,7 @@ export default function RciPage() {
                         : null
                     }
                     onChange={(e) =>
-                      setNewRciData((prev) => ({
-                        ...prev,
-                        condicao_insegura_id: e?.id || 0,
-                      }))
+                      handleChange("condicao_insegura_id", e?.id || 0)
                     }
                   />
                   <DatePicker
@@ -287,22 +243,14 @@ export default function RciPage() {
                     label="Data Limite"
                     onChange={(date) => {
                       if (!date) return;
-                      setNewRciData((prev) => ({
-                        ...prev,
-                        data_limite: date ? new Date(date) : new Date(),
-                      }));
+                      handleChange("data_limite", new Date(date));
                     }}
                   />
                 </div>
                 <InputForm
                   label="Link do Plano de Ação"
                   value={newRciData.link_plano_acao || ""}
-                  setValue={(value) =>
-                    setNewRciData((prev) => ({
-                      ...prev,
-                      link_plano_acao: value,
-                    }))
-                  }
+                  setValue={(value) => handleChange("link_plano_acao", value)}
                   rows={1}
                   required={false}
                   placeholder="Cole o link aqui"
@@ -310,12 +258,7 @@ export default function RciPage() {
                 <InputForm
                   label="Detalhes da Ocorrência"
                   value={newRciData.detalhamento}
-                  setValue={(value) =>
-                    setNewRciData((prev) => ({
-                      ...prev,
-                      detalhamento: value,
-                    }))
-                  }
+                  setValue={(value) => handleChange("detalhamento", value)}
                   rows={5}
                   required
                   placeholder="Descreva a ocorrência em detalhes"
