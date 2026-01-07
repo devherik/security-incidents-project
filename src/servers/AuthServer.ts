@@ -176,7 +176,9 @@ class AuthServer {
 
   public async markNotificationsAsRead(userId: number): Promise<void> {
     try {
-      await apiClient.patch(`/v2/notification_read/${userId}/`);
+      await apiClient.patch(`/v2/notification_read/${userId}/`, {
+        lida: true,
+      });
     } catch (error) {
       const apiError = error as ApiError;
       console.error("Error marking notifications as read:", apiError);
