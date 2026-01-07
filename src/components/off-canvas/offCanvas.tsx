@@ -8,6 +8,8 @@ import styles from "./style.module.css";
 
 import GhostButton from "../buttons/GhostButton";
 
+import arrowRighticon from "../../assets/icons/arrow-right.svg";
+
 const TextInfo = ({ label }: { label: string }) => (
   <span
     style={{
@@ -33,7 +35,12 @@ export default function OffCanvas({
 }) {
   const colaborador = useAuthStore((state) => state.colaborador);
   const logout = useAuthStore((state) => state.logout);
+
   const notificacoes = useNotificacaoStore((state) => state.notificacoes);
+  const marcarComoLida = useNotificacaoStore((state) => state.marcarComoLida);
+  const marcarTodasComoLidas = useNotificacaoStore(
+    (state) => state.marcarTodasComoLidas
+  );
 
   const navigate = useNavigate();
 
@@ -65,6 +72,15 @@ export default function OffCanvas({
     logout();
     closeOffCanvas();
     navigate("/login", { replace: true });
+  };
+
+  const handleTapNotificacao = (notificacaoId: number) => {
+    marcarComoLida(notificacaoId);
+  };
+
+  const handleMarcarTodasComoLidas = () => {
+    if (!colaborador) return;
+    marcarTodasComoLidas(colaborador.id);
   };
 
   useEffect(() => {
@@ -102,47 +118,60 @@ export default function OffCanvas({
         ref={offCanvasRef}
       >
         <header className={styles.offCanvasHeader}>
-          <span
-            style={{
-              color: "var(--primary-color)",
-              fontWeight: "bold",
-              fontSize: "1.2rem",
-              fontFamily: "var(--secondary-font)",
-            }}
-          >
-            {colaborador?.first_name} {colaborador?.last_name}
-          </span>
-          <GhostButton label="Logout" onClick={handlelogout} />
+          <div className={styles.offCanvasHeaderTop}>
+            <span>
+              {colaborador?.first_name} {colaborador?.last_name}
+            </span>
+            <GhostButton label="Sair" onClick={handlelogout} />
+          </div>
+          <div className={styles.offCanvasHeaderBottom}>
+            <TextInfo
+              label={colaborador ? `Id: ${colaborador.id}` : "Id: N/A"}
+            />
+            <TextInfo
+              label={
+                colaborador ? `E-mail: ${colaborador.email}` : "E-mail: N/A"
+              }
+            />
+            <TextInfo
+              label={
+                colaborador
+                  ? `Desde: ${colaborador.date_joined?.split("T")[0]}`
+                  : "Id: N/A"
+              }
+            />
+          </div>
         </header>
         <main className={styles.offCanvasContent}>
-          <TextInfo label={colaborador ? `Id: ${colaborador.id}` : "Id: N/A"} />
-          <TextInfo
-            label={colaborador ? `E-mail: ${colaborador.email}` : "E-mail: N/A"}
-          />
-          <TextInfo
-            label={
-              colaborador
-                ? `Desde: ${colaborador.date_joined?.split("T")[0]}`
-                : "Id: N/A"
-            }
-          />
-          <div>
+          <div className={styles.notificacoesContent}>
+            <span className={styles.notificacoesTitle}>Notificações</span>
             {notificacoes.length > 0 ? (
               notificacoes.map((notificacao) => (
                 <div
+                  onClick={() => handleTapNotificacao(notificacao.id)}
+                  className={`${styles.notificacao} ${
+                    styles[notificacao.tipo_alerta]
+                  }`}
                   key={notificacao.id}
-                  style={{
-                    borderBottom: "1px solid var(--primary-color)",
-                    marginBottom: "0.5rem",
-                    paddingBottom: "0.5rem",
-                  }}
                 >
-                  {notificacao.tipo_alerta}
+                  <div className="flex flex-col">
+                    {notificacao.tipo_alerta === "Novo" ? (
+                      <span>Novo RCI registrado!</span>
+                    ) : (
+                      <span>Alteração no RCI!</span>
+                    )}
+                    <p>{notificacao.dtcriacao.split("T")[0]}</p>
+                  </div>
+                  <img src={arrowRighticon} alt="Arrow Right" />
                 </div>
               ))
             ) : (
               <TextInfo label="Nenhuma notificação disponível." />
             )}
+            <GhostButton
+              label="Marcar todas como lidas"
+              onClick={handleMarcarTodasComoLidas}
+            />
           </div>
         </main>
       </div>

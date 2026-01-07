@@ -26,10 +26,29 @@
 
 .offCanvasHeader {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  align-items: center;
+  align-items: start;
   padding: 16px;
   border-bottom: 0.5px solid var(--primary-color);
+}
+
+.offCanvasHeaderTop {
+  color: var(--primary-color);
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+}
+
+.offCanvasHeaderBottom {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: start;
+  margin-top: 8px;
 }
 
 .offCanvasTitle {
@@ -121,6 +140,59 @@
   height: 48px;
   border-radius: 50%;
   object-fit: cover;
+}
+
+.notificacoesTitle {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  font-family: var(--primary-font);
+  color: var(--primary-color);
+}
+
+.notificacao {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+}
+
+.notificacao:hover {
+  border: 1px solid var(--accent-color);
+}
+
+.notificacao img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 12px;
+}
+
+.notificacoesContent {
+  max-height: 400px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  color: var(--text-color);
+  font-family: var(--secondary-font);
+  font-size: 0.875rem;
+}
+
+.notificacao.Novo {
+  background-color: var(--green-color);
+  color: var(--text-color);
+}
+
+.notificacao.Alterado {
+  background-color: var(--yellow-color);
+  color: var(--text-color);
 }
 
 @keyframes slideIn {
