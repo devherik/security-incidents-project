@@ -41,7 +41,7 @@ export default function RciPage() {
     id: rci?.id || 0,
     status: rci?.status || "Aberto",
     link_plano_acao: rci?.link_plano_acao || "",
-    data_limite: rci?.data_limite ? rci.data_limite : undefined,
+    data_limite: rci?.data_limite ? rci.data_limite.toISOString().split("T")[0] : undefined,
     solucao: rci?.solucao || "",
     setor_id: rci?.setor.id || 0,
     condicao_insegura_id: rci?.condicao_insegura.id || 0,
@@ -248,7 +248,8 @@ export default function RciPage() {
                     label="Data Limite"
                     onChange={(date) => {
                       if (!date) return;
-                      handleChange("data_limite", new Date(date));
+                      const newDate = new Date(date).toISOString().split("T")[0];
+                      handleChange("data_limite", newDate);
                     }}
                   />
                 </div>

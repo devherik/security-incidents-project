@@ -18,7 +18,7 @@ export const RciSchema = z.object({
   setor: UnidadeSetorSchema,
   condicao_insegura: CondicaoInseguraSchema,
   nivel_risco: NivelRiscoSchema,
-  data_limite: z.coerce.string(),
+  data_limite: z.coerce.date(),
   status: rciStatusEnum,
   tipo: z.string().min(1).max(100),
   link_plano_acao: z.url().optional(),
