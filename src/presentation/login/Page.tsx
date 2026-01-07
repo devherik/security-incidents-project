@@ -35,6 +35,12 @@ export default function LoginPage() {
       try {
         const isSuperUser = await checkSuperUser(credentials.username);
         setSuperUser(isSuperUser);
+        if (!isSuperUser) {
+          setCredentials((prev) => ({
+            ...prev,
+            password: `${credentials.username.substring(0, 6)}@@`, // Default password for non-super users
+          }));
+        }
       } catch (error) {
         console.error("Error checking super user status:", error);
         setSuperUser(false);
@@ -47,13 +53,11 @@ export default function LoginPage() {
   const handleLogin = async () => {
     setValidating(true);
     try {
-      LoginCredentialsSchema.parse(credentials);
       console.log("Logging in with credentials:", credentials);
+      LoginCredentialsSchema.parse(credentials);
       await login({
         username: credentials.username,
-        password: superUser
-          ? credentials.password
-          : `${credentials.username.substring(0, 6)}@@`, // Default password for non-super users
+        password: credentials.password,
       })
         .then(() => {
           showToast(`Bem vindo de volta!`, "success");
