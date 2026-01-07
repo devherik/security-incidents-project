@@ -8,7 +8,7 @@ import usePermissions from "../../hooks/usePermissions";
 
 import style from "./style.module.css";
 
-import LoadingOverlay from "../loading-overlay/LoadingOverlay";
+import LoadingOverlay from "../../animations/loading-overlay/LoadingOverlay";
 import Filters from "./Filters";
 import Row from "./Row";
 import Pagination from "./Pagination";
