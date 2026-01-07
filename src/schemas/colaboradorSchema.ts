@@ -8,7 +8,7 @@ export const ColaboradorSchema = z.object({
   last_login: z.coerce.date().optional(),
   email: z.email(),
   is_active: z.boolean().default(true),
-  date_joined: z.coerce.date().default(() => new Date()),
+  date_joined: z.string().optional(),
   groups: z.array(z.number().int().positive()).optional(),
   user_permissions: z.array(z.string().min(1)).optional(),
 });

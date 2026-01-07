@@ -62,7 +62,7 @@ export default function OffCanvas({
     logout();
     closeOffCanvas();
     navigate("/login", { replace: true });
-  }
+  };
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -109,14 +109,19 @@ export default function OffCanvas({
           >
             {colaborador?.first_name} {colaborador?.last_name}
           </span>
-          <GhostButton
-            label="Logout"
-            onClick={handlelogout}
-          />
+          <GhostButton label="Logout" onClick={handlelogout} />
         </header>
         <main className={styles.offCanvasContent}>
+          <TextInfo label={colaborador ? `Id: ${colaborador.id}` : "Id: N/A"} />
           <TextInfo
-            label={colaborador ? `Email: ${colaborador.email}` : "Email: N/A"}
+            label={colaborador ? `E-mail: ${colaborador.email}` : "E-mail: N/A"}
+          />
+          <TextInfo
+            label={
+              colaborador
+                ? `Desde: ${colaborador.date_joined?.split("T")[0]}`
+                : "Id: N/A"
+            }
           />
         </main>
       </div>
