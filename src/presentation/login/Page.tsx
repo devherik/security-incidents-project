@@ -53,7 +53,6 @@ export default function LoginPage() {
   const handleLogin = async () => {
     setValidating(true);
     try {
-      console.log("Logging in with credentials:", credentials);
       LoginCredentialsSchema.parse(credentials);
       await login({
         username: credentials.username,
