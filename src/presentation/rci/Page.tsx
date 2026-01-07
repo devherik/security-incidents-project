@@ -228,29 +228,34 @@ export default function RciPage() {
                     {formatDateToISO(rci.dtcriacao)}
                   </p>
                 </div>
-                {!hasGroup(1) && <div className="flex flex-row items-center gap-4">
-                  <SelectStatusForm
-                    value={newRciData.status}
-                    onChange={(newStatus) => {
-                      if (
-                        (newStatus === "Finalizado" ||
-                          newStatus === "Rejeitado") &&
-                        hasChanges
-                      ) {
-                        showToast("Você tem alterações não salvas.", "warning");
-                        return;
-                      }
-                      handleChange("status", newStatus || "Aberto");
-                    }}
-                  />
-                  <button
-                    className={style.deleteButton}
-                    title="Deletar RCI"
-                    onClick={() => setIsDeleteModalOpen(true)}
-                  >
-                    <img src={deleteIcon} alt="Deletar RCI" />
-                  </button>
-                </div>}
+                {!hasGroup(1) && (
+                  <div className="flex flex-row items-center gap-4">
+                    <SelectStatusForm
+                      value={newRciData.status}
+                      onChange={(newStatus) => {
+                        if (
+                          (newStatus === "Finalizado" ||
+                            newStatus === "Rejeitado") &&
+                          hasChanges
+                        ) {
+                          showToast(
+                            "Você tem alterações não salvas.",
+                            "warning"
+                          );
+                          return;
+                        }
+                        handleChange("status", newStatus || "Aberto");
+                      }}
+                    />
+                    <button
+                      className={style.deleteButton}
+                      title="Deletar RCI"
+                      onClick={() => setIsDeleteModalOpen(true)}
+                    >
+                      <img src={deleteIcon} alt="Deletar RCI" />
+                    </button>
+                  </div>
+                )}
               </div>
               <div className={style.info}>
                 <div className={style.form}>
@@ -394,11 +399,13 @@ export default function RciPage() {
                 </div>
               </div>
               <footer className={style.footer}>
-                {!hasGroup(1) &&  <BaseButton
-                  label={isFinishing ? "Finalizar RCI" : "Salvar o RCI"}
-                  onClick={() => setIsModalOpen(true)}
-                  disabled={!hasChanges || isUpdating}
-                />}
+                {!hasGroup(1) && (
+                  <BaseButton
+                    label={isFinishing ? "Finalizar RCI" : "Salvar o RCI"}
+                    onClick={() => setIsModalOpen(true)}
+                    disabled={!hasChanges || isUpdating}
+                  />
+                )}
               </footer>
             </main>
           </SlideInEffect>
@@ -444,18 +451,18 @@ export default function RciPage() {
                 }
                 onClick={() => {
                   if (isFinishing) {
-                    if (solucao.trim().length < 30) {
+                    if (solucao.trim().length < 15) {
                       showToast(
-                        "A solução deve ter pelo menos 30 caracteres.",
+                        "A solução deve ter pelo menos 15 caracteres.",
                         "error"
                       );
                       return;
                     }
                     handleFinishRci();
                   } else {
-                    if (newRciData.justificativa?.trim().length < 10) {
+                    if (newRciData.justificativa?.trim().length < 15) {
                       showToast(
-                        "A observação deve ter pelo menos 10 caracteres.",
+                        "A observação deve ter pelo menos 15 caracteres.",
                         "error"
                       );
                       return;
