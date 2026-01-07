@@ -1,11 +1,12 @@
-"use client";
-
 import { useRef, useEffect, useState, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+
+import { useAuthStore } from "../../stores/useAuthStore";
+import { useNotificacaoStore } from "../../stores/useNotificacaoStore";
 
 import styles from "./style.module.css";
-import { useAuthStore } from "../../stores/useAuthStore";
+
 import GhostButton from "../buttons/GhostButton";
-import { useNavigate } from "react-router-dom";
 
 const TextInfo = ({ label }: { label: string }) => (
   <span
@@ -32,6 +33,8 @@ export default function OffCanvas({
 }) {
   const colaborador = useAuthStore((state) => state.colaborador);
   const logout = useAuthStore((state) => state.logout);
+  const notificacoes = useNotificacaoStore((state) => state.notificacoes);
+
   const navigate = useNavigate();
 
   const offCanvasRef = useRef<HTMLDivElement>(null);
@@ -123,6 +126,24 @@ export default function OffCanvas({
                 : "Id: N/A"
             }
           />
+          <div>
+            {notificacoes.length > 0 ? (
+              notificacoes.map((notificacao) => (
+                <div
+                  key={notificacao.id}
+                  style={{
+                    borderBottom: "1px solid var(--primary-color)",
+                    marginBottom: "0.5rem",
+                    paddingBottom: "0.5rem",
+                  }}
+                >
+                  {notificacao.tipo_alerta}
+                </div>
+              ))
+            ) : (
+              <TextInfo label="Nenhuma notificação disponível." />
+            )}
+          </div>
         </main>
       </div>
     </div>

@@ -1,7 +1,8 @@
-import { useEffect } from "react";
+import { useCallback, useEffect, useRef } from "react";
 
 import { useAppStore } from "../../stores/useAppStore";
 import { useAuthStore } from "../../stores/useAuthStore";
+import { useNotificacaoStore } from "../../stores/useNotificacaoStore";
 
 import style from "./style.module.css";
 
@@ -19,13 +20,42 @@ import ExcelExportButton from "../../components/excel-export-button/ExcelExportB
 export default function DashboardPage() {
   const colaborador = useAuthStore((state) => state.colaborador);
   const isInitialized = useAppStore((state) => state.isInitialized);
+  const isFetchingRef = useRef(false);
+
   const { hasGroup } = usePermissions();
+
+  // Stable fetch function with error handling and deduplication
+  const fetchUserNotifications = useCallback(async () => {
+    if (!colaborador || isFetchingRef.current) return;
+
+    isFetchingRef.current = true;
+    try {
+      await useNotificacaoStore.getState().fetchNotificacoes(colaborador.id);
+    } catch (error) {
+      console.error("Failed to fetch notifications:", error);
+    } finally {
+      isFetchingRef.current = false;
+    }
+  }, [colaborador]);
 
   // Trigger initialization on mount - store handles idempotency
   useEffect(() => {
     useAppStore.getState().fecthInitData();
   }, []);
 
+  // Unified effect: fetch immediately on mount, then poll every minute
+  useEffect(() => {
+    if (!colaborador) return;
+
+    // Initial fetch
+    fetchUserNotifications();
+
+    // Set up polling interval
+    const intervalId = setInterval(fetchUserNotifications, 60 * 1000);
+
+    return () => clearInterval(intervalId);
+  }, [colaborador, fetchUserNotifications]);
+  
   // Show loading screen during first-time initialization only
   if (!isInitialized) {
     return (

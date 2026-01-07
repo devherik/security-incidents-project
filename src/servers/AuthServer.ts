@@ -160,6 +160,29 @@ class AuthServer {
       return null;
     }
   }
+
+  public async getUserNotifications(userId: number): Promise<Notification[]> {
+    try {
+      const response = await apiClient.get<Notification[]>(
+        `/v2/notifications/${userId}/`
+      );
+      return response.data;
+    } catch (error) {
+      const apiError = error as ApiError;
+      console.error("Error fetching user notifications:", apiError);
+      throw error;
+    }
+  }
+
+  public async markNotificationsAsRead(userId: number): Promise<void> {
+    try {
+      await apiClient.post(`/v2/notification_read/${userId}/`);
+    } catch (error) {
+      const apiError = error as ApiError;
+      console.error("Error marking notifications as read:", apiError);
+      throw error;
+    }
+  }
 }
 
 export default AuthServer.getInstance();

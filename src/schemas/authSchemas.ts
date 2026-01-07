@@ -19,6 +19,14 @@ export const LoginCredentialsSchema = z.object({
   password: z.string().min(6, "Insira a senha - mínimo 6 caracteres"),
 });
 
+export const NotificationSchema = z.object({
+  id: z.number().int().positive(),
+  tipo_alerta: z.string().min(1).max(100),
+  lida: z.boolean().default(false),
+  dtcriacao: z.string().min(1),
+});
+
 export type Token = z.infer<typeof TokenSchema>;
 export type UserGroups = z.infer<typeof UserGroupsSchema>;
 export type LoginCredentials = z.infer<typeof LoginCredentialsSchema>;
+export type Notification = z.infer<typeof NotificationSchema>;
