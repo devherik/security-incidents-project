@@ -1,73 +1,111 @@
-# React + TypeScript + Vite
+# RCI v2 - Pedreira Um Valemix
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Sistema de gestão de RCIs (Relatórios de Controle Interno) desenvolvido para a **Pedreira Um Valemix**.
 
-Currently, two official plugins are available:
+## 📋 Sobre o Projeto
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Este projeto é uma aplicação web construída com **React**, **TypeScript** e **Vite**, seguindo os princípios de **Clean Architecture** para garantir escalabilidade, manutenibilidade e testabilidade do código.
 
-## React Compiler
+## 🛠️ Tecnologias Utilizadas
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **React 18** - Biblioteca para construção de interfaces
+- **TypeScript** - Tipagem estática para JavaScript
+- **Vite** - Build tool e dev server
+- **Tailwind CSS** - Framework CSS utilitário
+- **Zustand** - Gerenciamento de estado
+- **Docker** - Containerização da aplicação
+- **Nginx** - Servidor web para produção
 
-## Expanding the ESLint configuration
+## 📁 Estrutura do Projeto
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+O projeto segue a arquitetura limpa (Clean Architecture):
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+src/
+├── adapters/          # Adaptadores para serviços externos (ex: Excel)
+├── animations/        # Componentes de animação reutilizáveis
+├── api/               # Cliente HTTP e configurações de API
+├── assets/            # Recursos estáticos (ícones, logos)
+├── components/        # Componentes de UI reutilizáveis
+├── hooks/             # Custom hooks do React
+├── infrastructure/    # Repositórios e implementações de infraestrutura
+├── presentation/      # Páginas e views da aplicação
+├── schemas/           # Schemas de validação e tipos
+├── servers/           # Serviços de comunicação com backend
+├── stores/            # Stores Zustand para gerenciamento de estado
+└── utils/             # Funções utilitárias
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🚀 Como Executar
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Pré-requisitos
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- Node.js (versão 18 ou superior)
+- npm ou yarn
+
+### Instalação
+
+```bash
+# Clone o repositório
+git clone <url-do-repositorio>
+
+# Acesse a pasta do projeto
+cd rci-v2-project
+
+# Instale as dependências
+npm install
 ```
+
+### Desenvolvimento
+
+```bash
+# Inicie o servidor de desenvolvimento
+npm run dev
+```
+
+O projeto estará disponível em `http://localhost:5173`
+
+### Build de Produção
+
+```bash
+# Gere o build de produção
+npm run build
+
+# Visualize o build localmente
+npm run preview
+```
+
+### Docker
+
+```bash
+# Build da imagem
+docker build -t rci-v2 .
+
+# Execute o container
+docker run -p 80:80 rci-v2
+```
+
+## 📝 Scripts Disponíveis
+
+| Comando           | Descrição                              |
+| ----------------- | -------------------------------------- |
+| `npm run dev`     | Inicia o servidor de desenvolvimento   |
+| `npm run build`   | Gera o build de produção               |
+| `npm run preview` | Visualiza o build de produção          |
+| `npm run lint`    | Executa o linter (ESLint)              |
+
+## 🔧 Configuração do Ambiente
+
+Crie um arquivo `.env` na raiz do projeto com as variáveis de ambiente necessárias:
+
+```env
+VITE_API_URL=<url-da-api>
+```
+
+## 👥 Equipe de Desenvolvimento
+
+Desenvolvido pela equipe de TI da **Pedreira Um Valemix**.
+
+## 📄 Licença
+
+Este projeto é propriedade da **Pedreira Um Valemix**. Todos os direitos reservados.
