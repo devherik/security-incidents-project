@@ -1,111 +1,105 @@
 # RCI v2 - Pedreira Um Valemix
 
-Sistema de gestão de RCIs (Relatórios de Controle Interno) desenvolvido para a **Pedreira Um Valemix**.
+Sistema de gestão de RCIs (Registro de Condições Inseguras) desenvolvido para a **Pedreira Um Valemix**.
 
 ## 📋 Sobre o Projeto
 
-Este projeto é uma aplicação web construída com **React**, **TypeScript** e **Vite**, seguindo os princípios de **Clean Architecture** para garantir escalabilidade, manutenibilidade e testabilidade do código.
+Este projeto é uma aplicação web moderna construída para centralizar e otimizar a gestão de RCIs. A arquitetura foi desenhada para ser robusta e escalável, utilizando as melhores práticas de engenharia de software.
 
-## 🛠️ Tecnologias Utilizadas
+## 🏛️ Desenho Arquitetônico
 
-- **React 18** - Biblioteca para construção de interfaces
-- **TypeScript** - Tipagem estática para JavaScript
-- **Vite** - Build tool e dev server
-- **Tailwind CSS** - Framework CSS utilitário
-- **Zustand** - Gerenciamento de estado
-- **Docker** - Containerização da aplicação
-- **Nginx** - Servidor web para produção
+O projeto implementa os princípios da **Clean Architecture** (Arquitetura Limpa), separando as preocupações em camadas bem definidas para garantir que as regras de negócio sejam independentes de frameworks, interfaces de usuário ou bancos de dados.
 
-## 📁 Estrutura do Projeto
+### Princípios SOLID Aplicados
+- **(S) SRP:** Componentes e hooks com responsabilidades únicas.
+- **(O) OCP:** Sistemas de adaptadores extensíveis sem modificação do core.
+- **(D) DIP:** Inversão de dependência através de interfaces (ex: `IExcelAdapter`), permitindo a troca de implementações de terceiros sem afetar a lógica de negócio.
 
-O projeto segue a arquitetura limpa (Clean Architecture):
+---
 
-```
-src/
-├── adapters/          # Adaptadores para serviços externos (ex: Excel)
-├── animations/        # Componentes de animação reutilizáveis
-├── api/               # Cliente HTTP e configurações de API
-├── assets/            # Recursos estáticos (ícones, logos)
-├── components/        # Componentes de UI reutilizáveis
-├── hooks/             # Custom hooks do React
-├── infrastructure/    # Repositórios e implementações de infraestrutura
-├── presentation/      # Páginas e views da aplicação
-├── schemas/           # Schemas de validação e tipos
-├── servers/           # Serviços de comunicação com backend
-├── stores/            # Stores Zustand para gerenciamento de estado
-└── utils/             # Funções utilitárias
-```
+## 🛠️ Stack Tecnológica
 
-## 🚀 Como Executar
+- **Core:** [React 18](https://reactjs.org/) + [TypeScript](https://www.typescriptlang.org/)
+- **Build Tool:** [Vite](https://vitejs.dev/)
+- **Estado Global:** [Zustand](https://github.com/pmndrs/zustand) (com persistência e hidratação)
+- **Estilização:** [Tailwind CSS](https://tailwindcss.com/)
+- **Roteamento:** [React Router 6](https://reactrouter.com/) (com Lazy Loading e Protected Routes)
+- **Infraestrutura:** [Docker](https://www.docker.com/) + [Nginx](https://www.nginx.com/)
 
-### Pré-requisitos
+---
 
-- Node.js (versão 18 ou superior)
-- npm ou yarn
-
-### Instalação
+## 📁 Estrutura de Pastas
 
 ```bash
-# Clone o repositório
+src/
+├── adapters/          # Camada de Adaptação (DIP): Interfaces e implementações externas (Excel/XLSX)
+├── api/               # Configuração do cliente HTTP (Axios/Fetch) e interceptores
+├── components/        # UI Atoms & Molecules (Componentes reutilizáveis e agnósticos à página)
+├── hooks/             # Lógica de interface encapsulada (Custom Hooks)
+├── infrastructure/    # Implementação de detalhes técnicos e repositórios de dados
+├── presentation/      # Camada de Visão (Páginas, Layouts e lógica específica de View)
+├── schemas/           # Definições de Contrato: Tipos, Interfaces de API e Schemas de validação
+├── servers/           # Casos de Uso/Serviços: Orquestração da lógica de comunicação (Singletons)
+├── stores/            # Gerenciamento de estado global e persistente
+└── utils/             # Funções puras e utilidades transversais (Datas, Cálculos)
+```
+
+---
+
+## 🚀 Guia do Desenvolvedor
+
+### Configuração Inicial
+
+1. **Clone e Instalação:**
+```bash
 git clone <url-do-repositorio>
-
-# Acesse a pasta do projeto
 cd rci-v2-project
-
-# Instale as dependências
 npm install
 ```
 
-### Desenvolvimento
-
-```bash
-# Inicie o servidor de desenvolvimento
-npm run dev
-```
-
-O projeto estará disponível em `http://localhost:5173`
-
-### Build de Produção
-
-```bash
-# Gere o build de produção
-npm run build
-
-# Visualize o build localmente
-npm run preview
-```
-
-### Docker
-
-```bash
-# Build da imagem
-docker build -t rci-v2 .
-
-# Execute o container
-docker run -p 80:80 rci-v2
-```
-
-## 📝 Scripts Disponíveis
-
-| Comando           | Descrição                              |
-| ----------------- | -------------------------------------- |
-| `npm run dev`     | Inicia o servidor de desenvolvimento   |
-| `npm run build`   | Gera o build de produção               |
-| `npm run preview` | Visualiza o build de produção          |
-| `npm run lint`    | Executa o linter (ESLint)              |
-
-## 🔧 Configuração do Ambiente
-
-Crie um arquivo `.env` na raiz do projeto com as variáveis de ambiente necessárias:
-
+2. **Variáveis de Ambiente:**
+Crie um arquivo `.env` baseado no exemplo abaixo:
 ```env
-VITE_API_URL=<url-da-api>
+VITE_API_URL=https://api.valemix.com.br
+VITE_APP_AUTH0_CLIENT_ID=...
 ```
 
-## 👥 Equipe de Desenvolvimento
+### Comandos Frequentes
 
-Desenvolvido pela equipe de TI da **Pedreira Um Valemix**.
+| Comando | Descrição |
+| :--- | :--- |
+| `npm run dev` | Inicia ambiente de desenvolvimento com HMR |
+| `npm run build` | Compila o projeto para produção (diretório `build/`) |
+| `npm run preview` | Serve o build localmente para validação |
+| `npm run lint` | Analisa o código em busca de erros de padrão/estilo |
 
-## 📄 Licença
+---
 
-Este projeto é propriedade da **Pedreira Um Valemix**. Todos os direitos reservados.
+## 🐳 Docker e Produção
+
+A aplicação está preparada para rodar em containers, utilizando o Nginx para servir os arquivos estáticos de forma otimizada.
+
+**Build e Execução Local:**
+```bash
+docker build -t rci-pedreira .
+docker run -p 8080:80 rci-pedreira
+```
+
+---
+
+## 🤝 Contribuição
+
+Ao desenvolver novas funcionalidades:
+1.  **Tipagem:** Nunca use `any`. Use os schemas definidos em `src/schemas`.
+2.  **Arquitetura:** Mantenha a lógica de negócio nos `servers` e a lógica de UI nos `hooks`. Repositórios e chamadas de rede ficam na `infrastructure/api`.
+3.  **Clean Code:** Siga os princípios SOLID. Se um componente crescer demais, extraia subcomponentes ou hooks.
+
+---
+
+## 👥 Mantenedores
+
+Este projeto é desenvolvido e mantido pela equipe de TI da **Pedreira Um Valemix**.
+
+## 📄 Propriedade
+
+© 2026 Pedreira Um Valemix. Todos os direitos reservados. Uso restrito a colaboradores autorizados.
