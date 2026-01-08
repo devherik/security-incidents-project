@@ -84,7 +84,7 @@ class AuthServer {
 
   public async getGroups(name: string): Promise<boolean> {
     try {
-      const response = await apiClient.get(`/v2/user_groups/${name}`);
+      const response = await apiClient.get(`/v2/user_groups/${name}/`);
       const type = response.data.groups[0];
       const isSuperUserResponse = type === 3 || type === 2 || type === 4;
       return isSuperUserResponse;
