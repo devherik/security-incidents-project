@@ -6,7 +6,7 @@ import { useNotificacaoStore } from "../../stores/useNotificacaoStore";
 
 import style from "./style.module.css";
 
-import rciLogo from "../../assets/logos/logo_rci.png";
+import logo from "../../assets/logos/logo.png";
 
 import usePermissions from "../../hooks/usePermissions";
 
@@ -74,7 +74,7 @@ export default function DashboardPage() {
       <SlideInEffect duration={0.5}>
         <header className="flex flex-row items-center justify-between w-auto p-4 h-28">
           <div className="flex flex-row items-center gap-4">
-            <img className={style.logoRci} src={rciLogo} alt="RCI Logo" />
+            <img className={style.logoRci} src={logo} alt="RCI Logo" />
             <PageTitle
               title=""
               subtitle={`Olá, ${colaborador?.first_name}.`}

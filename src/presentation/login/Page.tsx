@@ -15,8 +15,7 @@ import SlideInEffect from "../../animations/slide-in/SlideInEffect";
 import type { LoginCredentials } from "../../schemas/authSchemas";
 import { LoginCredentialsSchema } from "../../schemas/authSchemas";
 
-import p1Logo from "../../assets/logos/p1-logo.png";
-import rciLogo from "../../assets/logos/logo_rci.png";
+import logo from "../../assets/logo.png";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -117,10 +116,10 @@ export default function LoginPage() {
     <SlideInEffect duration={0.5}>
       <div className={style.container}>
         <div className={style.logo}>
-          <img src={p1Logo} alt="P1 Logo" />
+          <img src={logo} alt="P1 Logo" />
         </div>
         <main className={style.main}>
-          <img className={style.logoRci} src={rciLogo} alt="RCI Logo" />
+          <img className={style.logoRci} src={logo} alt="RCI Logo" />
           <span className={style.subtitle}>Informe suas credenciais</span>
           <CredentialForm
             id="username"
