@@ -1,5 +1,5 @@
 import React from "react";
-import logo_img from "../../assets/logos/p1-logo-small.png";
+import logo from "../../assets/logos/logo.png";
 import styles from "./Loader.module.css";
 
 // Type definition for component props (following Interface Segregation Principle)
@@ -46,7 +46,7 @@ export default function Loader({
       <div className={styles.loaderContent}>
         <img 
           className={styles.loadingLogo} 
-          src={logo_img} 
+          src={logo} 
           alt="Company logo"
           style={logoStyles}
         />

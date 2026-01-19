@@ -1,7 +1,7 @@
 "use client";
 
 import { z } from "zod";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import style from "./style.module.css";
@@ -15,40 +15,19 @@ import SlideInEffect from "../../animations/slide-in/SlideInEffect";
 import type { LoginCredentials } from "../../schemas/authSchemas";
 import { LoginCredentialsSchema } from "../../schemas/authSchemas";
 
-import logo from "../../assets/logo.png";
+import logo from "../../assets/logos/logo.png";
 
 export default function LoginPage() {
   const navigate = useNavigate();
-  const { login, checkSuperUser } = useAuthStore();
+  const { login } = useAuthStore();
   const { showToast } = useAppStore();
 
   const [validating, setValidating] = useState<boolean>(false);
-  const [superUser, setSuperUser] = useState<boolean>(false);
   const [credentials, setCredentials] = useState<LoginCredentials>({
     username: "",
     password: "",
   });
 
-  // Check if user is super user
-  const handleCheckSuperUser = useCallback(async () => {
-    if (credentials.username.length >= 11) {
-      try {
-        const isSuperUser = await checkSuperUser(credentials.username);
-        setSuperUser(isSuperUser);
-        if (!isSuperUser) {
-          setCredentials((prev) => ({
-            ...prev,
-            password: `${credentials.username.substring(0, 6)}@@`, // Default password for non-super users
-          }));
-        }
-      } catch (error) {
-        console.error("Error checking super user status:", error);
-        setSuperUser(false);
-      }
-    } else {
-      setSuperUser(false);
-    }
-  }, [credentials.username, checkSuperUser]);
 
   const handleLogin = async () => {
     setValidating(true);
@@ -102,16 +81,6 @@ export default function LoginPage() {
     checkAuthAndRedirect();
   }, [navigate, showToast]);
 
-  // Check super user status when username changes
-  useEffect(() => {
-    const check = async () => {
-      if (credentials.username.length >= 6) {
-        await handleCheckSuperUser();
-      }
-    };
-    check();
-  }, [credentials.username, handleCheckSuperUser]);
-
   return (
     <SlideInEffect duration={0.5}>
       <div className={style.container}>
@@ -130,7 +99,6 @@ export default function LoginPage() {
               setCredentials({ ...credentials, username: value })
             }
           />
-          {superUser && (
             <CredentialForm
               id="password"
               type="password"
@@ -140,7 +108,6 @@ export default function LoginPage() {
                 setCredentials({ ...credentials, password: value })
               }
             />
-          )}
           <button
             onClick={handleLogin}
             className={style.btn}
