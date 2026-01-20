@@ -1,105 +1,107 @@
-# RCI v2 - Pedreira Um Valemix
+# RCI Platform - Safety & Condition Management System
 
-Sistema de gestão de RCIs (Registro de Condições Inseguras) desenvolvido para a **Pedreira Um Valemix**.
+A robust, enterprise-grade management system for **RCI** (*Registro de Condições Inseguras* - Unsafe Condition Reports), refactored with a focus on **Clean Architecture**, **SOLID principles**, and **High Performance**.
 
-## 📋 Sobre o Projeto
+## 📋 Project Overview
 
-Este projeto é uma aplicação web moderna construída para centralizar e otimizar a gestão de RCIs. A arquitetura foi desenhada para ser robusta e escalável, utilizando as melhores práticas de engenharia de software.
+This project is a modern web application designed to centralize and optimize the management of occupational safety reports. Originally a legacy system, it was completely refactored to emphasize **long-term maintainability**, **testability**, and **decoupling** from external dependencies.
 
-## 🏛️ Desenho Arquitetônico
+## 🏛️ Architectural Design
 
-O projeto implementa os princípios da **Clean Architecture** (Arquitetura Limpa), separando as preocupações em camadas bem definidas para garantir que as regras de negócio sejam independentes de frameworks, interfaces de usuário ou bancos de dados.
+The project strictly follows **Clean Architecture** principles. This ensures that the core business logic remains isolated from infrastructure details like APIs, persistence, or UI frameworks.
 
-### Princípios SOLID Aplicados
-- **(S) SRP:** Componentes e hooks com responsabilidades únicas.
-- **(O) OCP:** Sistemas de adaptadores extensíveis sem modificação do core.
-- **(D) DIP:** Inversão de dependência através de interfaces (ex: `IExcelAdapter`), permitindo a troca de implementações de terceiros sem afetar a lógica de negócio.
+### Why Clean Architecture?
+- **Independence of Frameworks:** The business rules (Use Cases) don't depend on React. They could easily be ported to another UI library or even a CLI.
+- **Testability:** Business rules can be tested without the UI, Database, Web Server, or any other external element.
+- **Independence of UI:** The UI can change easily, without changing the rest of the system.
+- **Independence of Database:** You can swap the data source without touching the business rules.
+
+### SOLID Implementation in Practice
+- **(S) Single Responsibility Principle:** Every component has one job. UI focuses on rendering; Hooks focus on state orchestration; Servers focus on use-case execution.
+- **(O) Open/Closed Principle:** The system is open for extension but closed for modification. For example, adding a new export format only requires a new implementation of a specific adapter, without changing the existing logic.
+- **(D) Dependency Inversion Principle:** We depend on abstractions, not concretions. The application layer interacts with interfaces (e.g., `IExcelAdapter`), allowing us to swap underlying libraries without side effects.
 
 ---
 
-## 🛠️ Stack Tecnológica
+## 🛠️ Tech Stack
 
 - **Core:** [React 18](https://reactjs.org/) + [TypeScript](https://www.typescriptlang.org/)
 - **Build Tool:** [Vite](https://vitejs.dev/)
-- **Estado Global:** [Zustand](https://github.com/pmndrs/zustand) (com persistência e hidratação)
-- **Estilização:** [Tailwind CSS](https://tailwindcss.com/)
-- **Roteamento:** [React Router 6](https://reactrouter.com/) (com Lazy Loading e Protected Routes)
-- **Infraestrutura:** [Docker](https://www.docker.com/) + [Nginx](https://www.nginx.com/)
+- **State Management:** [Zustand](https://github.com/pmndrs/zustand) (with optimized persistence and hydration strategies)
+- **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+- **Routing:** [React Router 6](https://reactrouter.com/) (implementing **Lazy Loading** and **Custom Route Guards**)
+- **Infrastructure:** [Docker](https://www.docker.com/) + [Nginx](https://www.nginx.com/) (Optimized for static content delivery)
 
 ---
 
-## 📁 Estrutura de Pastas
+## 📁 Project Structure
 
 ```bash
 src/
-├── adapters/          # Camada de Adaptação (DIP): Interfaces e implementações externas (Excel/XLSX)
-├── api/               # Configuração do cliente HTTP (Axios/Fetch) e interceptores
-├── components/        # UI Atoms & Molecules (Componentes reutilizáveis e agnósticos à página)
-├── hooks/             # Lógica de interface encapsulada (Custom Hooks)
-├── infrastructure/    # Implementação de detalhes técnicos e repositórios de dados
-├── presentation/      # Camada de Visão (Páginas, Layouts e lógica específica de View)
-├── schemas/           # Definições de Contrato: Tipos, Interfaces de API e Schemas de validação
-├── servers/           # Casos de Uso/Serviços: Orquestração da lógica de comunicação (Singletons)
-├── stores/            # Gerenciamento de estado global e persistente
-└── utils/             # Funções puras e utilidades transversais (Datas, Cálculos)
+├── adapters/          # Implementation of external tools (DIP layer)
+├── api/               # HTTP client configuration and interceptors
+├── components/        # Atomic UI components (Stateless and reusable)
+├── hooks/             # UI State orchestration and business logic integration
+├── presentation/      # View layer: Pages, Layouts, and UI-specific logic
+├── schemas/           # Domain Contracts: Zod schemas, Types, and Interfaces
+├── servers/           # Application layer: Use Cases and Domain logic (Singletons)
+├── stores/            # Global state management
+└── utils/             # Cross-cutting concerns: Date parsing, Calculations
 ```
 
 ---
 
-## 🚀 Guia do Desenvolvedor
+## 🚀 Execution & Development
 
-### Configuração Inicial
+### Setup
 
-1. **Clone e Instalação:**
+1. **Installation:**
 ```bash
-git clone <url-do-repositorio>
+git clone <your-repository-url>
 cd rci-v2-project
 npm install
 ```
 
-2. **Variáveis de Ambiente:**
-Crie um arquivo `.env` baseado no exemplo abaixo:
+2. **Environment Configuration:**
+Configure your `.env` following the standard template:
 ```env
-VITE_API_URL=https://api.valemix.com.br
-VITE_APP_AUTH0_CLIENT_ID=...
+VITE_API_URL=https://your-api-domain.com
 ```
 
-### Comandos Frequentes
+### Key Commands
 
-| Comando | Descrição |
+| Command | Description |
 | :--- | :--- |
-| `npm run dev` | Inicia ambiente de desenvolvimento com HMR |
-| `npm run build` | Compila o projeto para produção (diretório `build/`) |
-| `npm run preview` | Serve o build localmente para validação |
-| `npm run lint` | Analisa o código em busca de erros de padrão/estilo |
+| `npm run dev` | Spin up development environment with HMR |
+| `npm run build` | Production-ready build generation |
+| `npm run lint` | Static analysis for code quality |
 
 ---
 
-## 🐳 Docker e Produção
+## 🐳 Containerization & Deployment
 
-A aplicação está preparada para rodar em containers, utilizando o Nginx para servir os arquivos estáticos de forma otimizada.
+The application is fully containerized and production-ready, featuring a multi-stage Docker build to minimize image size and maximize security.
 
-**Build e Execução Local:**
+**Run with Docker:**
 ```bash
-docker build -t rci-pedreira .
-docker run -p 8080:80 rci-pedreira
+docker build -t rci-platform .
+docker run -p 8080:80 rci-platform
 ```
 
 ---
 
-## 🤝 Contribuição
+## 💡 Developer Guidelines (Best Practices)
 
-Ao desenvolver novas funcionalidades:
-1.  **Tipagem:** Nunca use `any`. Use os schemas definidos em `src/schemas`.
-2.  **Arquitetura:** Mantenha a lógica de negócio nos `servers` e a lógica de UI nos `hooks`. Repositórios e chamadas de rede ficam na `infrastructure/api`.
-3.  **Clean Code:** Siga os princípios SOLID. Se um componente crescer demais, extraia subcomponentes ou hooks.
+To maintain the architectural integrity of this project:
+1.  **Strict Typing:** `any` is strictly prohibited. Leverage the domain schemas in `src/schemas`.
+2.  **Layer Separation:** Business logic belongs in `servers` or `hooks`. Infrastructure and data-fetching belong in their respective layers.
+3.  **Component Design:** Follow the **Atomic Design** philosophy. If a component handles more than its own rendering state, move the logic to a custom hook.
 
 ---
 
-## 👥 Mantenedores
+## 👨‍💻 Author
 
-Este projeto é desenvolvido e mantido pela equipe de TI da **Pedreira Um Valemix**.
+Developed as a showcase of modern frontend engineering and software architecture.
 
-## 📄 Propriedade
-
-© 2026 Pedreira Um Valemix. Todos os direitos reservados. Uso restrito a colaboradores autorizados.
+---
+© 2026. This project is for educational/portfolio purposes.
