@@ -31,7 +31,7 @@ func main() {
 	// Close DB connection on exit
 	// defer db.Close()
 
-	r := gin.Default()
+	r := gin.New()
 
 	r.Use(gin.Recovery())
 	r.Use(middleware.ErrorHandler())
