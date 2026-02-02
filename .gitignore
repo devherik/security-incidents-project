@@ -1,2 +1,4 @@
 backend/.env
 *__debug_bin*
+node_modules
+/build
